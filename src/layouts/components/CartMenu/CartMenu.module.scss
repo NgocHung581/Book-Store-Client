@@ -1,0 +1,25 @@
+.wrapper {
+    border-radius: 10px;
+    width: 400px;
+}
+
+.title {
+    padding: 0 12px;
+    margin-bottom: 0;
+}
+
+.list {
+    margin-bottom: 0;
+    max-height: 300px;
+    overflow-y: overlay;
+}
+
+.footer {
+    text-align: right;
+    padding: 0 12px;
+}
+
+.view-cart-btn {
+    font-size: 14px;
+    padding: 8px;
+}

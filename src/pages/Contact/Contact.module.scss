@@ -1,0 +1,56 @@
+.content {
+    background-color: white;
+    border-radius: 10px;
+    padding: 30px 20px;
+    margin-top: 30px;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 24px !important;
+    position: relative;
+
+    label {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        color: #747272;
+        transition: all 0.3s ease-in-out;
+    }
+
+    input,
+    textarea {
+        padding: 10px 12px;
+
+        &:not(:placeholder-shown) ~ label {
+            color: red;
+            top: 0;
+            left: 20px;
+            font-size: 14px;
+            background-color: white;
+            padding: 0 4px;
+        }
+    }
+
+    &:focus-within label {
+        top: 0;
+        left: 20px;
+        font-size: 14px;
+        background-color: white;
+        padding: 0 4px;
+    }
+}
+
+.send-btn {
+    padding: 8px 28px;
+}
+
+@media (max-width: 1223px) {
+    .send-btn {
+        padding: 8px 32px;
+    }
+}

@@ -1,0 +1,57 @@
+.wrapper {
+    height: 400px;
+}
+
+.content {
+    height: 100%;
+    box-shadow: var(--box-shadow);
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+.item {
+    height: 100%;
+    background-color: white;
+    box-shadow: var(--box-shadow);
+}
+
+.item-name {
+    font-weight: bold;
+}
+
+.item-description {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    margin: 20px 0;
+}
+
+.detail-btn {
+    padding: 10px 16px;
+}
+
+.bullet-active {
+    background-color: var(--btn-primary);
+    opacity: 1;
+    transition: all 0.3s ease-in-out;
+}
+
+// Tablet And Mobile
+@media (max-width: 1223px) {
+    .wrapper {
+        height: 300px;
+    }
+
+    .item-name {
+        font-size: 18px;
+    }
+
+    .item-description {
+        font-size: 14px;
+    }
+
+    .detail-btn {
+        padding: 8px 16px;
+    }
+}

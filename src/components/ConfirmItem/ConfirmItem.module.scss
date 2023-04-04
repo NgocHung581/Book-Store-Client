@@ -1,0 +1,58 @@
+.wrapper {
+    padding: 8px 12px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        background: rgba($color: #ffe1e6, $alpha: 0.8);
+    }
+}
+
+.left {
+    display: flex;
+    align-items: center;
+}
+
+.large .left {
+    flex: 0.8;
+}
+
+.img {
+    height: 50px;
+    width: 50px;
+    margin-right: 8px;
+}
+
+.large .img {
+    height: 75px;
+    width: 75px;
+    margin-right: 12px;
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+}
+
+.name {
+    width: 230px;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.large .name {
+    width: auto;
+}
+
+.quantity {
+    font-size: 14px;
+}
+
+.price {
+    color: var(--color-primary);
+}

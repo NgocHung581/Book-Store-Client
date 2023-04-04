@@ -1,0 +1,55 @@
+.wrapper {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    border-radius: 99px;
+    padding: 4px 0;
+    margin-bottom: 0;
+}
+
+.link {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: bold;
+    height: 45px;
+    width: 45px;
+    border-radius: 50%;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+        color: var(--color-primary);
+    }
+}
+
+.active {
+    color: white;
+    animation: fadeIn 0.3s ease-in-out both alternate;
+
+    &:hover {
+        color: white;
+    }
+}
+
+.previous-btn {
+    border-right: 2px solid var(--border-color);
+    margin-right: 6px;
+}
+
+.next-btn {
+    border-left: 2px solid var(--border-color);
+    margin-left: 6px;
+}
+
+@keyframes fadeIn {
+    from {
+        background-color: transparent;
+        scale: 0;
+    }
+    to {
+        background-color: var(--color-primary);
+        scale: 1;
+    }
+}

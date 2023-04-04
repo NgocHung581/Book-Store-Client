@@ -1,0 +1,75 @@
+:root {
+    --color-primary: #e94560;
+    --bg-color: #f6f9fc;
+    --bg-footer-color: #0f3460;
+    --border-color: rgba(0, 0, 0, 0.1);
+    --success-color: #07bc0c;
+    --error-color: #e74c3c;
+
+    --btn-primary: #e61f40;
+
+    --header-height: 150px;
+
+    --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+
+    --divider: 1px solid rgb(3 0 71 / 9%);
+
+    --header-logo-height-mobile: 50px;
+}
+
+html *::-webkit-scrollbar {
+    border-radius: 0;
+    width: 8px;
+}
+
+html *::-webkit-scrollbar-thumb {
+    border-radius: 4px;
+    background-color: rgba(0, 0, 0, 0.15);
+
+    &:hover {
+        background-color: rgba(0, 0, 0, 0.3);
+    }
+}
+
+html *::-webkit-scrollbar-track {
+    border-radius: 0;
+    background-color: rgba(0, 0, 0, 0);
+}
+
+body {
+    background-color: #cccccc54;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+    box-shadow: none !important;
+    border-color: var(--color-primary) !important;
+    transition: all 0.3s ease-in-out !important;
+}
+
+a {
+    text-decoration: none;
+    color: inherit;
+    display: inline-block;
+
+    &:hover {
+        color: inherit;
+    }
+}
+
+img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+}
+
+ul {
+    padding-left: 0;
+    list-style: none;
+}
+
+button {
+    outline: none !important;
+    border-color: transparent;
+}

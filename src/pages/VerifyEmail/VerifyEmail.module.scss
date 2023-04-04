@@ -1,0 +1,84 @@
+.wrapper {
+    animation: fadeIn 0.5s ease-in-out forwards alternate;
+}
+
+.title {
+    font-size: 32px;
+    text-transform: uppercase;
+    text-align: center;
+    margin-bottom: 100px;
+}
+
+.form-group {
+    margin-bottom: 24px !important;
+    position: relative;
+
+    label {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        transition: all 0.3s ease-in-out;
+        color: #747272;
+        cursor: text;
+    }
+
+    input {
+        padding: 10px 12px;
+
+        &:not(:placeholder-shown) ~ label {
+            color: red;
+            top: 0;
+            left: 20px;
+            font-size: 14px;
+            background-color: white;
+            padding: 0 4px;
+        }
+    }
+
+    &:focus-within label {
+        top: 0;
+        left: 20px;
+        font-size: 14px;
+        background-color: white;
+        padding: 0 4px;
+    }
+}
+
+.submit-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    padding: 10px 0;
+}
+
+.resend-btn {
+    color: var(--color-primary);
+    cursor: pointer;
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        border-color: var(--color-primary);
+    }
+}
+
+.link {
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        color: var(--color-primary);
+    }
+}
+
+@keyframes fadeIn {
+    from {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}

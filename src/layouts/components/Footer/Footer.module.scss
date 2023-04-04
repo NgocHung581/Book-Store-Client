@@ -1,0 +1,26 @@
+.wrapper {
+    background-color: var(--bg-footer-color);
+    color: white;
+    padding: 30px 0;
+}
+
+.logo {
+    margin-top: -20px;
+    width: 75px;
+}
+
+.description {
+    text-align: justify;
+    font-size: 14px;
+}
+
+.title {
+    margin-bottom: 20px;
+    font-size: 20px;
+}
+
+.item {
+    margin-bottom: 10px;
+    opacity: 0.5;
+    font-size: 14px;
+}

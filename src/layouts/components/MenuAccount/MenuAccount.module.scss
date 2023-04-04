@@ -1,0 +1,57 @@
+.header {
+    padding: 0 12px;
+}
+
+.user-name {
+    font-size: 20px;
+    margin-bottom: 4px;
+}
+
+.user-point {
+    font-size: 14px;
+}
+
+.list {
+    margin-bottom: 0;
+}
+
+.item {
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        background: rgba($color: #ffe1e6, $alpha: 0.8);
+    }
+
+    &.separate {
+        margin-top: 12px;
+        border-top: 1px solid var(--border-color);
+    }
+}
+
+.item-link {
+    display: flex;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+.item-icon {
+    height: 20px;
+    width: 20px;
+    margin-right: 10px;
+}
+
+.toggle-darkMode {
+    margin-left: 20px;
+    margin-bottom: 0;
+    height: 100%;
+}
+
+.toggle-darkMode-btn {
+    height: 25px;
+    width: 40px !important;
+
+    &:checked {
+        background-color: #07bc0c;
+    }
+}

@@ -1,0 +1,57 @@
+.wrapper {
+    display: flex;
+    margin-bottom: 10px;
+}
+
+.avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.content {
+    flex: 1;
+    margin-left: 8px;
+}
+
+.content-user {
+    font-size: 16px;
+    margin-bottom: 0;
+}
+
+.content-main {
+    margin-bottom: 0;
+    font-size: 14px;
+}
+
+.content-actions {
+    display: flex;
+    align-items: center;
+    margin-top: 4px;
+}
+
+.actions-item {
+    display: flex;
+    align-items: center;
+    margin-right: 20px;
+
+    .icon {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        padding: 6px;
+        border-radius: 50%;
+        transition: background-colorl 0.3s ease-in-out;
+
+        &:hover {
+            background-color: rgba(204, 204, 204, 0.5);
+        }
+    }
+
+    span {
+        color: #a9a9a9;
+        font-size: 14px;
+    }
+}

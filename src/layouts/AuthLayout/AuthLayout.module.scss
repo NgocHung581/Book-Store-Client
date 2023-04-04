@@ -1,0 +1,19 @@
+.wrapper {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: #12c2e9;
+    background: -webkit-linear-gradient(to right bottom, #e94560, #d7ede1);
+    background: linear-gradient(to right bottom, #e94560, #d7ede1);
+}
+
+.form {
+    background-color: white;
+    padding: 40px 40px;
+    border-radius: 20px;
+    width: 500px;
+    max-width: 90%;
+    min-height: 300px;
+    overflow: hidden;
+}

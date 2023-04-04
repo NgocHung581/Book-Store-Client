@@ -1,0 +1,86 @@
+.wrapper {
+    min-height: 70vh;
+}
+
+.title {
+    margin-bottom: 20px;
+}
+
+.info-group-title {
+    font-size: 20px;
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    margin-bottom: 24px !important;
+    position: relative;
+
+    label {
+        position: absolute;
+        top: 50%;
+        left: 12px;
+        transform: translateY(-50%);
+        color: #747272;
+        transition: all 0.3s ease-in-out;
+    }
+
+    input {
+        padding: 10px 12px;
+
+        &:not(:placeholder-shown) ~ label {
+            color: red;
+            top: 0;
+            left: 20px;
+            font-size: 14px;
+            background-color: white;
+            padding: 0 4px;
+        }
+    }
+
+    &:focus-within label {
+        top: 0;
+        left: 20px;
+        font-size: 14px;
+        background-color: white;
+        padding: 0 4px;
+    }
+}
+
+.preview-content {
+    padding: 10px 0;
+}
+
+.preview-content-title {
+    color: #575757;
+}
+
+.preview-content-price {
+    font-weight: 500;
+}
+
+.preview-total-title {
+    font-weight: 600;
+}
+
+.preview-total-price {
+    font-size: 24px;
+    font-weight: 600;
+}
+
+// Form checkout
+.checkbox-payment[type="radio"] {
+    padding: 0;
+}
+
+.info-group .group-payment label.label-payment {
+    margin-bottom: 0;
+    position: relative;
+    top: 0;
+    left: 0;
+    transform: translateY(0);
+    background-color: transparent;
+    color: black;
+    font-size: 16px;
+    margin-left: 4px;
+}

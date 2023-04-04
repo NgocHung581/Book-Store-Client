@@ -1,0 +1,65 @@
+.wrapper {
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    border-radius: 5px;
+    padding: 20px;
+    margin-bottom: 12px;
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.id {
+    font-weight: bold;
+}
+
+.status {
+    color: var(--color-primary);
+    text-transform: uppercase;
+}
+
+.footer {
+}
+
+.total {
+    display: flex;
+    align-items: center;
+}
+
+.total-label {
+    margin-right: 8px;
+}
+
+.total-price {
+    font-size: 24px;
+    font-weight: 500;
+    color: var(--color-primary);
+}
+
+.customer-info {
+    display: block;
+    text-decoration: underline;
+    color: var(--color-primary);
+    font-weight: 500;
+    cursor: pointer;
+}
+
+// Modal
+.info-label {
+    font-weight: 500;
+    margin-right: 8px;
+}
+
+// Mobile
+@media (max-width: 639px) {
+    .modal-body {
+        padding: 16px 8px;
+    }
+
+    .close-modal-btn {
+        padding: 8px 16px;
+    }
+}
