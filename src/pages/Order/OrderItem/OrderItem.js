@@ -9,7 +9,7 @@ import Button from "components/Button";
 import ConfirmItem from "components/ConfirmItem";
 import Separator from "components/Separator";
 import styles from "./OrderItem.module.scss";
-import routes from "routes/routes";
+import routes from "routes";
 
 const cx = classNames.bind(styles);
 

@@ -10,7 +10,7 @@ import orderApiURL from "api/orderApiURL";
 import ConfirmItem from "components/ConfirmItem";
 import Separator from "components/Separator";
 import { useAxiosAuth } from "hooks";
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "./OrderDetail.module.scss";
 
 const cx = classNames.bind(styles);

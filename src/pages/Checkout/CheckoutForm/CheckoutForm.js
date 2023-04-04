@@ -13,7 +13,7 @@ import RadioField from "custom-fields/RadioField";
 import { useAxiosAuth } from "hooks";
 import { updateCartOnCheckout } from "redux/slices/cartSlice";
 import { updateUser } from "redux/slices/userSlice";
-import routes from "routes/routes";
+import routes from "routes";
 import calculateDiscountOnPoint from "utils/calculateDiscountOnPoint";
 import styles from "../Checkout.module.scss";
 

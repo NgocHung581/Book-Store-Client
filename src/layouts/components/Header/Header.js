@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 
 import { MENU_ACCOUNT, MENU_ACCOUNT_MOBILE, NAV_LIST } from "constants";
 import images from "assets/images";
-import routes from "routes/routes";
+import routes from "routes";
 import Search from "../Search";
 import User from "../User";
 import styles from "./Header.module.scss";

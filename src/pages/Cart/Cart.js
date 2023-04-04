@@ -6,7 +6,7 @@ import { Col, Row, Table } from "reactstrap";
 import images from "assets/images";
 import Button from "components/Button";
 import CartItem from "pages/Cart/CartItem";
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "./Cart.module.scss";
 import CartItemOnMobile from "./CartItemOnMobile";
 import SummaryOrder from "./SummaryOrder";

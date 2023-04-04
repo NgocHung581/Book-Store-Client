@@ -1,11 +1,11 @@
 import { BiLogOut, BiUser } from "react-icons/bi";
 import { BsBook, BsHeart, BsMoonStars } from "react-icons/bs";
 
-import routes from "routes/routes";
+import routes from "routes";
 
 export const NUMBER_PER_PAGE = [
     { value: "2", label: "2 sản phẩm" },
-    { value: "4", label: "4 sản phầm" },
+    { value: "4", label: "4 sản phẩm" },
     { value: "6", label: "6 sản phẩm" },
     { value: "8", label: "8 sản phẩm" },
 ];

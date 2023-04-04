@@ -10,7 +10,7 @@ import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
 
 import Button from "components/Button";
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "./BookCard.module.scss";
 import { addToCart } from "redux/slices/cartSlice";
 

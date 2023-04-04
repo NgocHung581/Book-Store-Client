@@ -3,7 +3,7 @@ import classNames from "classnames/bind";
 import { useState } from "react";
 import { Link, Outlet } from "react-router-dom";
 
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "./Login.module.scss";
 
 const cx = classNames.bind(styles);

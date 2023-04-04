@@ -11,7 +11,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import bookApiURL from "api/bookApiURL";
 import Button from "components/Button";
 import { useAxiosClient } from "hooks";
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "./Banner.module.scss";
 
 const cx = classNames.bind(styles);

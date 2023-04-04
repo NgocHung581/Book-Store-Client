@@ -2,7 +2,7 @@ import { Route, Routes } from "react-router-dom";
 
 import Home from "pages/Home";
 import Contact from "pages/Contact";
-import routes from "routes/routes";
+import routes from "routes";
 import Book from "pages/Book";
 import HeaderAndFooterLayout from "layouts/HeaderAndFooterLayout";
 import AuthLayout from "layouts/AuthLayout";

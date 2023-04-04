@@ -6,13 +6,13 @@ import { Link, useNavigate, useSearchParams } from "react-router-dom";
 import { useEffect } from "react";
 import TippyHeadless from "@tippyjs/react/headless";
 
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "./Search.module.scss";
 import { useAxiosClient, useDebounce } from "hooks";
 import bookApiURL from "api/bookApiURL";
-import Popper from "components/Popper/Popper";
+import Popper from "components/Popper";
 import SearchResult from "../SearchResult";
-import Button from "components/Button/Button";
+import Button from "components/Button";
 
 const cx = classNames.bind(styles);
 

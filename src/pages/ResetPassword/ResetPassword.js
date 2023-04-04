@@ -9,7 +9,7 @@ import userApiURL from "api/userApiURL";
 import Button from "components/Button";
 import InputField from "custom-fields/InputField";
 import { useAxiosClient } from "hooks";
-import routes from "routes/routes";
+import routes from "routes";
 import equalTo from "utils/validation/equalTo";
 import styles from "./ResetPassword.module.scss";
 

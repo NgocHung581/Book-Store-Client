@@ -8,7 +8,7 @@ import styles from "./CartMenu.module.scss";
 import Popper from "components/Popper";
 import Separator from "components/Separator";
 import ConfirmItem from "components/ConfirmItem";
-import routes from "routes/routes";
+import routes from "routes";
 import Button from "components/Button";
 import images from "assets/images";
 

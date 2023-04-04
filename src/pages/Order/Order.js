@@ -16,6 +16,7 @@ const cx = classNames.bind(styles);
 
 function Order() {
     const axiosAuth = useAxiosAuth();
+
     const { user } = useSelector((state) => state.user);
     const [orders, setOrders] = useState([]);
 
@@ -80,7 +81,7 @@ function Order() {
                       ))
                     : "Bạn chưa có đơn hàng nào"}
             </div>
-            <div className="text-center">
+            <div className="text-center mt-4">
                 <Pagination
                     forcePage={0}
                     pageCount={10}

@@ -80,19 +80,19 @@ function Book() {
     }, [slug, sortType, page, limit, axiosClient]);
 
     const handleSortChange = (e) => {
-        const type = e.target.value;
+        const selectedType = e.target.value;
         setSearchParams({
             page: page ? page : 1,
             limit: limit ? limit : 2,
             sortBy: "price",
-            type: type,
+            type: selectedType,
         });
     };
 
     const handlePageChange = (e) => {
-        const page = e.selected + 1;
+        const selectedPage = e.selected + 1;
         setSearchParams({
-            page: page ? page : 1,
+            page: selectedPage,
             limit: limit ? limit : 2,
             sortBy: "price",
             type: sortType,
@@ -103,7 +103,7 @@ function Book() {
         const selectedOption = e.value;
         setSearchParams({
             page: page ? page : 1,
-            limit: selectedOption ? selectedOption : 2,
+            limit: selectedOption,
             sortBy: "price",
             type: sortType,
         });

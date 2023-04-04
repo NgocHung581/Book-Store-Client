@@ -23,7 +23,7 @@ import {
     loginPending,
     loginSuccess,
 } from "redux/slices/userSlice";
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "../Login.module.scss";
 
 const cx = classNames.bind(styles);

@@ -10,7 +10,7 @@ import { useNavigate } from "react-router-dom";
 
 import Button from "components/Button";
 import Separator from "components/Separator";
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "./SummaryOrder.module.scss";
 import {
     checkAllItem,

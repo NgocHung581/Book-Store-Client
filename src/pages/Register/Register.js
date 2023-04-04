@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import { Link } from "react-router-dom";
 
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "./Register.module.scss";
 import RegisterForm from "./RegisterForm/RegisterForm";
 

@@ -11,7 +11,7 @@ import userApiURL from "api/userApiURL";
 import Button from "components/Button";
 import InputField from "custom-fields/InputField";
 import { useAxiosClient } from "hooks";
-import routes from "routes/routes";
+import routes from "routes";
 import styles from "./VerifyEmail.module.scss";
 
 const cx = classNames.bind(styles);
