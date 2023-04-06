@@ -1,24 +1,36 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsCartPlus } from "react-icons/bs";
 import { NumericFormat } from "react-number-format";
+import { useDispatch, useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { Link } from "react-router-dom";
 import StarRatings from "react-star-ratings";
-import { Col, Row } from "reactstrap";
-import { useDispatch } from "react-redux";
 import { toast } from "react-toastify";
+import { Col, Row } from "reactstrap";
 
+import userApiURL from "api/userApiURL";
 import Button from "components/Button";
+import { useAxiosAuth } from "hooks";
+import { addToCart } from "redux/slices/cartSlice";
+import { updateUser } from "redux/slices/userSlice";
 import routes from "routes";
 import styles from "./BookCard.module.scss";
-import { addToCart } from "redux/slices/cartSlice";
 
 const cx = classNames.bind(styles);
 
 function BookCard({ book, isGridLayout = true }) {
+    const axiosAuth = useAxiosAuth();
+
+    const { user } = useSelector((state) => state.user);
     const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1223px)" });
+
     const dispatch = useDispatch();
+
+    const existingBookFavorite = user?.favorite?.find(
+        (item) => item === book?._id
+    );
 
     const handleSubmitCart = () => {
         if (book?.in_stock <= 0) return toast.error("Sản phẩm đã hết hàng.");
@@ -34,6 +46,32 @@ function BookCard({ book, isGridLayout = true }) {
         const cartItem = addToCart(values);
         dispatch(cartItem);
         toast.success("Bạn vừa thêm 1 sản phẩm vào giỏ hàng");
+    };
+
+    const handleDeleteFavorite = async () => {
+        const url = userApiURL.deleteFavorite(book?._id);
+        const res = await axiosAuth.delete(url, {
+            headers: {
+                Authorization: `Bearer ${user?.accessToken}`,
+            },
+        });
+        dispatch(updateUser({ favorite: res.data }));
+        toast.success(res.message);
+    };
+
+    const handleAddFavorite = async () => {
+        const url = userApiURL.getOrAddFavorite();
+        const res = await axiosAuth.post(
+            url,
+            { bookId: book?._id },
+            {
+                headers: {
+                    Authorization: `Bearer ${user?.accessToken}`,
+                },
+            }
+        );
+        dispatch(updateUser({ favorite: res.data }));
+        toast.success(res.message);
     };
 
     return (
@@ -99,6 +137,27 @@ function BookCard({ book, isGridLayout = true }) {
                                 />
                             </span>
                             <div className={cx("footer-actions")}>
+                                {existingBookFavorite ? (
+                                    <Button
+                                        outline
+                                        className={cx("footer-actions-btn")}
+                                        onClick={handleDeleteFavorite}
+                                    >
+                                        <AiFillHeart
+                                            size={isTabletOrMobile ? 20 : 22}
+                                        />
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        outline
+                                        className={cx("footer-actions-btn")}
+                                        onClick={handleAddFavorite}
+                                    >
+                                        <AiOutlineHeart
+                                            size={isTabletOrMobile ? 20 : 22}
+                                        />
+                                    </Button>
+                                )}
                                 <Button
                                     outline
                                     className={cx("footer-actions-btn")}

@@ -45,6 +45,14 @@ const userApiURL = {
         const url = `/users/registerMail`;
         return url;
     },
+    getOrAddFavorite() {
+        const url = `/users/favorite`;
+        return url;
+    },
+    deleteFavorite(id) {
+        const url = `/users/favorite/${id}`;
+        return url;
+    },
 };
 
 export default userApiURL;

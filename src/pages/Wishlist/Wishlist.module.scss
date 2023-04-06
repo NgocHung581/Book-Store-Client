@@ -1,3 +1,13 @@
+.wrapper {
+    min-height: 60vh;
+}
+
 .title {
     margin-bottom: 20px;
+}
+
+.message {
+    text-align: center;
+    margin-top: 50px;
+    color: var(--color-primary);
 }

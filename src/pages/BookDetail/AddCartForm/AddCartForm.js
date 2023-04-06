@@ -1,21 +1,32 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
-import { AiOutlineHeart } from "react-icons/ai";
+import { AiFillHeart, AiOutlineHeart } from "react-icons/ai";
 import { BsCartPlus } from "react-icons/bs";
-import { FormGroup } from "reactstrap";
+import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
-import { useDispatch } from "react-redux";
+import { FormGroup } from "reactstrap";
 
 import Button from "components/Button";
 import InputField from "custom-fields/InputField";
 import { FastField, Form, Formik } from "formik";
-import styles from "../BookDetail.module.scss";
 import { addToCart } from "redux/slices/cartSlice";
+import { useAxiosAuth } from "hooks";
+import styles from "../BookDetail.module.scss";
+import { updateUser } from "redux/slices/userSlice";
+import userApiURL from "api/userApiURL";
 
 const cx = classNames.bind(styles);
 
 function AddCartForm({ book }) {
+    const axiosAuth = useAxiosAuth();
+
+    const { user } = useSelector((state) => state.user);
+
     const dispatch = useDispatch();
+
+    const existingBookFavorite = user?.favorite?.find(
+        (item) => item === book?._id
+    );
 
     const initialValues = {
         quantity: 1,
@@ -37,6 +48,32 @@ function AddCartForm({ book }) {
         });
         dispatch(cartItem);
         toast.success("Bạn vừa thêm 1 sản phẩm vào giỏ hàng");
+    };
+
+    const handleDeleteFavorite = async () => {
+        const url = userApiURL.deleteFavorite(book?._id);
+        const res = await axiosAuth.delete(url, {
+            headers: {
+                Authorization: `Bearer ${user?.accessToken}`,
+            },
+        });
+        dispatch(updateUser({ favorite: res.data }));
+        toast.success(res.message);
+    };
+
+    const handleAddFavorite = async () => {
+        const url = userApiURL.getOrAddFavorite();
+        const res = await axiosAuth.post(
+            url,
+            { bookId: book?._id },
+            {
+                headers: {
+                    Authorization: `Bearer ${user?.accessToken}`,
+                },
+            }
+        );
+        dispatch(updateUser({ favorite: res.data }));
+        toast.success(res.message);
     };
 
     return (
@@ -62,14 +99,30 @@ function AddCartForm({ book }) {
                                 <BsCartPlus size={20} className="me-1" />
                                 Thêm vào giỏ
                             </Button>
-                            <Button
-                                type="submit"
-                                outline
-                                className={cx("actions-btn")}
-                            >
-                                <AiOutlineHeart size={20} className="me-1" />
-                                Yêu thích
-                            </Button>
+                            {existingBookFavorite ? (
+                                <Button
+                                    type="button"
+                                    outline
+                                    className={cx("actions-btn")}
+                                    onClick={handleDeleteFavorite}
+                                >
+                                    <AiFillHeart size={20} className="me-1" />
+                                    Đã yêu thích
+                                </Button>
+                            ) : (
+                                <Button
+                                    type="button"
+                                    outline
+                                    className={cx("actions-btn")}
+                                    onClick={handleAddFavorite}
+                                >
+                                    <AiOutlineHeart
+                                        size={20}
+                                        className="me-1"
+                                    />
+                                    Yêu thích
+                                </Button>
+                            )}
                         </FormGroup>
                     </Form>
                 );

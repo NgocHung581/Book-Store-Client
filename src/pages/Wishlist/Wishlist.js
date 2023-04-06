@@ -1,20 +1,51 @@
+import { useEffect, useState } from "react";
 import classNames from "classnames/bind";
-import BookCard from "components/BookCard";
 import { Col, Row } from "reactstrap";
+import { useSelector } from "react-redux";
 
+import BookCard from "components/BookCard";
 import styles from "./Wishlist.module.scss";
+import userApiURL from "api/userApiURL";
+import { useAxiosAuth } from "hooks";
 
 const cx = classNames.bind(styles);
 
 function Wishlist() {
+    const axiosAuth = useAxiosAuth();
+
+    const { user } = useSelector((state) => state.user);
+    const [books, setBooks] = useState([]);
+
+    useEffect(() => {
+        const fetchBooks = async () => {
+            const url = userApiURL.getOrAddFavorite();
+            const res = await axiosAuth.get(url, {
+                headers: {
+                    Authorization: `Bearer ${user?.accessToken}`,
+                },
+            });
+            setBooks(res.data);
+        };
+
+        fetchBooks();
+    }, [user, axiosAuth]);
+
     return (
         <div className={cx("wrapper")}>
             <h2 className={cx("title")}>Bạn đã yêu thích</h2>
-            <Row className="gy-4" lg={5}>
-                {/* <Col lg={2.4}>
-                    <BookCard />
-                </Col> */}
-            </Row>
+            {books?.length > 0 ? (
+                <Row className="gy-4" lg={5}>
+                    {books?.map((book) => (
+                        <Col lg={2.4} key={book?._id}>
+                            <BookCard book={book} />
+                        </Col>
+                    ))}
+                </Row>
+            ) : (
+                <h2 className={cx("message")}>
+                    Bạn chưa có sản phẩm nào trong danh sách yêu thích
+                </h2>
+            )}
         </div>
     );
 }

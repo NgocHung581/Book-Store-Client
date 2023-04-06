@@ -87,18 +87,30 @@ function BookDetail() {
                                     />
                                 </p>
                             </div>
-                            <span
-                                className={cx(
-                                    "stock",
-                                    `status-${
-                                        book?.in_stock > 0
-                                            ? "available"
-                                            : "unavailable"
-                                    }`
+                            <div className="d-flex align-items-center">
+                                {book?.in_stock > 0 && (
+                                    <span
+                                        className="text-muted me-3"
+                                        style={{ fontSize: "14px" }}
+                                    >
+                                        Kho: {book?.in_stock}
+                                    </span>
                                 )}
-                            >
-                                {book?.in_stock > 0 ? "Còn hàng" : "Hết hàng"}
-                            </span>
+                                <span
+                                    className={cx(
+                                        "stock",
+                                        `status-${
+                                            book?.in_stock > 0
+                                                ? "available"
+                                                : "unavailable"
+                                        }`
+                                    )}
+                                >
+                                    {book?.in_stock > 0
+                                        ? "Còn hàng"
+                                        : "Hết hàng"}
+                                </span>
+                            </div>
                         </div>
                         <Separator />
 
