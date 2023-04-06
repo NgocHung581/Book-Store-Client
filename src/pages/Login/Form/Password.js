@@ -30,10 +30,12 @@ const cx = classNames.bind(styles);
 
 function Password() {
     const axiosClient = useAxiosClient();
+
     const [loadingSendEmail, setLoadingSendEmail] = useState(false);
     const [user] = useOutletContext();
     const { state } = useLocation();
     const { loading } = useSelector((state) => state.user);
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
 

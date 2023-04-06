@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import Select from "react-select";
 import { toast } from "react-toastify";
+import { useSearchParams } from "react-router-dom";
 
 import orderApiURL from "api/orderApiURL";
 import Pagination from "components/Pagination/Pagination";
@@ -20,10 +21,76 @@ function Order() {
     const { user } = useSelector((state) => state.user);
     const [orders, setOrders] = useState([]);
 
+    const [searchParams, setSearchParams] = useSearchParams({
+        status: 1,
+        page: 1,
+        limit: 12,
+        sortBy: "createdAt",
+        type: "desc",
+    });
+
+    const status = parseInt(searchParams.get("status"));
+    const page = parseInt(searchParams.get("page"));
+    const limit = parseInt(searchParams.get("limit"));
+    const sortBy = searchParams.get("sortBy");
+    const type = searchParams.get("type");
+
+    const handleStatusChange = (e) => {
+        const selectedStatus = e.value;
+        setSearchParams({
+            status: selectedStatus,
+            page,
+            limit,
+            sortBy,
+            type,
+        });
+    };
+
+    const handleSortChange = (e) => {
+        const selectedSort = e.value;
+        setSearchParams({
+            status,
+            page,
+            limit,
+            sortBy,
+            type: selectedSort,
+        });
+    };
+
+    const handleLimitChange = (e) => {
+        const selectedLimit = e.value;
+        setSearchParams({
+            status,
+            page,
+            limit: selectedLimit,
+            sortBy,
+            type,
+        });
+    };
+
+    const handlePageChange = (e) => {
+        const selectedPage = e.selected + 1;
+        setSearchParams({
+            status,
+            page: selectedPage,
+            limit,
+            sortBy,
+            type,
+        });
+    };
+
     useEffect(() => {
         const fetchOrders = async () => {
             try {
-                const url = orderApiURL.getAll();
+                const params = {
+                    status,
+                    page,
+                    limit,
+                    sortBy,
+                    type,
+                };
+
+                const url = orderApiURL.getAll(params);
                 const res = await axiosAuth.get(url, {
                     headers: {
                         authorization: `Bearer ${user?.accessToken}`,
@@ -36,7 +103,7 @@ function Order() {
         };
 
         fetchOrders();
-    }, [user?.accessToken, axiosAuth]);
+    }, [status, page, limit, sortBy, type, user?.accessToken, axiosAuth]);
 
     return (
         <div className={cx("wrapper")}>
@@ -48,8 +115,13 @@ function Order() {
                     <Select
                         className={cx("filter-group-select")}
                         options={STATUS_ORDER}
-                        defaultValue={STATUS_ORDER[0]}
+                        defaultValue={
+                            status
+                                ? STATUS_ORDER.filter((x) => x.value === status)
+                                : STATUS_ORDER[0]
+                        }
                         isSearchable={false}
+                        onChange={handleStatusChange}
                     />
                 </div>
                 <div className={cx("filter-group")}>
@@ -57,8 +129,13 @@ function Order() {
                     <Select
                         className={cx("filter-group-select")}
                         options={TIME_OPTIONS}
-                        defaultValue={TIME_OPTIONS[0]}
+                        defaultValue={
+                            type
+                                ? TIME_OPTIONS.filter((x) => x.value === type)
+                                : TIME_OPTIONS[0]
+                        }
                         isSearchable={false}
+                        onChange={handleSortChange}
                     />
                 </div>
                 <div className={cx("filter-group")}>
@@ -68,26 +145,42 @@ function Order() {
                     <Select
                         className={cx("filter-group-select")}
                         options={NUMBER_PER_PAGE}
-                        defaultValue={NUMBER_PER_PAGE[0]}
+                        defaultValue={
+                            limit
+                                ? NUMBER_PER_PAGE.filter(
+                                      (x) => x.value === limit
+                                  )
+                                : NUMBER_PER_PAGE[0]
+                        }
                         isSearchable={false}
+                        onChange={handleLimitChange}
                     />
                 </div>
+                <span className={cx("total-order")}>
+                    {orders?.total_results} đơn hàng
+                </span>
             </div>
             <Separator />
-            <div className={cx("list")}>
-                {orders?.length > 0
-                    ? orders?.map((order) => (
-                          <OrderItem key={order._id} order={order} />
-                      ))
-                    : "Bạn chưa có đơn hàng nào"}
-            </div>
-            <div className="text-center mt-4">
-                <Pagination
-                    forcePage={0}
-                    pageCount={10}
-                    onPageChange={() => {}}
-                />
-            </div>
+            {orders?.results?.length > 0 ? (
+                <>
+                    <div className={cx("list")}>
+                        {orders?.results?.map((order) => (
+                            <OrderItem key={order._id} order={order} />
+                        ))}
+                    </div>
+                    {orders?.total_pages > 1 && (
+                        <div className="text-center mt-4">
+                            <Pagination
+                                pageCount={orders?.total_pages}
+                                forcePage={page ? page - 1 : 0}
+                                onPageChange={handlePageChange}
+                            />
+                        </div>
+                    )}
+                </>
+            ) : (
+                <div>Bạn chưa có đơn hàng nào</div>
+            )}
         </div>
     );
 }

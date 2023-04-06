@@ -4,10 +4,10 @@ import { BsBook, BsHeart, BsMoonStars } from "react-icons/bs";
 import routes from "routes";
 
 export const NUMBER_PER_PAGE = [
-    { value: "2", label: "2 sản phẩm" },
-    { value: "4", label: "4 sản phẩm" },
-    { value: "6", label: "6 sản phẩm" },
-    { value: "8", label: "8 sản phẩm" },
+    { value: 12, label: "12 sản phẩm" },
+    { value: 24, label: "24 sản phẩm" },
+    { value: 36, label: "36 sản phẩm" },
+    { value: 48, label: "48 sản phẩm" },
 ];
 
 export const NAV_LIST = [
@@ -35,11 +35,11 @@ export const STATUS_ORDER = [
     { value: 2, label: "Chờ xác nhận" },
     { value: 3, label: "Chờ lấy hàng" },
     { value: 4, label: "Đang giao hàng" },
-    { value: 5, label: "Đánh giá" },
+    { value: 5, label: "Đã hoàn thành" },
     { value: 6, label: "Đã hủy" },
 ];
 
 export const TIME_OPTIONS = [
-    { value: "new", label: "Mới nhất" },
-    { value: "old", label: "Cũ nhất" },
+    { value: "desc", label: "Mới nhất" },
+    { value: "asc", label: "Cũ nhất" },
 ];

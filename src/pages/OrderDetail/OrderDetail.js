@@ -49,7 +49,13 @@ function OrderDetail() {
                         Mã đơn hàng: {order?._id}
                     </span>
                     {"|"}
-                    <span className={cx("status")}>{order?.status}</span>
+                    <span
+                        className={cx("status", {
+                            success: order?.status?._id === 5,
+                        })}
+                    >
+                        {order?.status?.label}
+                    </span>
                 </div>
             </div>
             <Separator />

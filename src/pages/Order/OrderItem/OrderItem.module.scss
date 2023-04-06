@@ -19,11 +19,13 @@
 .status {
     color: var(--color-primary);
     text-transform: uppercase;
+
+    &.success {
+        color: var(--success-color);
+    }
 }
 
-.footer {
-}
-
+// Footer
 .total {
     display: flex;
     align-items: center;

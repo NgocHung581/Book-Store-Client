@@ -128,6 +128,7 @@ function SummaryOrder() {
                             Điểm tích lũy ({user?.point} điểm)
                         </Label>
                         <Input
+                            disabled={user?.point <= 0}
                             type="checkbox"
                             checked={isUsePoint}
                             onChange={handleClickUsePoint}

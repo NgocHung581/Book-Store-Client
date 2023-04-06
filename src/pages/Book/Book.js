@@ -3,7 +3,6 @@ import { useEffect, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { AiOutlineUnorderedList } from "react-icons/ai";
 import { BsGrid3X3Gap } from "react-icons/bs";
-import { useMediaQuery } from "react-responsive";
 import { useParams, useSearchParams } from "react-router-dom";
 import Select from "react-select";
 import { Col, Row } from "reactstrap";
@@ -19,8 +18,13 @@ import styles from "./Book.module.scss";
 
 const cx = classNames.bind(styles);
 
+const FILTER_OPTIONS = [
+    { value: "", label: "Mới nhất" },
+    { value: "asc", label: "Giá tăng dần" },
+    { value: "desc", label: "Giá giảm dần" },
+];
+
 function Book() {
-    const isMobile = useMediaQuery({ query: "(max-width: 639px)" });
     const [isGridLayout, setIsGridLayout] = useState(true);
     const [books, setBooks] = useState({});
     const [loading, setLoading] = useState(false);
@@ -29,13 +33,14 @@ function Book() {
 
     const [searchParams, setSearchParams] = useSearchParams({
         page: 1,
-        limit: 2,
-        sortBy: "price",
-        type: null,
+        limit: 12,
+        sortBy: "createdAt",
+        type: "desc",
     });
     const sortType = searchParams.get("type");
-    const page = searchParams.get("page");
-    const limit = searchParams.get("limit");
+    const sortBy = searchParams.get("sortBy");
+    const page = parseInt(searchParams.get("page"));
+    const limit = parseInt(searchParams.get("limit"));
 
     const { slug } = useParams();
 
@@ -45,9 +50,9 @@ function Book() {
                 setLoading(true);
                 const params = {
                     page: page ? page : 1,
-                    limit: limit ? limit : 2,
-                    sortBy: "price",
-                    type: sortType,
+                    limit: limit ? limit : 12,
+                    sortBy: sortBy ? sortBy : "createdAt",
+                    type: sortType ? sortType : "desc",
                 };
 
                 const url = bookApiURL.getSpecificCategory(slug, params);
@@ -63,9 +68,9 @@ function Book() {
                 setLoading(true);
                 const params = {
                     page: page ? page : 1,
-                    limit: limit ? limit : 2,
-                    sortBy: "price",
-                    type: sortType,
+                    limit: limit ? limit : 12,
+                    sortBy: sortBy ? sortBy : "createdAt",
+                    type: sortType ? sortType : "desc",
                 };
 
                 const url = bookApiURL.getAll(params);
@@ -77,15 +82,20 @@ function Book() {
 
             fetchBooks();
         }
-    }, [slug, sortType, page, limit, axiosClient]);
+    }, [slug, sortBy, sortType, page, limit, axiosClient]);
 
     const handleSortChange = (e) => {
-        const selectedType = e.target.value;
+        const selectedType = e.value;
+        let fieldSort = "price";
+        if (!selectedType) {
+            fieldSort = "createdAt";
+        }
+
         setSearchParams({
             page: page ? page : 1,
-            limit: limit ? limit : 2,
-            sortBy: "price",
-            type: selectedType,
+            limit: limit ? limit : 12,
+            sortBy: fieldSort,
+            type: selectedType ? selectedType : "desc",
         });
     };
 
@@ -93,9 +103,9 @@ function Book() {
         const selectedPage = e.selected + 1;
         setSearchParams({
             page: selectedPage,
-            limit: limit ? limit : 2,
-            sortBy: "price",
-            type: sortType,
+            limit: limit ? limit : 12,
+            sortBy: sortBy ? sortBy : "createdAt",
+            type: sortType ? sortType : "desc",
         });
     };
 
@@ -104,8 +114,8 @@ function Book() {
         setSearchParams({
             page: page ? page : 1,
             limit: selectedOption,
-            sortBy: "price",
-            type: sortType,
+            sortBy: sortBy ? sortBy : "createdAt",
+            type: sortType ? sortType : "desc",
         });
     };
 
@@ -120,20 +130,47 @@ function Book() {
                 <div className={cx("actions")}>
                     <div className={cx("actions-item")}>
                         <label className="me-3">Lọc theo:</label>
-                        <select
-                            className="form-select w-75"
-                            name="sort"
-                            value={sortType ? sortType : ""}
+                        <Select
+                            isSearchable={false}
+                            styles={{
+                                menu: (baseStyles) => ({
+                                    ...baseStyles,
+                                    zIndex: 5,
+                                }),
+                            }}
+                            className="flex-fill"
+                            options={FILTER_OPTIONS}
+                            defaultValue={
+                                sortType && sortBy === "price"
+                                    ? FILTER_OPTIONS.filter(
+                                          (x) => x.value === sortType
+                                      )
+                                    : FILTER_OPTIONS[0]
+                            }
                             onChange={handleSortChange}
-                        >
-                            <option value="">--Chọn---</option>
-                            <option value="asc">
-                                Giá từ thấp nhất đến cao nhất
-                            </option>
-                            <option value="desc">
-                                Giá từ cao nhất đến thấp nhất
-                            </option>
-                        </select>
+                        />
+                    </div>
+                    <div className={cx("actions-item")}>
+                        <label className="me-3">Hiển thị:</label>
+                        <Select
+                            isSearchable={false}
+                            styles={{
+                                menu: (baseStyles) => ({
+                                    ...baseStyles,
+                                    zIndex: 5,
+                                }),
+                            }}
+                            className="flex-fill"
+                            options={NUMBER_PER_PAGE}
+                            defaultValue={
+                                limit
+                                    ? NUMBER_PER_PAGE.filter(
+                                          (x) => x.value === limit
+                                      )
+                                    : NUMBER_PER_PAGE[0]
+                            }
+                            onChange={handleNumPerPageChange}
+                        />
                     </div>
                     <div className={cx("actions-item", "grid")}>
                         <span className={cx("total")}>
@@ -177,40 +214,20 @@ function Book() {
                             ))}
                         </Row>
                         <Row className="align-items-center mt-5">
-                            <Col lg={6} md={6} xs={12}>
-                                <div className="d-flex align-items-center">
-                                    <label className="me-3">
-                                        Hiện thị mỗi trang:
-                                    </label>
-                                    <Select
-                                        isSearchable={false}
-                                        className="flex-fill"
-                                        options={NUMBER_PER_PAGE}
-                                        defaultValue={
-                                            limit
-                                                ? NUMBER_PER_PAGE.filter(
-                                                      (x) => x.value === limit
-                                                  )
-                                                : NUMBER_PER_PAGE[0]
-                                        }
-                                        onChange={handleNumPerPageChange}
+                            {books?.total_pages > 1 && (
+                                <Col
+                                    lg={12}
+                                    md={12}
+                                    xs={12}
+                                    className="text-center mt-3"
+                                >
+                                    <Pagination
+                                        pageCount={books?.total_pages}
+                                        onPageChange={handlePageChange}
+                                        forcePage={page ? page - 1 : 0}
                                     />
-                                </div>
-                            </Col>
-                            <Col
-                                lg={6}
-                                md={6}
-                                xs={12}
-                                className={
-                                    isMobile ? "text-center mt-3" : "text-end"
-                                }
-                            >
-                                <Pagination
-                                    pageCount={books?.total_pages}
-                                    onPageChange={handlePageChange}
-                                    forcePage={page ? page - 1 : 0}
-                                />
-                            </Col>
+                                </Col>
+                            )}
                         </Row>
                     </>
                 ) : (

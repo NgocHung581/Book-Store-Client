@@ -12,7 +12,7 @@
     border-radius: 5px;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
 }
 
 .filter-group {
@@ -27,4 +27,9 @@
 
 .filter-group-select {
     width: 200px;
+}
+
+.total-order {
+    opacity: 0.7;
+    font-size: 14px;
 }

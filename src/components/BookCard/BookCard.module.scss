@@ -19,7 +19,7 @@
     position: absolute;
     top: 24px;
     left: 0;
-    z-index: 5;
+    z-index: 1;
     background-color: var(--color-primary);
     padding: 4px 8px;
     color: white;
@@ -35,7 +35,7 @@
         position: absolute;
         top: 0;
         left: 100%;
-        z-index: 5;
+        z-index: 1;
     }
 
     &::before {
@@ -48,7 +48,7 @@
         position: absolute;
         top: 50%;
         left: 100%;
-        z-index: 6;
+        z-index: 2;
         transform: translate(-50%, -50%);
     }
 }

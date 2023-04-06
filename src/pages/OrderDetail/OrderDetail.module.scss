@@ -27,6 +27,10 @@
 .status {
     margin-left: 12px;
     color: var(--color-primary);
+
+    &.success {
+        color: var(--success-color);
+    }
 }
 
 .body {

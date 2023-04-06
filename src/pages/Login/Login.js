@@ -1,7 +1,8 @@
 import images from "assets/images";
 import classNames from "classnames/bind";
 import { useState } from "react";
-import { Link, Outlet } from "react-router-dom";
+import { Link, Navigate, Outlet } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 import routes from "routes";
 import styles from "./Login.module.scss";
@@ -9,7 +10,10 @@ import styles from "./Login.module.scss";
 const cx = classNames.bind(styles);
 
 function Login() {
+    const { user: currentUser } = useSelector((state) => state.user);
     const [user, setUser] = useState({});
+
+    if (currentUser) return <Navigate to={routes.home} />;
 
     return (
         <div className={cx("wrapper")}>

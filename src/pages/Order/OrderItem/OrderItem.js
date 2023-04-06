@@ -4,29 +4,57 @@ import { useState } from "react";
 import { NumericFormat } from "react-number-format";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
+import { toast } from "react-toastify";
 
 import Button from "components/Button";
 import ConfirmItem from "components/ConfirmItem";
 import Separator from "components/Separator";
 import styles from "./OrderItem.module.scss";
 import routes from "routes";
+import { useAxiosAuth } from "hooks";
+import orderApiURL from "api/orderApiURL";
 
 const cx = classNames.bind(styles);
 
-function OrderItem({ order }) {
+function OrderItem({ order: orderInit }) {
+    const axiosAuth = useAxiosAuth();
+
+    const { user } = useSelector((state) => state.user);
     const [modalDetail, setModalDetail] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
+    const [order, setOrder] = useState(orderInit);
 
     const toggleModalCustomerInfo = () => setModalDetail((prev) => !prev);
 
     const toggleModalConfirm = () => setModalConfirm((prev) => !prev);
+
+    const handleUpdateStatusOrder = async (status) => {
+        const url = orderApiURL.updateStatus(order?._id);
+        const res = await axiosAuth.put(
+            url,
+            { status },
+            {
+                headers: { authorization: `Bearer ${user?.accessToken}` },
+            }
+        );
+        setOrder(res.data);
+        setModalConfirm(false);
+        toast.success(res.message);
+    };
 
     return (
         <>
             <div className={cx("wrapper")}>
                 <div className={cx("header")}>
                     <span className={cx("id")}>Mã đơn hàng: {order?._id}</span>
-                    <span className={cx("status")}>{order?.status}</span>
+                    <span
+                        className={cx("status", {
+                            success: order?.status?._id === 5,
+                        })}
+                    >
+                        {order?.status?.label}
+                    </span>
                 </div>
                 <Separator />
                 <div className={cx("body")}>
@@ -63,9 +91,31 @@ function OrderItem({ order }) {
                         </div>
                     </div>
                     <div className="text-end">
-                        <Button primary onClick={toggleModalConfirm}>
-                            Hủy đơn hàng
-                        </Button>
+                        {order?.status?._id === 2 && (
+                            <Button primary onClick={toggleModalConfirm}>
+                                Hủy đơn hàng
+                            </Button>
+                        )}
+                        {order?.status?._id === 3 && ""}
+                        {order?.status?._id === 4 && (
+                            <Button
+                                primary
+                                onClick={() => handleUpdateStatusOrder(5)}
+                            >
+                                Đã nhận hàng
+                            </Button>
+                        )}
+                        {order?.status?._id === 5 && (
+                            <>
+                                <span
+                                    className="text-muted me-3"
+                                    style={{ fontSize: "14px" }}
+                                >
+                                    Đánh giá ngay để nhận thêm 5 điểm tích lũy
+                                </span>
+                                <Button primary>Đánh giá</Button>
+                            </>
+                        )}
                     </div>
                 </div>
             </div>
@@ -136,7 +186,7 @@ function OrderItem({ order }) {
                     <Button outline onClick={toggleModalConfirm}>
                         Hủy
                     </Button>
-                    <Button primary onClick={toggleModalConfirm}>
+                    <Button primary onClick={() => handleUpdateStatusOrder(6)}>
                         Xác nhận
                     </Button>
                 </ModalFooter>
