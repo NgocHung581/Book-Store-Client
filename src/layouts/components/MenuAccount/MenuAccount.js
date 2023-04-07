@@ -1,17 +1,17 @@
 import classNames from "classnames/bind";
-import { Link } from "react-router-dom";
-import { FormGroup, Input } from "reactstrap";
 import PropTypes from "prop-types";
-import { useDispatch, useSelector } from "react-redux";
 import { BiLogOut } from "react-icons/bi";
-
-import styles from "./MenuAccount.module.scss";
-import { logout, setDarkMode } from "redux/slices/userSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
+import { FormGroup, Input } from "reactstrap";
 
-import Separator from "components/Separator";
-import userApiURL from "api/userApiURL";
+import { logout, setDarkMode } from "redux/slices/userSlice";
 import { useAxiosClient } from "hooks";
+import styles from "./MenuAccount.module.scss";
+import userApiURL from "api/userApiURL";
+import Separator from "components/Separator";
+import routes from "routes";
 
 const cx = classNames.bind(styles);
 
@@ -20,6 +20,7 @@ function MenuAccount({ menuAccount }) {
 
     const { user, darkMode } = useSelector((state) => state.user);
     const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     const handleLogout = async () => {
         const url = userApiURL.logout();
@@ -27,6 +28,7 @@ function MenuAccount({ menuAccount }) {
             refreshToken: user?.refreshToken,
         });
         dispatch(logout());
+        navigate(routes.login);
         toast.success(res.message);
     };
 

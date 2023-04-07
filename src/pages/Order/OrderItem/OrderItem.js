@@ -14,6 +14,7 @@ import styles from "./OrderItem.module.scss";
 import routes from "routes";
 import { useAxiosAuth } from "hooks";
 import orderApiURL from "api/orderApiURL";
+import StarRatings from "react-star-ratings";
 
 const cx = classNames.bind(styles);
 
@@ -23,11 +24,15 @@ function OrderItem({ order: orderInit }) {
     const { user } = useSelector((state) => state.user);
     const [modalDetail, setModalDetail] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
+    const [modalRating, setModalRating] = useState(false);
     const [order, setOrder] = useState(orderInit);
+    const [rating, setRating] = useState(0);
 
     const toggleModalCustomerInfo = () => setModalDetail((prev) => !prev);
 
     const toggleModalConfirm = () => setModalConfirm((prev) => !prev);
+
+    const toggleModalRating = () => setModalRating((prev) => !prev);
 
     const handleUpdateStatusOrder = async (status) => {
         const url = orderApiURL.updateStatus(order?._id);
@@ -113,7 +118,9 @@ function OrderItem({ order: orderInit }) {
                                 >
                                     Đánh giá ngay để nhận thêm 5 điểm tích lũy
                                 </span>
-                                <Button primary>Đánh giá</Button>
+                                <Button primary onClick={toggleModalRating}>
+                                    Đánh giá
+                                </Button>
                             </>
                         )}
                     </div>
@@ -189,6 +196,29 @@ function OrderItem({ order: orderInit }) {
                     <Button primary onClick={() => handleUpdateStatusOrder(6)}>
                         Xác nhận
                     </Button>
+                </ModalFooter>
+            </Modal>
+
+            {/* Modal Rating */}
+            <Modal isOpen={modalRating} toggle={toggleModalRating} centered>
+                <ModalHeader toggle={toggleModalRating}>Đánh giá</ModalHeader>
+                <ModalBody>
+                    <StarRatings
+                        rating={rating}
+                        starRatedColor="#fed900"
+                        starHoverColor="#e94560"
+                        starDimension="20px"
+                        starSpacing="4px"
+                        changeRating={(newRating) => {
+                            setRating(newRating);
+                        }}
+                    />
+                </ModalBody>
+                <ModalFooter>
+                    <Button outline onClick={toggleModalRating}>
+                        Hủy
+                    </Button>
+                    <Button primary>Xác nhận</Button>
                 </ModalFooter>
             </Modal>
         </>

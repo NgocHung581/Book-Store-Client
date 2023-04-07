@@ -15,13 +15,12 @@ import {
 
 import bookApiURL from "api/bookApiURL";
 import BookList from "components/BookList";
-import Comment from "components/Comment";
 import Loader from "components/Loader";
 import Separator from "components/Separator";
 import { useAxiosClient } from "hooks";
 import AddCartForm from "./AddCartForm";
 import styles from "./BookDetail.module.scss";
-import CommentForm from "./CommentForm";
+import CommentGroup from "./CommentGroup";
 
 const cx = classNames.bind(styles);
 
@@ -40,7 +39,7 @@ function BookDetail() {
             const url = bookApiURL.get(slug);
             const res = await axiosClient.get(url);
 
-            setBook(res);
+            setBook(res.data);
             setLoading(false);
         };
 
@@ -71,7 +70,7 @@ function BookDetail() {
                             <div>
                                 <div className="mb-2">
                                     <StarRatings
-                                        rating={book?.rating}
+                                        rating={book?.totalRating}
                                         starRatedColor="#fed900"
                                         starHoverColor="#e94560"
                                         starDimension="20px"
@@ -155,14 +154,9 @@ function BookDetail() {
                                     tabId="comment"
                                     className={cx("tab-content")}
                                 >
-                                    <CommentForm />
-                                    <div className={cx("comment-wrapper")}>
-                                        <Comment />
-                                        <Comment />
-                                        <Comment />
-                                        <Comment />
-                                        <Comment />
-                                    </div>
+                                    {book?._id && (
+                                        <CommentGroup bookId={book?._id} />
+                                    )}
                                 </TabPane>
                             </TabContent>
                         </div>

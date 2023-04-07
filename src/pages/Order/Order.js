@@ -179,7 +179,7 @@ function Order() {
                     )}
                 </>
             ) : (
-                <div>Bạn chưa có đơn hàng nào</div>
+                <h2 className={cx("message")}>Bạn chưa có đơn hàng nào</h2>
             )}
         </div>
     );

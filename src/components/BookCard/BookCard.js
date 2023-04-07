@@ -118,7 +118,7 @@ function BookCard({ book, isGridLayout = true }) {
                         </p>
                         <div className="mb-2">
                             <StarRatings
-                                rating={book?.rating}
+                                rating={book?.totalRating}
                                 starRatedColor="#fed900"
                                 starHoverColor="#e94560"
                                 starDimension={
