@@ -1,0 +1,47 @@
+.tab-item {
+    text-align: center;
+}
+
+.tab-link {
+    padding: 8px 20px;
+    font-size: 16px;
+    color: #000;
+    cursor: pointer;
+    transition: color 0.3s ease-in-out;
+
+    &:hover {
+        color: var(--color-primary);
+    }
+
+    &.active {
+        color: var(--color-primary);
+        font-weight: 500;
+        position: relative;
+
+        &::after {
+            display: block;
+            content: "";
+            height: 3px;
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            transform: translate(-50%, 50%);
+            border-radius: 99px;
+            background-color: var(--color-primary);
+            animation: underline 0.3s ease-in-out forwards;
+        }
+    }
+}
+
+.tab-content {
+    text-align: justify;
+}
+
+@keyframes underline {
+    from {
+        width: 0;
+    }
+    to {
+        width: 100%;
+    }
+}

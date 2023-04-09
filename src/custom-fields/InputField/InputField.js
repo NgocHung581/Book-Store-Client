@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { FormFeedback, FormGroup, Input } from "reactstrap";
+import { FormFeedback, FormGroup, Input, Label } from "reactstrap";
 import PropTypes from "prop-types";
 import { ErrorMessage } from "formik";
 
@@ -14,6 +14,7 @@ function InputField({
     disabled = false,
     placeholder = "",
     min = 1,
+    label = "",
 }) {
     const { name } = field;
     const { errors, touched } = form;
@@ -21,6 +22,7 @@ function InputField({
 
     return (
         <FormGroup className={cx("form-group")}>
+            {label && <Label>{label}</Label>}
             <Input
                 {...field}
                 type={type}
@@ -38,6 +40,7 @@ InputField.propTypes = {
     field: PropTypes.object.isRequired,
     form: PropTypes.object.isRequired,
 
+    label: PropTypes.string,
     type: PropTypes.string,
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,

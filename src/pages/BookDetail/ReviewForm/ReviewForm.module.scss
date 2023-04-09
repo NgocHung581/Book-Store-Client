@@ -1,0 +1,37 @@
+.wrapper {
+    padding-left: 20px;
+}
+
+.title {
+    font-size: 16px;
+    margin-bottom: 16px;
+}
+
+.avatar {
+    height: 40px;
+    width: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.rating-group {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.content {
+    flex: 1;
+    margin-left: 10px;
+    margin-bottom: 0 !important;
+}
+
+.actions {
+    text-align: right;
+    margin-top: 15px;
+}
+
+.submit-btn {
+    min-width: 50px;
+    padding: 8px 12px;
+}

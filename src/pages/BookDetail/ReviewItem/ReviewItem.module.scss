@@ -3,32 +3,37 @@
     margin-bottom: 10px;
 }
 
-.avatar {
+.user {
+    display: flex;
+    align-items: center;
+}
+
+.user-avatar {
     height: 40px;
     width: 40px;
     border-radius: 50%;
     overflow: hidden;
+    margin-right: 8px;
+}
+
+.user-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.user-name {
+    font-size: 16px;
+    font-weight: 500;
+    margin-bottom: 0;
 }
 
 .content {
-    flex: 1;
-    margin-left: 8px;
+    margin: 8px 0;
 }
 
-.content-user {
-    font-size: 16px;
-    margin-bottom: 0;
-}
-
-.content-main {
-    margin-bottom: 0;
-    font-size: 14px;
-}
-
-.content-actions {
+.actions {
     display: flex;
     align-items: center;
-    margin-top: 4px;
 }
 
 .actions-item {
@@ -48,10 +53,5 @@
         &:hover {
             background-color: rgba(204, 204, 204, 0.5);
         }
-    }
-
-    span {
-        color: #a9a9a9;
-        font-size: 14px;
     }
 }

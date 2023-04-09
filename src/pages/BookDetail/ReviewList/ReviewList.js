@@ -1,24 +1,24 @@
-import { memo, useEffect, useState } from "react";
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
+import { memo, useEffect, useState } from "react";
 
-import styles from "./CommentGroup.module.scss";
-import Comment from "../Comment";
-import { useAxiosClient } from "hooks";
 import reviewApiURL from "api/reviewApiURL";
+import { useAxiosClient } from "hooks";
+import ReviewItem from "../ReviewItem";
+import styles from "./ReviewList.module.scss";
 
 const cx = classNames.bind(styles);
 
-function CommentGroup({ bookId }) {
+function ReviewList({ bookId }) {
     const axiosClient = useAxiosClient();
 
-    const [comments, setComments] = useState([]);
+    const [reviews, setReviews] = useState([]);
 
     useEffect(() => {
         const fetchComments = async () => {
             const url = reviewApiURL.getAll(bookId);
             const res = await axiosClient.get(url);
-            setComments(res.data);
+            setReviews(res.data);
         };
 
         fetchComments();
@@ -26,10 +26,12 @@ function CommentGroup({ bookId }) {
 
     return (
         <div className={cx("wrapper")}>
-            {comments.length > 0 ? (
-                comments.map((comment) => (
-                    <Comment key={comment._id} comment={comment} />
-                ))
+            {reviews.length > 0 ? (
+                <div className={cx("list")}>
+                    {reviews.map((review) => (
+                        <ReviewItem key={review._id} review={review} />
+                    ))}
+                </div>
             ) : (
                 <div>Chưa có đánh giá</div>
             )}
@@ -37,8 +39,8 @@ function CommentGroup({ bookId }) {
     );
 }
 
-CommentGroup.propTypes = {
+ReviewList.propTypes = {
     bookId: PropTypes.string.isRequired,
 };
 
-export default memo(CommentGroup);
+export default memo(ReviewList);

@@ -20,7 +20,7 @@ import Separator from "components/Separator";
 import { useAxiosClient } from "hooks";
 import AddCartForm from "./AddCartForm";
 import styles from "./BookDetail.module.scss";
-import CommentGroup from "./CommentGroup";
+import Review from "./Review";
 
 const cx = classNames.bind(styles);
 
@@ -28,7 +28,7 @@ function BookDetail() {
     const axiosClient = useAxiosClient();
     const [tabActive, setTabActive] = useState("summary");
     const [book, setBook] = useState({});
-    const [loading, setLoading] = useState(false);
+    const [loading, setLoading] = useState(true);
 
     const { slug } = useParams();
 
@@ -72,7 +72,6 @@ function BookDetail() {
                                     <StarRatings
                                         rating={book?.totalRating}
                                         starRatedColor="#fed900"
-                                        starHoverColor="#e94560"
                                         starDimension="20px"
                                         starSpacing="2px"
                                     />
@@ -130,11 +129,11 @@ function BookDetail() {
                                 <NavItem className={cx("tab-item")}>
                                     <NavLink
                                         className={cx("tab-link", {
-                                            active: tabActive === "comment",
+                                            active: tabActive === "info",
                                         })}
-                                        onClick={() => setTabActive("comment")}
+                                        onClick={() => setTabActive("info")}
                                     >
-                                        Đánh giá
+                                        Thông tin sản phẩm
                                     </NavLink>
                                 </NavItem>
                             </Nav>
@@ -151,18 +150,16 @@ function BookDetail() {
                                     </div>
                                 </TabPane>
                                 <TabPane
-                                    tabId="comment"
+                                    tabId="info"
                                     className={cx("tab-content")}
-                                >
-                                    {book?._id && (
-                                        <CommentGroup bookId={book?._id} />
-                                    )}
-                                </TabPane>
+                                ></TabPane>
                             </TabContent>
                         </div>
                     </div>
                 </Col>
             </Row>
+
+            <Review bookId={book?._id} />
 
             {book?.category?.slug && (
                 <div className="mt-5">

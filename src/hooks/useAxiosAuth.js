@@ -31,7 +31,7 @@ function useAxiosAuth() {
         axiosInstance.interceptors.request.use(
             async (config) => {
                 let currentDate = new Date();
-                const decodedToken = jwt_decode(user.accessToken);
+                const decodedToken = jwt_decode(user?.accessToken);
                 if (decodedToken.exp * 1000 < currentDate.getTime()) {
                     const url = userApiURL.refreshToken();
                     const {
@@ -57,7 +57,7 @@ function useAxiosAuth() {
         );
 
         return axiosInstance;
-    }, [dispatch, user.accessToken, user?.refreshToken, axiosClient]);
+    }, [dispatch, user?.accessToken, user?.refreshToken, axiosClient]);
 
     return axiosAuth;
 }

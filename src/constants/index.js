@@ -43,3 +43,11 @@ export const TIME_OPTIONS = [
     { value: "desc", label: "Mới nhất" },
     { value: "asc", label: "Cũ nhất" },
 ];
+
+export const RATING_OPTIONS = [
+    { value: 1, label: "1 ⭐ - Rất tệ" },
+    { value: 2, label: "2 ⭐ - Bình thường" },
+    { value: 3, label: "3 ⭐ - Khá tốt" },
+    { value: 4, label: "4 ⭐ - Tốt" },
+    { value: 5, label: "5 ⭐ - Tuyệt vời" },
+];

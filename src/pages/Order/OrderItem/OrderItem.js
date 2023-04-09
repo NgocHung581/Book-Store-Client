@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { NumericFormat } from "react-number-format";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { Link } from "react-router-dom";
@@ -14,7 +14,6 @@ import styles from "./OrderItem.module.scss";
 import routes from "routes";
 import { useAxiosAuth } from "hooks";
 import orderApiURL from "api/orderApiURL";
-import StarRatings from "react-star-ratings";
 
 const cx = classNames.bind(styles);
 
@@ -22,17 +21,14 @@ function OrderItem({ order: orderInit }) {
     const axiosAuth = useAxiosAuth();
 
     const { user } = useSelector((state) => state.user);
+
     const [modalDetail, setModalDetail] = useState(false);
     const [modalConfirm, setModalConfirm] = useState(false);
-    const [modalRating, setModalRating] = useState(false);
     const [order, setOrder] = useState(orderInit);
-    const [rating, setRating] = useState(0);
 
     const toggleModalCustomerInfo = () => setModalDetail((prev) => !prev);
 
     const toggleModalConfirm = () => setModalConfirm((prev) => !prev);
-
-    const toggleModalRating = () => setModalRating((prev) => !prev);
 
     const handleUpdateStatusOrder = async (status) => {
         const url = orderApiURL.updateStatus(order?._id);
@@ -110,19 +106,7 @@ function OrderItem({ order: orderInit }) {
                                 Đã nhận hàng
                             </Button>
                         )}
-                        {order?.status?._id === 5 && (
-                            <>
-                                <span
-                                    className="text-muted me-3"
-                                    style={{ fontSize: "14px" }}
-                                >
-                                    Đánh giá ngay để nhận thêm 5 điểm tích lũy
-                                </span>
-                                <Button primary onClick={toggleModalRating}>
-                                    Đánh giá
-                                </Button>
-                            </>
-                        )}
+                        {order?.status?._id === 5 && ""}
                     </div>
                 </div>
             </div>
@@ -144,19 +128,19 @@ function OrderItem({ order: orderInit }) {
                     <div className={cx("info-group")}>
                         <span className={cx("info-label")}>Người nhận:</span>
                         <span className={cx("info-content")}>
-                            {order?.shippingInformation.fullName}
+                            {order?.shippingInformation?.fullName}
                         </span>
                     </div>
                     <div className={cx("info-group")}>
                         <span className={cx("info-label")}>Email:</span>
                         <span className={cx("info-content")}>
-                            {order?.shippingInformation.email}
+                            {order?.shippingInformation?.email}
                         </span>
                     </div>
                     <div className={cx("info-group")}>
                         <span className={cx("info-label")}>Số điện thoại:</span>
                         <span className={cx("info-content")}>
-                            {order?.shippingInformation.phone}
+                            {order?.shippingInformation?.phone}
                         </span>
                     </div>
                     <div className={cx("info-group")}>
@@ -164,7 +148,7 @@ function OrderItem({ order: orderInit }) {
                             Địa chỉ nhận hàng:
                         </span>
                         <span className={cx("info-content")}>
-                            {order?.shippingInformation.address}
+                            {order?.shippingInformation?.address}
                         </span>
                     </div>
                     <div className={cx("info-group")}>
@@ -196,29 +180,6 @@ function OrderItem({ order: orderInit }) {
                     <Button primary onClick={() => handleUpdateStatusOrder(6)}>
                         Xác nhận
                     </Button>
-                </ModalFooter>
-            </Modal>
-
-            {/* Modal Rating */}
-            <Modal isOpen={modalRating} toggle={toggleModalRating} centered>
-                <ModalHeader toggle={toggleModalRating}>Đánh giá</ModalHeader>
-                <ModalBody>
-                    <StarRatings
-                        rating={rating}
-                        starRatedColor="#fed900"
-                        starHoverColor="#e94560"
-                        starDimension="20px"
-                        starSpacing="4px"
-                        changeRating={(newRating) => {
-                            setRating(newRating);
-                        }}
-                    />
-                </ModalBody>
-                <ModalFooter>
-                    <Button outline onClick={toggleModalRating}>
-                        Hủy
-                    </Button>
-                    <Button primary>Xác nhận</Button>
                 </ModalFooter>
             </Modal>
         </>
