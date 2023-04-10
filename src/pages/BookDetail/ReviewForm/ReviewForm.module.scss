@@ -35,3 +35,17 @@
     min-width: 50px;
     padding: 8px 12px;
 }
+
+.auth-link {
+    display: inline-block;
+    font-weight: 500;
+    margin: 0 4px;
+    color: var(--color-primary);
+    border-bottom: 1px solid transparent;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        color: var(--color-primary);
+        border-color: var(--color-primary);
+    }
+}

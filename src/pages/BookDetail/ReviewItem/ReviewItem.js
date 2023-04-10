@@ -42,7 +42,7 @@ function ReviewItem({ review }) {
                 </Col>
                 <Col lg={10}>
                     <StarRatings
-                        rating={5}
+                        rating={review?.rating}
                         starRatedColor="#fed900"
                         starDimension="18px"
                         starSpacing="1px"
@@ -55,8 +55,8 @@ function ReviewItem({ review }) {
                                     <AiOutlineLike size={20} />
                                 </div>
                             </Tippy>
-                            {review?.like?.total > 0 && (
-                                <span>{review?.like?.total}</span>
+                            {review?.like?.length > 0 && (
+                                <span>{review?.like?.length}</span>
                             )}
                         </div>
                         <div className={cx("actions-item")}>
@@ -65,12 +65,12 @@ function ReviewItem({ review }) {
                                     <AiOutlineDislike size={20} />
                                 </div>
                             </Tippy>
-                            {review?.dislike?.total > 0 && (
+                            {review?.dislike?.length > 0 && (
                                 <span
                                     className="text-muted"
                                     style={{ fontSize: "14px" }}
                                 >
-                                    {review?.dislike?.total}
+                                    {review?.dislike?.length}
                                 </span>
                             )}
                         </div>

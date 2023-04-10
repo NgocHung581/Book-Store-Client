@@ -1,10 +1,9 @@
-import { useState } from "react";
 import classNames from "classnames/bind";
-import PropTypes from "prop-types";
+import { useState } from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
-import styles from "./ReviewGroup.module.scss";
 import ReviewList from "../ReviewList";
+import styles from "./ReviewGroup.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -17,7 +16,7 @@ const NAV_ITEM_LIST = [
     { label: "1 sao", id: 1 },
 ];
 
-function ReviewGroup({ bookId }) {
+function ReviewGroup() {
     const [tabActive, setTabActive] = useState(0);
 
     return (
@@ -41,7 +40,7 @@ function ReviewGroup({ bookId }) {
                 className="mt-3 position-relative"
             >
                 <TabPane tabId={0} className={cx("tab-content")}>
-                    <ReviewList bookId={bookId} />
+                    <ReviewList />
                 </TabPane>
                 <TabPane tabId={5} className={cx("tab-content")}>
                     5 sao
@@ -62,9 +61,5 @@ function ReviewGroup({ bookId }) {
         </div>
     );
 }
-
-ReviewGroup.propTypes = {
-    bookId: PropTypes.string.isRequired,
-};
 
 export default ReviewGroup;

@@ -26,9 +26,10 @@ const cx = classNames.bind(styles);
 
 function BookDetail() {
     const axiosClient = useAxiosClient();
-    const [tabActive, setTabActive] = useState("summary");
     const [book, setBook] = useState({});
     const [loading, setLoading] = useState(true);
+
+    const [tabActive, setTabActive] = useState("summary");
 
     const { slug } = useParams();
 
@@ -110,6 +111,7 @@ function BookDetail() {
                                 </span>
                             </div>
                         </div>
+
                         <Separator />
 
                         <AddCartForm book={book} />
@@ -159,7 +161,7 @@ function BookDetail() {
                 </Col>
             </Row>
 
-            <Review bookId={book?._id} />
+            <Review />
 
             {book?.category?.slug && (
                 <div className="mt-5">

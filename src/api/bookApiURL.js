@@ -15,6 +15,10 @@ const bookApiURL = {
         const url = `/books/${slug}`;
         return url;
     },
+    getReviews(slug) {
+        const url = `/books/${slug}/reviews`;
+        return url;
+    },
     getSpecificCategory(slug, params) {
         const query = queryString.stringify(params);
         const url = `/books/category/${slug}${query ? `?${query}` : ""}`;
