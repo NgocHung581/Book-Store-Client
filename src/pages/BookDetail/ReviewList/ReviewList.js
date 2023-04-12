@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { memo, useEffect, useRef, useState } from "react";
+import { memo, useEffect, useMemo, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { Col, Row } from "reactstrap";
@@ -23,6 +23,8 @@ function ReviewList({ star, reviewRef }) {
     const [reviews, setReviews] = useState([]);
     const [pagination, setPagination] = useState({ page: 1, limit: 6 });
 
+    const isFirstRender = useRef(true);
+
     const { slug } = useParams();
     const dispatch = useDispatch();
 
@@ -33,10 +35,6 @@ function ReviewList({ star, reviewRef }) {
     };
 
     useEffect(() => {
-        if (successCreateReview) {
-            dispatch(createReviewReset());
-        }
-
         const fetchReviews = async () => {
             const params = {
                 star,
@@ -48,9 +46,18 @@ function ReviewList({ star, reviewRef }) {
             setReviews(res.data);
         };
 
-        fetchReviews();
+        if (successCreateReview) {
+            dispatch(createReviewReset());
+            fetchReviews();
+        }
+
+        if (isFirstRender.current) {
+            fetchReviews();
+            isFirstRender.current = false;
+        }
     }, [
         slug,
+        isFirstRender,
         star,
         pagination.page,
         pagination.limit,
