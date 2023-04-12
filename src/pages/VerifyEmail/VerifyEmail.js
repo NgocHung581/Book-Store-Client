@@ -6,6 +6,7 @@ import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FormGroup, FormText } from "reactstrap";
 import * as Yup from "yup";
+import { Helmet } from "react-helmet-async";
 
 import userApiURL from "api/userApiURL";
 import Button from "components/Button";
@@ -78,61 +79,70 @@ function VerifyEmail() {
     }
 
     return (
-        <div className={cx("wrapper")}>
-            <h1 className={cx("title")}>Xác thực tài khoản</h1>
+        <>
+            <Helmet>
+                <title>Xác thực tài khoản</title>
+            </Helmet>
+            <div className={cx("wrapper")}>
+                <h1 className={cx("title")}>Xác thực tài khoản</h1>
 
-            <Formik
-                initialValues={initialValues}
-                onSubmit={handleSubmitForm}
-                validationSchema={validationSchema}
-            >
-                {({ handleSubmit }) => {
-                    return (
-                        <Form onSubmit={handleSubmit}>
-                            <FormGroup className="text-center">
-                                <FormText>
-                                    Nhập 6 số OTP đã được gửi đến email của bạn.
-                                </FormText>
-                            </FormGroup>
-                            <FastField
-                                name="otp"
-                                component={InputField}
-                                placeholder="OTP"
-                            />
-                            <FormGroup>
-                                <Button
-                                    disabled={loading}
-                                    loading={loading}
-                                    type="submit"
-                                    primary
-                                    className={cx("submit-btn")}
-                                >
-                                    Khôi phục mật khẩu
-                                </Button>
-                            </FormGroup>
-                            <FormGroup className="d-flex align-items-center justify-content-between">
-                                <Link to={routes.login} className={cx("link")}>
-                                    <HiOutlineArrowLongLeft size={20} />
-                                    <span className="ms-1">Đăng nhập</span>
-                                </Link>
-                                <FormText
-                                    style={{ fontSize: "16px" }}
-                                    className="mb-0"
-                                >
-                                    Không nhận được mã OTP?{" "}
-                                    <span
-                                        className={cx("resend-btn")}
-                                        onClick={handleClickResetPassword}
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={handleSubmitForm}
+                    validationSchema={validationSchema}
+                >
+                    {({ handleSubmit }) => {
+                        return (
+                            <Form onSubmit={handleSubmit}>
+                                <FormGroup className="text-center">
+                                    <FormText>
+                                        Nhập 6 số OTP đã được gửi đến email của
+                                        bạn.
+                                    </FormText>
+                                </FormGroup>
+                                <FastField
+                                    name="otp"
+                                    component={InputField}
+                                    placeholder="OTP"
+                                />
+                                <FormGroup>
+                                    <Button
+                                        disabled={loading}
+                                        loading={loading}
+                                        type="submit"
+                                        primary
+                                        className={cx("submit-btn")}
                                     >
-                                        Gửi lại
-                                    </span>
-                                </FormText>
-                            </FormGroup>
-                        </Form>
-                    );
-                }}
-            </Formik>
-        </div>
+                                        Khôi phục mật khẩu
+                                    </Button>
+                                </FormGroup>
+                                <FormGroup className="d-flex align-items-center justify-content-between">
+                                    <Link
+                                        to={routes.login}
+                                        className={cx("link")}
+                                    >
+                                        <HiOutlineArrowLongLeft size={20} />
+                                        <span className="ms-1">Đăng nhập</span>
+                                    </Link>
+                                    <FormText
+                                        style={{ fontSize: "16px" }}
+                                        className="mb-0"
+                                    >
+                                        Không nhận được mã OTP?{" "}
+                                        <span
+                                            className={cx("resend-btn")}
+                                            onClick={handleClickResetPassword}
+                                        >
+                                            Gửi lại
+                                        </span>
+                                    </FormText>
+                                </FormGroup>
+                            </Form>
+                        );
+                    }}
+                </Formik>
+            </div>
+        </>
     );
 }
 

@@ -4,6 +4,7 @@ import { HiOutlineArrowLongLeft } from "react-icons/hi2";
 import { Link, Navigate, useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { Helmet } from "react-helmet-async";
 
 import userApiURL from "api/userApiURL";
 import Button from "components/Button";
@@ -50,46 +51,51 @@ function ResetPassword() {
     }
 
     return (
-        <div className={cx("wrapper")}>
-            <h1 className={cx("title")}>Tạo mới mật khẩu</h1>
-            <Formik
-                initialValues={initialValues}
-                onSubmit={handleSubmitForm}
-                validationSchema={validationSchema}
-            >
-                {({ handleSubmit }) => {
-                    return (
-                        <Form onSubmit={handleSubmit}>
-                            <FastField
-                                name="password"
-                                component={InputField}
-                                placeholder="Mật khẩu mới"
-                                type="password"
-                            />
-                            <FastField
-                                name="passwordConfirm"
-                                component={InputField}
-                                placeholder="Nhập lại mật khẩu"
-                                type="password"
-                            />
-                            <Button
-                                type="submit"
-                                primary
-                                className={cx("submit-btn")}
-                            >
-                                Đổi mật khẩu
-                            </Button>
-                        </Form>
-                    );
-                }}
-            </Formik>
-            <div>
-                <Link to={routes.login} className={cx("link")}>
-                    <HiOutlineArrowLongLeft size={20} />{" "}
-                    <span className="ms-1">Đăng nhập</span>
-                </Link>
+        <>
+            <Helmet>
+                <title>Khôi phục mật khẩu</title>
+            </Helmet>
+            <div className={cx("wrapper")}>
+                <h1 className={cx("title")}>Tạo mới mật khẩu</h1>
+                <Formik
+                    initialValues={initialValues}
+                    onSubmit={handleSubmitForm}
+                    validationSchema={validationSchema}
+                >
+                    {({ handleSubmit }) => {
+                        return (
+                            <Form onSubmit={handleSubmit}>
+                                <FastField
+                                    name="password"
+                                    component={InputField}
+                                    placeholder="Mật khẩu mới"
+                                    type="password"
+                                />
+                                <FastField
+                                    name="passwordConfirm"
+                                    component={InputField}
+                                    placeholder="Nhập lại mật khẩu"
+                                    type="password"
+                                />
+                                <Button
+                                    type="submit"
+                                    primary
+                                    className={cx("submit-btn")}
+                                >
+                                    Đổi mật khẩu
+                                </Button>
+                            </Form>
+                        );
+                    }}
+                </Formik>
+                <div>
+                    <Link to={routes.login} className={cx("link")}>
+                        <HiOutlineArrowLongLeft size={20} />{" "}
+                        <span className="ms-1">Đăng nhập</span>
+                    </Link>
+                </div>
             </div>
-        </div>
+        </>
     );
 }
 

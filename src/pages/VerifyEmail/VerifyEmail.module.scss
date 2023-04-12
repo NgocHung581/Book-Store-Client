@@ -54,13 +54,13 @@
 }
 
 .resend-btn {
-    color: var(--color-primary);
+    color: var(--primary-color);
     cursor: pointer;
     border-bottom: 1px solid transparent;
     transition: all 0.3s ease-in-out;
 
     &:hover {
-        border-color: var(--color-primary);
+        border-color: var(--primary-color);
     }
 }
 
@@ -68,7 +68,7 @@
     transition: all 0.3s ease-in-out;
 
     &:hover {
-        color: var(--color-primary);
+        color: var(--primary-color);
     }
 }
 

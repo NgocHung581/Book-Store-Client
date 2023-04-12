@@ -1,12 +1,13 @@
 :root {
-    --color-primary: #e94560;
+    --primary-color: #e94560;
     --bg-color: #f6f9fc;
     --bg-footer-color: #0f3460;
     --border-color: rgba(0, 0, 0, 0.1);
     --success-color: #07bc0c;
     --error-color: #e74c3c;
 
-    --btn-primary: #e61f40;
+    --btn-border-color: #fbd0d5;
+    --btn-hover-color: #d6284d;
 
     --header-height: 150px;
 
@@ -44,7 +45,7 @@ input:focus,
 textarea:focus,
 select:focus {
     box-shadow: none !important;
-    border-color: var(--color-primary) !important;
+    border-color: var(--btn-border-color) !important;
     transition: all 0.3s ease-in-out !important;
 }
 

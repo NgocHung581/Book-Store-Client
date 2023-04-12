@@ -1,14 +1,14 @@
 .label {
-    border: 1px solid var(--btn-primary);
+    border: 1px solid var(--btn-border-color);
     border-radius: 99px;
-    color: var(--btn-primary);
+    color: var(--primary-color);
     font-weight: 500;
     padding: 10px 16px;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
 
     &:hover {
-        background-color: var(--btn-primary);
+        background-color: var(--btn-hover-color);
         color: white;
     }
 }

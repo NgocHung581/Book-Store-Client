@@ -78,7 +78,7 @@
     transition: color 0.3s ease-in-out;
 
     &:hover {
-        color: var(--color-primary);
+        color: var(--primary-color);
     }
 
     &.active {
@@ -93,7 +93,7 @@
             bottom: 0;
             transform: translate(-50%, 50%);
             border-radius: 99px;
-            background-color: var(--color-primary);
+            background-color: var(--primary-color);
             animation: underline 0.3s ease-in-out forwards;
         }
     }
@@ -110,4 +110,16 @@
     to {
         width: 100%;
     }
+}
+
+.review {
+    background-color: white;
+    border-radius: 10px;
+    padding: 20px;
+    margin-top: 32px;
+}
+
+.review-title {
+    font-size: 20px;
+    margin-bottom: 20px;
 }

@@ -213,8 +213,8 @@ function Book() {
                                 </Col>
                             ))}
                         </Row>
-                        <Row className="align-items-center mt-5">
-                            {books?.total_pages > 1 && (
+                        {books?.total_pages > 1 && (
+                            <Row className="align-items-center mt-5">
                                 <Col
                                     lg={12}
                                     md={12}
@@ -227,8 +227,8 @@ function Book() {
                                         forcePage={page ? page - 1 : 0}
                                     />
                                 </Col>
-                            )}
-                        </Row>
+                            </Row>
+                        )}
                     </>
                 ) : (
                     <h2 className={cx("message")}>

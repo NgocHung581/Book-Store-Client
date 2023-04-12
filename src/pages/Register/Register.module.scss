@@ -11,13 +11,13 @@
 
     a {
         margin-left: 5px;
-        color: var(--color-primary);
+        color: var(--primary-color);
         border-bottom: 1px solid transparent;
         transition: all 0.3s ease-in-out;
 
         &:hover {
-            color: var(--color-primary);
-            border-color: var(--color-primary);
+            color: var(--primary-color);
+            border-color: var(--primary-color);
         }
     }
 }

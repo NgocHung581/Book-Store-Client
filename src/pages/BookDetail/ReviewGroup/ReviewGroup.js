@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 import ReviewList from "../ReviewList";
@@ -16,8 +16,12 @@ const NAV_ITEM_LIST = [
     { label: "1 sao", id: 1 },
 ];
 
-function ReviewGroup() {
+function ReviewGroup({ reviewRef }) {
     const [tabActive, setTabActive] = useState(0);
+
+    const handleClickNav = (nav) => {
+        setTabActive(nav.id);
+    };
 
     return (
         <div>
@@ -28,7 +32,7 @@ function ReviewGroup() {
                             className={cx("tab-link", {
                                 active: tabActive === nav.id,
                             })}
-                            onClick={() => setTabActive(nav.id)}
+                            onClick={() => handleClickNav(nav)}
                         >
                             {nav.label}
                         </NavLink>
@@ -39,24 +43,20 @@ function ReviewGroup() {
                 activeTab={tabActive}
                 className="mt-3 position-relative"
             >
-                <TabPane tabId={0} className={cx("tab-content")}>
-                    <ReviewList />
-                </TabPane>
-                <TabPane tabId={5} className={cx("tab-content")}>
-                    5 sao
-                </TabPane>
-                <TabPane tabId={4} className={cx("tab-content")}>
-                    4 sao
-                </TabPane>
-                <TabPane tabId={3} className={cx("tab-content")}>
-                    3 sao
-                </TabPane>
-                <TabPane tabId={2} className={cx("tab-content")}>
-                    2 sao
-                </TabPane>
-                <TabPane tabId={1} className={cx("tab-content")}>
-                    1 sao
-                </TabPane>
+                {NAV_ITEM_LIST.map((nav) => (
+                    <TabPane
+                        key={nav.id}
+                        tabId={nav.id}
+                        className={cx("tab-content")}
+                    >
+                        {tabActive === nav.id && (
+                            <ReviewList
+                                star={tabActive}
+                                reviewRef={reviewRef}
+                            />
+                        )}
+                    </TabPane>
+                ))}
             </TabContent>
         </div>
     );

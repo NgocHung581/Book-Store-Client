@@ -6,11 +6,11 @@
 }
 
 .wrapper > div {
-    background-color: var(--color-primary);
+    background-color: var(--primary-color);
     height: 100%;
     position: absolute;
     width: 100%;
-    border: 2px solid var(--btn-primary);
+    border: 2px solid var(--btn-border-color);
 }
 
 .wrapper div:nth-of-type(1) {

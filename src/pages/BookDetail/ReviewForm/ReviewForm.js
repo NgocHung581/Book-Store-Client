@@ -1,9 +1,10 @@
 import classNames from "classnames/bind";
 import { FastField, Form, Formik } from "formik";
-import { useContext } from "react";
+import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
+import { Link } from "react-router-dom";
 
 import reviewApiURL from "api/reviewApiURL";
 import images from "assets/images";
@@ -12,21 +13,18 @@ import { RATING_OPTIONS } from "constants";
 import InputField from "custom-fields/InputField";
 import RatingField from "custom-fields/RatingField";
 import { useAxiosAuth } from "hooks";
-import { Link } from "react-router-dom";
 import {
     createReviewRequest,
     createReviewSuccess,
 } from "redux/slices/reviewSlice";
 import routes from "routes";
 import styles from "./ReviewForm.module.scss";
-import { ReviewContext } from "../Review/Review";
 
 const cx = classNames.bind(styles);
 
-function ReviewForm() {
+function ReviewForm({ bookId }) {
     const axiosAuth = useAxiosAuth();
     const { user } = useSelector((state) => state.user);
-    const { bookId } = useContext(ReviewContext);
 
     const dispatch = useDispatch();
 
@@ -118,5 +116,9 @@ function ReviewForm() {
         </div>
     );
 }
+
+ReviewForm.propTypes = {
+    bookId: PropTypes.string.isRequired,
+};
 
 export default ReviewForm;

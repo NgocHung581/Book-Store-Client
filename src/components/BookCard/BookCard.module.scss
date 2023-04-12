@@ -20,7 +20,7 @@
     top: 24px;
     left: 0;
     z-index: 1;
-    background-color: var(--color-primary);
+    background-color: var(--primary-color);
     padding: 4px 8px;
     color: white;
     font-weight: 500;
@@ -31,7 +31,7 @@
         height: 0;
         border-top: 16px solid transparent;
         border-bottom: 16px solid transparent;
-        border-left: 18px solid var(--color-primary);
+        border-left: 18px solid var(--primary-color);
         position: absolute;
         top: 0;
         left: 100%;
@@ -82,7 +82,7 @@
 
 .name {
     font-size: 20px;
-    color: var(--color-primary);
+    color: var(--primary-color);
     min-height: 52px;
 }
 

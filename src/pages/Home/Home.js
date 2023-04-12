@@ -13,7 +13,7 @@ function Home() {
                 <Banner />
                 <div className="mt-5">
                     <BookList
-                        title="Sách bán chạy nhất"
+                        title="Sách nổi bật nhất"
                         type="rating"
                         limit={10}
                     />

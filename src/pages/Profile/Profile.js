@@ -109,20 +109,13 @@ function Profile() {
                                             </Col>
                                         </Row>
 
-                                        <FormGroup className={cx("form-group")}>
-                                            <FastField
-                                                name="address"
-                                                component={InputField}
-                                                placeholder="Địa chỉ"
-                                            />
-                                        </FormGroup>
+                                        <FastField
+                                            name="address"
+                                            component={InputField}
+                                            placeholder="Địa chỉ"
+                                        />
 
-                                        <FormGroup
-                                            className={cx(
-                                                "form-group",
-                                                "d-flex align-items-center justify-content-between"
-                                            )}
-                                        >
+                                        <FormGroup className="d-flex align-items-center justify-content-between">
                                             <p className={cx("point")}>
                                                 Sô điểm đã tích lũy:{" "}
                                                 {user?.point} diểm

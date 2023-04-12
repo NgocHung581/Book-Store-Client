@@ -116,16 +116,21 @@ function BookCard({ book, isGridLayout = true }) {
                         >
                             {book?.description}
                         </p>
-                        <div className="mb-2">
+                        <div className="d-flex align-items-center mb-2">
                             <StarRatings
                                 rating={book?.totalRating}
                                 starRatedColor="#fed900"
-                                starHoverColor="#e94560"
                                 starDimension={
                                     isTabletOrMobile ? "16px" : "20px"
                                 }
                                 starSpacing={isTabletOrMobile ? "2px" : "4px"}
                             />
+                            <span
+                                className="text-muted mt-2 ms-2"
+                                style={{ fontSize: "14px" }}
+                            >
+                                ({book?.reviews?.length} đánh giá)
+                            </span>
                         </div>
                         <div className={cx("info-footer")}>
                             <span className={cx("price")}>
