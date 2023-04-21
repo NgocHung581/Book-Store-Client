@@ -1,70 +1,47 @@
 import classNames from "classnames/bind";
-import { memo, useEffect, useMemo, useRef, useState } from "react";
+import { memo, useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
 import { Col, Row } from "reactstrap";
 
+import bookApiURL from "api/bookApiURL";
+import Pagination from "components/Pagination";
+import { useAxiosClient } from "hooks";
 import ReviewItem from "../ReviewItem";
 import styles from "./ReviewList.module.scss";
-import bookApiURL from "api/bookApiURL";
-import { useAxiosClient } from "hooks";
-import Pagination from "components/Pagination";
-import { createReviewReset } from "redux/slices/reviewSlice";
 
 const cx = classNames.bind(styles);
 
-function ReviewList({ star, reviewRef }) {
+function ReviewList({ tabActive }) {
     const axiosClient = useAxiosClient();
 
-    const { success: successCreateReview } = useSelector(
-        (state) => state.review
-    );
-
-    const [reviews, setReviews] = useState([]);
-    const [pagination, setPagination] = useState({ page: 1, limit: 6 });
-
-    const isFirstRender = useRef(true);
+    const [pagination, setPagination] = useState({
+        page: 1,
+        limit: 5,
+    });
+    const [reviews, setReviews] = useState({});
 
     const { slug } = useParams();
-    const dispatch = useDispatch();
 
     const handlePageChange = (e) => {
         const pageSelected = e.selected + 1;
         setPagination((prev) => ({ ...prev, page: pageSelected }));
-        reviewRef.current.scrollIntoView({ behavior: "smooth" });
     };
 
     useEffect(() => {
         const fetchReviews = async () => {
             const params = {
-                star,
                 page: pagination.page,
                 limit: pagination.limit,
+                star: tabActive,
             };
+
             const url = bookApiURL.getReviews(slug, params);
             const res = await axiosClient.get(url);
             setReviews(res.data);
         };
 
-        if (successCreateReview) {
-            dispatch(createReviewReset());
-            fetchReviews();
-        }
-
-        if (isFirstRender.current) {
-            fetchReviews();
-            isFirstRender.current = false;
-        }
-    }, [
-        slug,
-        isFirstRender,
-        star,
-        pagination.page,
-        pagination.limit,
-        successCreateReview,
-        dispatch,
-        axiosClient,
-    ]);
+        fetchReviews();
+    }, [slug, pagination.page, pagination.limit, tabActive, axiosClient]);
 
     return (
         <div className={cx("wrapper")}>
@@ -86,7 +63,7 @@ function ReviewList({ star, reviewRef }) {
                                 <Pagination
                                     pageCount={reviews?.total_pages}
                                     onPageChange={handlePageChange}
-                                    forcePage={pagination?.page - 1}
+                                    forcePage={reviews?.page - 1}
                                 />
                             </Col>
                         </Row>

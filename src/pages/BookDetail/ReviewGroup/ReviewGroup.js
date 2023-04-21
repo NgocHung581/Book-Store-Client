@@ -1,5 +1,5 @@
 import classNames from "classnames/bind";
-import { useRef, useState } from "react";
+import { memo, useState } from "react";
 import { Nav, NavItem, NavLink, TabContent, TabPane } from "reactstrap";
 
 import ReviewList from "../ReviewList";
@@ -16,7 +16,7 @@ const NAV_ITEM_LIST = [
     { label: "1 sao", id: 1 },
 ];
 
-function ReviewGroup({ reviewRef }) {
+function ReviewGroup() {
     const [tabActive, setTabActive] = useState(0);
 
     const handleClickNav = (nav) => {
@@ -50,10 +50,7 @@ function ReviewGroup({ reviewRef }) {
                         className={cx("tab-content")}
                     >
                         {tabActive === nav.id && (
-                            <ReviewList
-                                star={tabActive}
-                                reviewRef={reviewRef}
-                            />
+                            <ReviewList tabActive={tabActive} />
                         )}
                     </TabPane>
                 ))}
@@ -62,4 +59,4 @@ function ReviewGroup({ reviewRef }) {
     );
 }
 
-export default ReviewGroup;
+export default memo(ReviewGroup);

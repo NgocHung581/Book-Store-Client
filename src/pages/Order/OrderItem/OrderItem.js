@@ -1,19 +1,20 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { NumericFormat } from "react-number-format";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
+import orderApiURL from "api/orderApiURL";
 import Button from "components/Button";
 import ConfirmItem from "components/ConfirmItem";
 import Separator from "components/Separator";
-import styles from "./OrderItem.module.scss";
-import routes from "routes";
 import { useAxiosAuth } from "hooks";
-import orderApiURL from "api/orderApiURL";
+import { Helmet } from "react-helmet-async";
+import routes from "routes";
+import styles from "./OrderItem.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -46,6 +47,10 @@ function OrderItem({ order: orderInit }) {
 
     return (
         <>
+            <Helmet>
+                <title>Đơn hàng</title>
+            </Helmet>
+
             <div className={cx("wrapper")}>
                 <div className={cx("header")}>
                     <span className={cx("id")}>Mã đơn hàng: {order?._id}</span>

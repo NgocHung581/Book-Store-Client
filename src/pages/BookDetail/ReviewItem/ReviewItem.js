@@ -17,7 +17,7 @@ function ReviewItem({ review }) {
     return (
         <div className={cx("wrapper")}>
             <Row className="w-100">
-                <Col lg={2}>
+                <Col lg={2} md={3} xs={2}>
                     <div className={cx("user")}>
                         <div className={cx("user-avatar")}>
                             <img
@@ -40,7 +40,7 @@ function ReviewItem({ review }) {
                         </div>
                     </div>
                 </Col>
-                <Col lg={10}>
+                <Col lg={10} md={9} xs={2}>
                     <StarRatings
                         rating={review?.rating}
                         starRatedColor="#fed900"

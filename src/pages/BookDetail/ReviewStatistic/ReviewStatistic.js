@@ -4,7 +4,6 @@ import { createContext, memo } from "react";
 import StarRatings from "react-star-ratings";
 import { Col, Progress, Row } from "reactstrap";
 
-import calculatePercentageRating from "utils/calculatePercentageRating";
 import styles from "./ReviewStatistic.module.scss";
 
 const cx = classNames.bind(styles);
@@ -24,10 +23,10 @@ function ProgressGroup({ label, value }) {
 }
 export const ReviewContext = createContext();
 
-function ReviewStatistic({ reviews, totalRating }) {
+function ReviewStatistic({ reviews, totalRating, totalReviews }) {
     return (
         <Row>
-            <Col lg={4}>
+            <Col lg={4} md={4} xs={12}>
                 <div className="d-flex flex-column align-items-center">
                     <div className={cx("total-rating")}>
                         <span style={{ fontSize: "52px" }}>{totalRating}</span>
@@ -43,23 +42,18 @@ function ReviewStatistic({ reviews, totalRating }) {
                         className="text-muted mt-1"
                         style={{ fontSize: "14px" }}
                     >
-                        ({reviews?.length} đánh giá)
+                        ({totalReviews} đánh giá)
                     </span>
                 </div>
             </Col>
-            <Col lg={8}>
-                {Array(5)
-                    .fill(0)
-                    .map((item, index) => (
-                        <ProgressGroup
-                            key={index}
-                            label={`${index + 1} sao`}
-                            value={calculatePercentageRating(
-                                reviews,
-                                index + 1
-                            )}
-                        />
-                    ))}
+            <Col lg={8} md={8} xs={12}>
+                {reviews?.map((review, index) => (
+                    <ProgressGroup
+                        key={index}
+                        label={review.label}
+                        value={review.value}
+                    />
+                ))}
             </Col>
         </Row>
     );
@@ -68,6 +62,7 @@ function ReviewStatistic({ reviews, totalRating }) {
 ReviewStatistic.propTypes = {
     reviews: PropTypes.array.isRequired,
     totalRating: PropTypes.number.isRequired,
+    totalReviews: PropTypes.number.isRequired,
 };
 
 ProgressGroup.propTypes = {

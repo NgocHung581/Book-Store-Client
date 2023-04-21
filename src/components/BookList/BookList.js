@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
-import { useEffect, useRef, useState } from "react";
+import { memo, useEffect, useRef, useState } from "react";
 import {
     MdOutlineKeyboardArrowLeft,
     MdOutlineKeyboardArrowRight,
@@ -24,10 +24,13 @@ function BookList({ title, type, limit, slug = "" }) {
     const [books, setBooks] = useState([]);
     const axiosClient = useAxiosClient();
 
+    const isFirstRender = useRef(true);
+
     useEffect(() => {
         const fetchBooks = async () => {
             const url = bookApiURL.getFeature({ type, limit });
             const res = await axiosClient.get(url);
+            isFirstRender.current = false;
 
             if (slug) {
                 const newBooks = res.data.filter((book) => book.slug !== slug);
@@ -37,8 +40,14 @@ function BookList({ title, type, limit, slug = "" }) {
             setBooks(res.data);
         };
 
-        fetchBooks();
+        if (isFirstRender.current) {
+            fetchBooks();
+        }
+
+        return () => (isFirstRender.current = false);
     }, [type, limit, slug, axiosClient]);
+
+    if (books.length <= 0) return;
 
     return (
         <div className={cx("wrapper")}>
@@ -103,4 +112,4 @@ BookList.propTypes = {
     slug: PropTypes.string,
 };
 
-export default BookList;
+export default memo(BookList);

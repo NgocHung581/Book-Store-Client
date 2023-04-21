@@ -12,6 +12,7 @@ import Separator from "components/Separator";
 import { useAxiosAuth } from "hooks";
 import routes from "routes";
 import styles from "./OrderDetail.module.scss";
+import { Helmet } from "react-helmet-async";
 
 const cx = classNames.bind(styles);
 
@@ -38,183 +39,201 @@ function OrderDetail() {
     }, [id, user?.accessToken, axiosAuth]);
 
     return (
-        <div className={cx("wrapper")}>
-            <div className={cx("header")}>
-                <div className={cx("back-btn")} onClick={() => navigate(-1)}>
-                    <MdKeyboardArrowLeft size={24} />
-                    <span>Trở lại</span>
-                </div>
-                <div className="d-flex align-items-center">
-                    <span className={cx("orderID")}>
-                        Mã đơn hàng: {order?._id}
-                    </span>
-                    {"|"}
-                    <span
-                        className={cx("status", {
-                            success: order?.status?._id === 5,
-                        })}
+        <>
+            <Helmet>
+                <title>Đơn hàng {id}</title>
+            </Helmet>
+            <div className={cx("wrapper")}>
+                <div className={cx("header")}>
+                    <div
+                        className={cx("back-btn")}
+                        onClick={() => navigate(-1)}
                     >
-                        {order?.status?.label}
-                    </span>
-                </div>
-            </div>
-            <Separator />
-            <div className={cx("body")}>
-                <Row>
-                    <Col lg={6}>
-                        <div className={cx("customer-info")}>
-                            <span className={cx("customer-info-title")}>
-                                Địa chỉ nhận hàng
-                            </span>
-                            <div className={cx("customer-info-group")}>
-                                <span
-                                    className={cx(
-                                        "customer-info-content",
-                                        "fullName"
-                                    )}
-                                >
-                                    {order?.shippingInformation?.fullName}
-                                </span>
-                                <span className={cx("customer-info-content")}>
-                                    {order?.shippingInformation?.phone}
-                                </span>
-                                <span className={cx("customer-info-content")}>
-                                    {order?.shippingInformation?.email}
-                                </span>
-                                <span className={cx("customer-info-content")}>
-                                    {order?.shippingInformation?.address}
-                                </span>
-                            </div>
-                        </div>
-                    </Col>
-                    <Col lg={6}>
-                        <div className={cx("order-info")}>
-                            <span className={cx("order-info-title")}>
-                                Thông tin thanh toán
-                            </span>
-                            <Table bordered className="align-middle">
-                                <tbody>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <span
-                                                className={cx(
-                                                    "order-info-label"
-                                                )}
-                                            >
-                                                Tổng tiền hàng
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className={cx(
-                                                    "order-info-price"
-                                                )}
-                                            >
-                                                <NumericFormat
-                                                    value={order?.itemsPrice}
-                                                    thousandSeparator=","
-                                                    displayType="text"
-                                                    renderText={(value) =>
-                                                        `${value} đ`
-                                                    }
-                                                />
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <span
-                                                className={cx(
-                                                    "order-info-label"
-                                                )}
-                                            >
-                                                Giảm giá từ cửa hàng
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className={cx(
-                                                    "order-info-price"
-                                                )}
-                                            >
-                                                <NumericFormat
-                                                    value={order?.discount}
-                                                    thousandSeparator=","
-                                                    displayType="text"
-                                                    renderText={(value) =>
-                                                        `- ${value} đ`
-                                                    }
-                                                />
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <span
-                                                className={cx(
-                                                    "order-info-label"
-                                                )}
-                                            >
-                                                Thành tiền
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className={cx(
-                                                    "order-info-price",
-                                                    "total-price"
-                                                )}
-                                            >
-                                                <NumericFormat
-                                                    value={order?.totalPrice}
-                                                    thousandSeparator=","
-                                                    displayType="text"
-                                                    renderText={(value) =>
-                                                        `${value} đ`
-                                                    }
-                                                />
-                                            </span>
-                                        </td>
-                                    </tr>
-                                    <tr>
-                                        <td colSpan={2}>
-                                            <span
-                                                className={cx(
-                                                    "order-info-label"
-                                                )}
-                                            >
-                                                Phương thức thanh toán
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <span
-                                                className={cx(
-                                                    "order-info-price"
-                                                )}
-                                            >
-                                                Thanh toán khi nhận hàng
-                                            </span>
-                                        </td>
-                                    </tr>
-                                </tbody>
-                            </Table>
-                        </div>
-                    </Col>
-                </Row>
-                <Separator />
-                <div className={cx("list")}>
-                    {order?.orderItems?.map((item) => (
-                        <Link
-                            key={item.id}
-                            className="d-block"
-                            to={`${routes.book}/${item?.slug}`}
+                        <MdKeyboardArrowLeft size={24} />
+                        <span>Trở lại</span>
+                    </div>
+                    <div className="d-flex align-items-center">
+                        <span className={cx("orderID")}>
+                            Mã đơn hàng: {order?._id}
+                        </span>
+                        {"|"}
+                        <span
+                            className={cx("status", {
+                                success: order?.status?._id === 5,
+                            })}
                         >
-                            <ConfirmItem item={item} lg />
-                        </Link>
-                    ))}
+                            {order?.status?.label}
+                        </span>
+                    </div>
+                </div>
+                <Separator />
+                <div className={cx("body")}>
+                    <Row>
+                        <Col lg={6}>
+                            <div className={cx("customer-info")}>
+                                <span className={cx("customer-info-title")}>
+                                    Địa chỉ nhận hàng
+                                </span>
+                                <div className={cx("customer-info-group")}>
+                                    <span
+                                        className={cx(
+                                            "customer-info-content",
+                                            "fullName"
+                                        )}
+                                    >
+                                        {order?.shippingInformation?.fullName}
+                                    </span>
+                                    <span
+                                        className={cx("customer-info-content")}
+                                    >
+                                        {order?.shippingInformation?.phone}
+                                    </span>
+                                    <span
+                                        className={cx("customer-info-content")}
+                                    >
+                                        {order?.shippingInformation?.email}
+                                    </span>
+                                    <span
+                                        className={cx("customer-info-content")}
+                                    >
+                                        {order?.shippingInformation?.address}
+                                    </span>
+                                </div>
+                            </div>
+                        </Col>
+                        <Col lg={6}>
+                            <div className={cx("order-info")}>
+                                <span className={cx("order-info-title")}>
+                                    Thông tin thanh toán
+                                </span>
+                                <Table bordered className="align-middle">
+                                    <tbody>
+                                        <tr>
+                                            <td colSpan={2}>
+                                                <span
+                                                    className={cx(
+                                                        "order-info-label"
+                                                    )}
+                                                >
+                                                    Tổng tiền hàng
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    className={cx(
+                                                        "order-info-price"
+                                                    )}
+                                                >
+                                                    <NumericFormat
+                                                        value={
+                                                            order?.itemsPrice
+                                                        }
+                                                        thousandSeparator=","
+                                                        displayType="text"
+                                                        renderText={(value) =>
+                                                            `${value} đ`
+                                                        }
+                                                    />
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan={2}>
+                                                <span
+                                                    className={cx(
+                                                        "order-info-label"
+                                                    )}
+                                                >
+                                                    Giảm giá từ cửa hàng
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    className={cx(
+                                                        "order-info-price"
+                                                    )}
+                                                >
+                                                    <NumericFormat
+                                                        value={order?.discount}
+                                                        thousandSeparator=","
+                                                        displayType="text"
+                                                        renderText={(value) =>
+                                                            `- ${value} đ`
+                                                        }
+                                                    />
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan={2}>
+                                                <span
+                                                    className={cx(
+                                                        "order-info-label"
+                                                    )}
+                                                >
+                                                    Thành tiền
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    className={cx(
+                                                        "order-info-price",
+                                                        "total-price"
+                                                    )}
+                                                >
+                                                    <NumericFormat
+                                                        value={
+                                                            order?.totalPrice
+                                                        }
+                                                        thousandSeparator=","
+                                                        displayType="text"
+                                                        renderText={(value) =>
+                                                            `${value} đ`
+                                                        }
+                                                    />
+                                                </span>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <td colSpan={2}>
+                                                <span
+                                                    className={cx(
+                                                        "order-info-label"
+                                                    )}
+                                                >
+                                                    Phương thức thanh toán
+                                                </span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    className={cx(
+                                                        "order-info-price"
+                                                    )}
+                                                >
+                                                    Thanh toán khi nhận hàng
+                                                </span>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </Table>
+                            </div>
+                        </Col>
+                    </Row>
+                    <Separator />
+                    <div className={cx("list")}>
+                        {order?.orderItems?.map((item) => (
+                            <Link
+                                key={item.id}
+                                className="d-block"
+                                to={`${routes.book}/${item?.slug}`}
+                            >
+                                <ConfirmItem item={item} lg />
+                            </Link>
+                        ))}
+                    </div>
                 </div>
             </div>
-        </div>
+        </>
     );
 }
 

@@ -1,7 +1,15 @@
 import classNames from "classnames/bind";
-import { useEffect, useRef, useState } from "react";
+import {
+    createContext,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
+} from "react";
 import { Helmet } from "react-helmet-async";
 import { NumericFormat } from "react-number-format";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import StarRatings from "react-star-ratings";
 import {
@@ -19,24 +27,36 @@ import BookList from "components/BookList";
 import Loader from "components/Loader";
 import Separator from "components/Separator";
 import { useAxiosClient } from "hooks";
+import { createReviewReset } from "redux/slices/reviewSlice";
 import AddCartForm from "./AddCartForm";
 import styles from "./BookDetail.module.scss";
 import ReviewForm from "./ReviewForm";
 import ReviewGroup from "./ReviewGroup";
 import ReviewStatistic from "./ReviewStatistic";
+import { useMediaQuery } from "react-responsive";
 
 const cx = classNames.bind(styles);
+
+export const ReviewContext = createContext();
 
 function BookDetail() {
     const axiosClient = useAxiosClient();
 
+    const isMobileAndTablet = useMediaQuery({ query: "(max-width: 1223px)" });
+
+    const { slug } = useParams();
+
+    const [tabActive, setTabActive] = useState("summary");
     const [book, setBook] = useState({});
     const [loading, setLoading] = useState(true);
 
-    const [tabActive, setTabActive] = useState("summary");
+    const { success: successCreateReview } = useSelector(
+        (state) => state.review
+    );
 
-    const { slug } = useParams();
     const reviewRef = useRef();
+
+    const dispatch = useDispatch();
 
     useEffect(() => {
         const fetchBook = async () => {
@@ -49,8 +69,13 @@ function BookDetail() {
             setLoading(false);
         };
 
+        if (successCreateReview) {
+            dispatch(createReviewReset());
+            reviewRef.current.scrollIntoView({ behavior: "smooth" });
+        }
+
         fetchBook();
-    }, [slug, axiosClient]);
+    }, [slug, successCreateReview, dispatch, axiosClient]);
 
     if (loading) return <Loader />;
 
@@ -59,6 +84,7 @@ function BookDetail() {
             <Helmet>
                 <title>[Sách] {book?.name}</title>
             </Helmet>
+
             <div className={cx("wrapper")}>
                 <Row>
                     <Col lg={6}>
@@ -89,7 +115,7 @@ function BookDetail() {
                                             className="text-muted mt-2 ms-2"
                                             style={{ fontSize: "14px" }}
                                         >
-                                            ({book?.reviews?.length} đánh giá)
+                                            ({book?.totalReviews} đánh giá)
                                         </span>
                                     </div>
                                     <p className={cx("price")}>
@@ -181,30 +207,34 @@ function BookDetail() {
                 <div ref={reviewRef} className={cx("review")}>
                     <h2 className={cx("review-title")}>Đánh giá sản phẩm</h2>
                     <Row>
-                        <Col lg={6}>
+                        <Col lg={6} md={12} xs={12}>
                             <ReviewStatistic
                                 reviews={book?.reviews}
+                                totalReviews={book?.totalReviews}
                                 totalRating={book?.totalRating}
                             />
                         </Col>
-                        <Col lg={6}>
+                        <Col
+                            lg={6}
+                            md={12}
+                            xs={12}
+                            className={isMobileAndTablet ? "mt-3" : ""}
+                        >
                             <ReviewForm bookId={book?._id} />
                         </Col>
                     </Row>
 
-                    <ReviewGroup reviewRef={reviewRef} />
+                    <ReviewGroup />
                 </div>
 
-                {book?.category?.slug && (
-                    <div className="mt-5">
-                        <BookList
-                            title="Có thể bạn quan tâm"
-                            type={book?.category?.slug}
-                            limit={10}
-                            slug={book?.slug}
-                        />
-                    </div>
-                )}
+                <div className="mt-5">
+                    <BookList
+                        title="Có thể bạn quan tâm"
+                        type={book?.category?.slug}
+                        limit={10}
+                        slug={slug}
+                    />
+                </div>
             </div>
         </>
     );
