@@ -36,17 +36,23 @@ function ReviewForm({ bookId }) {
     const initialValues = { rating: 0, content: "" };
 
     const handleSubmitReview = async (values, { resetForm }) => {
-        dispatch(createReviewRequest());
-        const data = { ...values, bookId };
-        const url = reviewApiURL.create();
-        const res = await axiosAuth.post(url, data, {
-            headers: {
-                Authorization: `Bearer ${user?.accessToken}`,
-            },
-        });
-        toast.success(res.message);
-        dispatch(createReviewSuccess());
-        resetForm();
+        try {
+            dispatch(createReviewRequest());
+            const data = { ...values, bookId };
+            const url = reviewApiURL.create();
+            const res = await axiosAuth.post(url, data, {
+                headers: {
+                    Authorization: `Bearer ${user?.accessToken}`,
+                },
+            });
+
+            toast.success(res.message);
+            dispatch(createReviewSuccess());
+        } catch (error) {
+            toast.error(error.response.data.error);
+        } finally {
+            resetForm();
+        }
     };
 
     return (
