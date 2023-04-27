@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 
-import styles from "./NotFound.module.scss";
 import images from "assets/images";
+import styles from "./NotFound.module.scss";
 
 const cx = classNames.bind(styles);
 

@@ -1,0 +1,52 @@
+.wrapper {
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: var(--box-shadow);
+    height: 100%;
+}
+
+.img {
+    height: 300px;
+
+    & > img {
+        object-fit: contain;
+    }
+}
+
+.info {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+}
+
+.name {
+    color: var(--primary-color);
+    font-weight: 500;
+}
+
+.price-group {
+    display: flex;
+    align-items: center;
+}
+
+.current-price {
+    font-size: 30px;
+}
+
+.previous-price {
+    color: #595959;
+    text-decoration: line-through;
+    margin-left: 4px;
+}
+
+.features {
+    color: #595959;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+    padding: 0 20px;
+
+    & > li {
+        list-style: initial;
+    }
+}

@@ -1,12 +1,5 @@
 import classNames from "classnames/bind";
-import {
-    createContext,
-    useCallback,
-    useEffect,
-    useMemo,
-    useRef,
-    useState,
-} from "react";
+import { useEffect, useRef, useState } from "react";
 import { Helmet } from "react-helmet-async";
 import { NumericFormat } from "react-number-format";
 import { useDispatch, useSelector } from "react-redux";
@@ -27,17 +20,15 @@ import BookList from "components/BookList";
 import Loader from "components/Loader";
 import Separator from "components/Separator";
 import { useAxiosClient } from "hooks";
+import { useMediaQuery } from "react-responsive";
 import { createReviewReset } from "redux/slices/reviewSlice";
 import AddCartForm from "./AddCartForm";
 import styles from "./BookDetail.module.scss";
 import ReviewForm from "./ReviewForm";
 import ReviewGroup from "./ReviewGroup";
 import ReviewStatistic from "./ReviewStatistic";
-import { useMediaQuery } from "react-responsive";
 
 const cx = classNames.bind(styles);
-
-export const ReviewContext = createContext();
 
 function BookDetail() {
     const axiosClient = useAxiosClient();

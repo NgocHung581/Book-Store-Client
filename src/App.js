@@ -24,6 +24,7 @@ import Register from "pages/Register";
 import Email from "pages/Login/Form/Email";
 import Password from "pages/Login/Form/Password";
 import OrderDetail from "pages/OrderDetail/OrderDetail";
+import SearchOnAmazon from "pages/SearchOnAmazon";
 
 function App() {
     return (
@@ -48,6 +49,10 @@ function App() {
                         }
                     />
                     <Route path={routes.search} element={<Search />} />
+                    <Route
+                        path={routes.searchOnAmazon}
+                        element={<SearchOnAmazon />}
+                    />
                     <Route
                         path={routes.profile}
                         element={

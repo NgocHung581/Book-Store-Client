@@ -1,0 +1,20 @@
+.title {
+    display: flex;
+    justify-content: center;
+    font-weight: 500;
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.results-length {
+    margin-left: 8px;
+    color: #595959;
+}
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.5411764706);
+    text-transform: uppercase;
+    cursor: pointer;
+}

@@ -1,24 +1,31 @@
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
-import { Col, Row } from "reactstrap";
 import Select from "react-select";
+import { Col, Row } from "reactstrap";
 
-import { useAxiosClient } from "hooks";
 import bookApiURL from "api/bookApiURL";
-import styles from "./Search.module.scss";
-import Pagination from "components/Pagination";
 import BookCard from "components/BookCard";
 import Button from "components/Button";
 import Loader from "components/Loader";
+import Pagination from "components/Pagination";
 import { NUMBER_PER_PAGE } from "constants";
+import { useAxiosClient } from "hooks";
+import styles from "./Search.module.scss";
+import { useCollection } from "react-firebase-hooks/firestore";
+import { collection, doc } from "firebase/firestore";
+import { db } from "firebaseConfig";
 
 const cx = classNames.bind(styles);
 
 function Search() {
     const axiosClient = useAxiosClient();
+
+    const [value] = useCollection(collection(db, "searches"));
+
     const [books, setBooks] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [loadingSearchAmazon, setLoadingSearchAmazon] = useState(false);
 
     const navigate = useNavigate();
 
@@ -40,6 +47,23 @@ function Search() {
         const selectedLimit = e.value;
 
         setSearchParams({ q, page, limit: selectedLimit });
+    };
+
+    const handleSearchOnAmazon = async () => {
+        setLoadingSearchAmazon(true);
+        const resultsExisting = value?.docs?.find(
+            (doc) => doc.data()?.search === q
+        );
+
+        if (resultsExisting && resultsExisting.data().results) {
+            setLoadingSearchAmazon(false);
+            return navigate(`/search-on-amazon/${resultsExisting.id}`);
+        }
+
+        const url = bookApiURL.searchOnAmazon();
+        const res = await axiosClient.post(url, { search: q });
+        navigate(`/search-on-amazon/${res.collection_id}`);
+        setLoadingSearchAmazon(false);
     };
 
     useEffect(() => {
@@ -117,9 +141,10 @@ function Search() {
                             <strong>Amazon</strong>
                         </span>
                         <Button
+                            type="button"
                             primary
-                            href={`https://www.amazon.com/s?k=${q}&i=stripbooks-intl-ship`}
-                            target="_blank"
+                            onClick={handleSearchOnAmazon}
+                            loading={loadingSearchAmazon}
                         >
                             Tìm kiếm
                         </Button>

@@ -31,6 +31,14 @@ const bookApiURL = {
         const url = `/books/search?${query}`;
         return url;
     },
+    searchOnAmazon() {
+        const url = `/amazon/search`;
+        return url;
+    },
+    getResultsSearchOnAmazon(id) {
+        const url = `/amazon/search/results/${id}`;
+        return url;
+    },
     create() {
         const url = `/books`;
         return url;

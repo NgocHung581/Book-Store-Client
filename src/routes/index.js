@@ -7,6 +7,7 @@ const routes = {
     cart: "/cart",
     wishlist: "/wishlist",
     search: "/search",
+    searchOnAmazon: "/search-on-amazon/:id",
     contact: "/contact",
     category: "/category/:slug",
     book: "/book",

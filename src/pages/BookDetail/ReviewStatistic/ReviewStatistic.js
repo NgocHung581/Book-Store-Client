@@ -1,6 +1,6 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
-import { createContext, memo } from "react";
+import { memo } from "react";
 import StarRatings from "react-star-ratings";
 import { Col, Progress, Row } from "reactstrap";
 
@@ -21,7 +21,6 @@ function ProgressGroup({ label, value }) {
         </div>
     );
 }
-export const ReviewContext = createContext();
 
 function ReviewStatistic({ reviews, totalRating, totalReviews }) {
     return (
