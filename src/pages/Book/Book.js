@@ -15,14 +15,9 @@ import Pagination from "components/Pagination/Pagination";
 import { NUMBER_PER_PAGE } from "constants";
 import { useAxiosClient } from "hooks";
 import styles from "./Book.module.scss";
+import { FILTER_OPTIONS } from "constants";
 
 const cx = classNames.bind(styles);
-
-const FILTER_OPTIONS = [
-    { value: "", label: "Mới nhất" },
-    { value: "asc", label: "Giá tăng dần" },
-    { value: "desc", label: "Giá giảm dần" },
-];
 
 function Book() {
     const [isGridLayout, setIsGridLayout] = useState(true);

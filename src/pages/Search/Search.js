@@ -10,11 +10,11 @@ import Button from "components/Button";
 import Loader from "components/Loader";
 import Pagination from "components/Pagination";
 import { NUMBER_PER_PAGE } from "constants";
-import { useAxiosClient } from "hooks";
-import styles from "./Search.module.scss";
-import { useCollection } from "react-firebase-hooks/firestore";
-import { collection, doc } from "firebase/firestore";
+import { collection } from "firebase/firestore";
 import { db } from "firebaseConfig";
+import { useAxiosClient } from "hooks";
+import { useCollection } from "react-firebase-hooks/firestore";
+import styles from "./Search.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -56,6 +56,7 @@ function Search() {
         );
 
         if (resultsExisting && resultsExisting.data().results) {
+            localStorage.setItem("search", resultsExisting.id);
             setLoadingSearchAmazon(false);
             return navigate(`/search-on-amazon/${resultsExisting.id}`);
         }
@@ -63,6 +64,7 @@ function Search() {
         const url = bookApiURL.searchOnAmazon();
         const res = await axiosClient.post(url, { search: q });
         navigate(`/search-on-amazon/${res.collection_id}`);
+        localStorage.setItem("search", res.collection_id);
         setLoadingSearchAmazon(false);
     };
 

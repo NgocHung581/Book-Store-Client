@@ -1,0 +1,51 @@
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    color: rgba(0, 0, 0, 0.5411764706);
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
+.title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.img {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    border-radius: 10px;
+    overflow: hidden;
+    pointer-events: none;
+}
+
+.image-preview {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 500;
+    padding: 0;
+    height: 300px;
+    width: 300px;
+    border: 4px dashed var(--btn-border-color);
+    border-radius: 10px;
+    color: var(--primary-color);
+    cursor: pointer;
+
+    &:hover {
+        background-color: unset;
+        color: var(--primary-color);
+    }
+}
+
+.delete-img-icon {
+    transition: all 0.3s ease-in-out;
+    cursor: pointer;
+
+    &:hover {
+        color: var(--primary-color);
+    }
+}

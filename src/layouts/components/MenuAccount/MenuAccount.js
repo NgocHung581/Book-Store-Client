@@ -6,19 +6,21 @@ import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FormGroup, Input } from "reactstrap";
 
-import { logout, setDarkMode } from "redux/slices/userSlice";
-import { useAxiosClient } from "hooks";
-import styles from "./MenuAccount.module.scss";
 import userApiURL from "api/userApiURL";
 import Separator from "components/Separator";
+import { useAxiosClient, useDarkMode } from "hooks";
+import { logout } from "redux/slices/userSlice";
 import routes from "routes";
+import styles from "./MenuAccount.module.scss";
 
 const cx = classNames.bind(styles);
 
 function MenuAccount({ menuAccount }) {
     const axiosClient = useAxiosClient();
 
-    const { user, darkMode } = useSelector((state) => state.user);
+    const [darkMode, toggleDarkMode] = useDarkMode();
+
+    const { user } = useSelector((state) => state.user);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
@@ -31,8 +33,6 @@ function MenuAccount({ menuAccount }) {
         navigate(routes.login);
         toast.success(res.message);
     };
-
-    const handleThemeChange = (e) => dispatch(setDarkMode(e.target.checked));
 
     return (
         <>
@@ -71,7 +71,7 @@ function MenuAccount({ menuAccount }) {
                                             className={cx(
                                                 "toggle-darkMode-btn"
                                             )}
-                                            onChange={handleThemeChange}
+                                            onChange={toggleDarkMode}
                                         />
                                     </FormGroup>
                                 )}

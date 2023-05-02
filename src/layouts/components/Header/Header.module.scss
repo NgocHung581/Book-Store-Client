@@ -2,7 +2,6 @@
     height: var(--header-height);
     display: flex;
     flex-direction: column;
-    background-color: transparent;
     box-shadow: var(--box-shadow);
     position: fixed;
     top: 0;
@@ -10,10 +9,10 @@
     right: 0;
     z-index: 99;
     transition: all 0.3s ease-in-out;
-    background: rgba($color: #fff, $alpha: 0.5);
+    background: var(--header-bg);
 
     &.scroll {
-        background: rgba($color: #fff, $alpha: 1);
+        background: var(--header-bg-scroll);
     }
 }
 

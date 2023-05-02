@@ -16,7 +16,12 @@ const routes = {
     profile: "/profile",
     order: "/order",
     orderDetail: "/order/:id",
-    createBook: "/create",
+    dashboard: "/admin/dashboard",
+    manageProduct: "/admin/product",
+    manageCategory: "/admin/category",
+    manageOrder: "/admin/order",
+    manageUser: "/admin/user",
+    createBook: "/admin/product/add",
     notFound: "*",
 };
 

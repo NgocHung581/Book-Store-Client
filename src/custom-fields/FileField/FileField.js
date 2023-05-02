@@ -14,6 +14,7 @@ function FileField({
     type = "text",
     disabled = false,
     inputClassName = "",
+    labelClassName = "",
     setImageFile = () => {},
     setFieldValue = () => {},
 }) {
@@ -39,7 +40,7 @@ function FileField({
                 className={inputClassName}
                 accept="image/*"
             />
-            <Label for={name} className={cx("label")}>
+            <Label for={name} className={cx("label", `${labelClassName}`)}>
                 {label}
             </Label>
         </FormGroup>

@@ -15,7 +15,6 @@ import Checkout from "pages/Checkout";
 import Search from "pages/Search";
 import Profile from "pages/Profile";
 import Order from "pages/Order";
-import FormCreateBook from "pages/Admin/FormCreateBook";
 import ResetPassword from "pages/ResetPassword";
 import VerifyEmail from "pages/VerifyEmail";
 import ProtectedRoute from "components/ProtectedRoute";
@@ -23,8 +22,15 @@ import Login from "pages/Login";
 import Register from "pages/Register";
 import Email from "pages/Login/Form/Email";
 import Password from "pages/Login/Form/Password";
-import OrderDetail from "pages/OrderDetail/OrderDetail";
+import OrderDetail from "pages/OrderDetail";
 import SearchOnAmazon from "pages/SearchOnAmazon";
+import AdminLayout from "layouts/AdminLayout";
+import Dashboard from "pages/Admin/Dashboard";
+import ManageProduct from "pages/Admin/ManageProduct";
+import ManageCategory from "pages/Admin/ManageCategory";
+import ManageOrder from "pages/Admin/ManageOrder";
+import ManageUser from "pages/Admin/ManageUser";
+import AddProduct from "pages/Admin/ManageProduct/AddProduct";
 
 function App() {
     return (
@@ -77,10 +83,6 @@ function App() {
                             </ProtectedRoute>
                         }
                     />
-                    <Route
-                        path={routes.createBook}
-                        element={<FormCreateBook />}
-                    />
                     <Route path={routes.notFound} element={<NotFound />} />
                 </Route>
                 <Route element={<AuthLayout />}>
@@ -98,6 +100,31 @@ function App() {
                         path={routes.verifyEmail}
                         element={<VerifyEmail />}
                     />
+                </Route>
+                <Route element={<AdminLayout />}>
+                    <Route path={routes.dashboard} element={<Dashboard />} />
+
+                    {/* Manage Product */}
+                    <Route
+                        path={routes.manageProduct}
+                        element={<ManageProduct />}
+                    />
+                    <Route path={routes.createBook} element={<AddProduct />} />
+
+                    {/* Manage Category */}
+                    <Route
+                        path={routes.manageCategory}
+                        element={<ManageCategory />}
+                    />
+
+                    {/* Manage Order */}
+                    <Route
+                        path={routes.manageOrder}
+                        element={<ManageOrder />}
+                    />
+
+                    {/* Manage User */}
+                    <Route path={routes.manageUser} element={<ManageUser />} />
                 </Route>
             </Routes>
         </div>

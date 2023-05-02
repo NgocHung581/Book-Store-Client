@@ -4,15 +4,10 @@ const user = localStorage.getItem("user")
     ? JSON.parse(localStorage.getItem("user"))
     : null;
 
-const darkMode = localStorage.getItem("darkTheme")
-    ? JSON.parse(localStorage.getItem("darkTheme"))
-    : false;
-
 const initialState = {
     user,
     error: "",
     loading: false,
-    darkMode,
 };
 
 const userSlice = createSlice({
@@ -40,20 +35,10 @@ const userSlice = createSlice({
             state.loading = false;
             localStorage.setItem("user", JSON.stringify(state.user));
         },
-        setDarkMode: (state, action) => {
-            state.darkMode = action.payload;
-            localStorage.setItem("darkTheme", JSON.stringify(state.darkMode));
-        },
     },
 });
 
 const { actions, reducer } = userSlice;
-export const {
-    loginPending,
-    loginSuccess,
-    loginFailure,
-    logout,
-    updateUser,
-    setDarkMode,
-} = actions;
+export const { loginPending, loginSuccess, loginFailure, logout, updateUser } =
+    actions;
 export default reducer;

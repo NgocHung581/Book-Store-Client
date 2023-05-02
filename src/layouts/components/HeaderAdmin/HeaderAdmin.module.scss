@@ -1,0 +1,135 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    height: calc(var(--header-height) / 2);
+    background: var(--header-bg);
+    box-shadow: var(--box-shadow);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    transition: all 0.3s ease-in-out;
+
+    &.scroll {
+        background: var(--header-bg-scroll);
+    }
+}
+
+.left {
+    padding: 10px 20px;
+    height: 100%;
+    width: var(--sidebar-admin-width);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: var(--sidebar-admin-color);
+}
+
+.logo {
+    height: 100%;
+}
+
+.hamburger-menu {
+    padding: 8px 0;
+    cursor: pointer;
+
+    .line {
+        background-color: white;
+        width: 25px;
+        height: 3px;
+        border-radius: 99px;
+        position: relative;
+        transition: all 0.3s ease-in-out;
+
+        &::after,
+        &::before {
+            content: "";
+            background-color: white;
+            width: 25px;
+            height: 3px;
+            border-radius: 99px;
+            position: absolute;
+            transition: background-color 0.3s ease-in-out 0.3s,
+                top 0.3s ease-in-out 0.3s, rotate 0.3s ease-in-out;
+        }
+
+        &::after {
+            top: -8px;
+        }
+
+        &::before {
+            top: 8px;
+        }
+    }
+
+    &.show {
+        .line {
+            background-color: transparent;
+
+            &::after,
+            &::before {
+                transition: background-color 0.3s ease-in-out,
+                    top 0.3s ease-in-out, rotate 0.3s ease-in-out 0.3s;
+            }
+
+            &::after {
+                top: 0px;
+                rotate: 45deg;
+            }
+
+            &::before {
+                top: 0px;
+                rotate: -45deg;
+            }
+        }
+    }
+}
+
+.right {
+    flex: 1;
+    padding: 0 30px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 30px;
+}
+
+.user {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.user-avatar {
+    height: 40px;
+    width: 40px;
+}
+
+.user-name {
+    margin: 0 8px;
+}
+
+.user-icon {
+    margin-top: 2px;
+}
+
+.notification {
+    position: relative;
+    cursor: pointer;
+}
+
+.notification-badge {
+    background-color: var(--primary-color) !important;
+    padding: 0;
+    height: 18px;
+    width: 18px;
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: -6px;
+    right: -6px;
+}

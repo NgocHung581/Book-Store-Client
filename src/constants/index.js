@@ -44,6 +44,12 @@ export const TIME_OPTIONS = [
     { value: "asc", label: "Cũ nhất" },
 ];
 
+export const FILTER_OPTIONS = [
+    { value: "", label: "Mới nhất" },
+    { value: "asc", label: "Giá tăng dần" },
+    { value: "desc", label: "Giá giảm dần" },
+];
+
 export const RATING_OPTIONS = [
     { value: 1, label: "1 ⭐ - Rất tệ" },
     { value: 2, label: "2 ⭐ - Bình thường" },
