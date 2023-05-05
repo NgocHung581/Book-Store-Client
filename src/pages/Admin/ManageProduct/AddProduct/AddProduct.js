@@ -1,31 +1,38 @@
 import classNames from "classnames/bind";
 import { FastField, Form, Formik } from "formik";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BsTrash } from "react-icons/bs";
 import { MdKeyboardArrowLeft } from "react-icons/md";
-import { useNavigate } from "react-router-dom";
-import { Col, Label, Row } from "reactstrap";
+import { useNavigate, useParams } from "react-router-dom";
 import { toast } from "react-toastify";
+import { Col, Label, Row } from "reactstrap";
+import { useSelector } from "react-redux";
 
+import bookApiURL from "api/bookApiURL";
 import categoryApiURL from "api/categoryApiURL";
 import Button from "components/Button";
 import FileField from "custom-fields/FileField";
 import InputField from "custom-fields/InputField";
 import RadioField from "custom-fields/RadioField";
 import SelectField from "custom-fields/SelectField";
-import { useAxiosClient } from "hooks";
-import styles from "./AddProduct.module.scss";
-import bookApiURL from "api/bookApiURL";
+import { useAxiosAuth, useAxiosClient } from "hooks";
 import routes from "routes";
+import styles from "./AddProduct.module.scss";
 
 const cx = classNames.bind(styles);
 
 function AddProduct() {
     const axiosClient = useAxiosClient();
+    const axiosAuth = useAxiosAuth();
+
+    const { user } = useSelector((state) => state.user);
 
     const navigate = useNavigate();
+    const { slug } = useParams();
 
-    const initialValues = {
+    const bookIdRef = useRef();
+
+    const [initialValues, setInitialValues] = useState({
         name: "",
         description: "",
         image: "",
@@ -33,9 +40,9 @@ function AddProduct() {
         price: 0,
         in_stock: 0,
         category: "",
-        slider: false,
-    };
-
+        slider: "false",
+    });
+    const [loading, setLoading] = useState(true);
     const [categories, setCategories] = useState();
     const [imageFile, setImageFile] = useState("");
 
@@ -44,20 +51,48 @@ function AddProduct() {
             id: values.category.split("_")[0],
             slug: values.category.split("_")[1],
         };
-
-        const url = bookApiURL.create();
-        const res = await axiosClient.post(
-            url,
-            { ...values, category },
-            {
-                headers: { "Content-Type": "multipart/form-data" },
+        if (slug) {
+            try {
+                const url = bookApiURL.update(bookIdRef.current);
+                const res = await axiosAuth.put(
+                    url,
+                    { ...values, category },
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                            Authorization: `Bearer ${user?.accessToken}`,
+                        },
+                    }
+                );
+                toast.success(res.message);
+                resetForm();
+                setImageFile("");
+                navigate(routes.manageProduct);
+            } catch (error) {
+                toast.error(error.response.data.error);
             }
-        );
+        } else {
+            try {
+                const url = bookApiURL.create();
+                const res = await axiosAuth.post(
+                    url,
+                    { ...values, category },
+                    {
+                        headers: {
+                            "Content-Type": "multipart/form-data",
+                            Authorization: `Bearer ${user?.accessToken}`,
+                        },
+                    }
+                );
 
-        toast.success(res.message);
-        resetForm();
-        setImageFile("");
-        navigate(routes.manageProduct);
+                toast.success(res.message);
+                resetForm();
+                setImageFile("");
+                navigate(routes.manageProduct);
+            } catch (error) {
+                toast.error(error.response.data.error);
+            }
+        }
     };
 
     useEffect(() => {
@@ -74,6 +109,32 @@ function AddProduct() {
 
         fetchCategories();
     }, [axiosClient]);
+
+    useEffect(() => {
+        if (slug) {
+            const fetchBook = async () => {
+                setLoading(true);
+                const url = bookApiURL.get(slug);
+                const res = await axiosClient.get(url);
+                setInitialValues({
+                    name: res.data.name,
+                    description: res.data.description,
+                    image: res.data.image,
+                    author: res.data.author,
+                    price: res.data.price,
+                    in_stock: res.data.in_stock,
+                    category: `${res.data.category.id}_${res.data.category.slug}`,
+                    slider: `${res.data.slider}`,
+                });
+                bookIdRef.current = res.data._id;
+                setLoading(false);
+            };
+
+            fetchBook();
+        }
+    }, [slug, axiosClient]);
+
+    if (loading && slug) return <div>Loading ...</div>;
 
     return (
         <div className={cx("wrapper")}>
@@ -123,23 +184,44 @@ function AddProduct() {
                                         label="Số lượng kho"
                                     />
                                 </Col>
-                                <Col lg={6}>
+                                <Col lg={3}>
                                     <FastField
-                                        name="description"
+                                        name="author"
                                         component={InputField}
-                                        type="textarea"
-                                        placeholder="Mô tả sản phẩm"
-                                        label="Mô tả"
+                                        placeholder="Nhập tên tác giả"
+                                        label="Tác giả"
                                     />
+                                </Col>
+                                <Col lg={3}>
+                                    <Label>Slider</Label>
+                                    <div className="d-flex gap-3">
+                                        <FastField
+                                            name="slider"
+                                            passedValue="true"
+                                            component={RadioField}
+                                            label="Có"
+                                        />
+                                        <FastField
+                                            name="slider"
+                                            passedValue="false"
+                                            component={RadioField}
+                                            label="Không"
+                                        />
+                                    </div>
                                 </Col>
                                 <Col lg={6}>
                                     <div className="d-flex align-items-center gap-5">
                                         <Label>Hỉnh ảnh:</Label>
                                         <div className="position-relative">
-                                            {imageFile && (
+                                            {(imageFile ||
+                                                initialValues.image) && (
                                                 <div className={cx("img")}>
                                                     <img
-                                                        src={imageFile}
+                                                        src={
+                                                            imageFile
+                                                                ? imageFile
+                                                                : `${process.env.REACT_APP_SERVER_IMAGE_URL}/${initialValues.image}`
+                                                        }
                                                         alt=""
                                                     />
                                                 </div>
@@ -168,31 +250,15 @@ function AddProduct() {
                                         )}
                                     </div>
                                 </Col>
-                                <Col lg={3}>
+                                <Col lg={6}>
                                     <FastField
-                                        name="author"
+                                        name="description"
                                         component={InputField}
-                                        placeholder="Nhập tên tác giả"
-                                        label="Tác giả"
+                                        type="textarea"
+                                        rows="11"
+                                        placeholder="Mô tả sản phẩm"
+                                        label="Mô tả"
                                     />
-                                </Col>
-
-                                <Col lg={3}>
-                                    <Label>Slider</Label>
-                                    <div className="d-flex gap-3">
-                                        <FastField
-                                            name="slider"
-                                            value={true}
-                                            component={RadioField}
-                                            label="Có"
-                                        />
-                                        <FastField
-                                            name="slider"
-                                            value={false}
-                                            component={RadioField}
-                                            label="Không"
-                                        />
-                                    </div>
                                 </Col>
                                 <Col lg={12}>
                                     <Button
@@ -200,7 +266,7 @@ function AddProduct() {
                                         primary
                                         className="mt-3"
                                     >
-                                        Thêm
+                                        {slug ? "Cập nhật" : "Thêm"}
                                     </Button>
                                 </Col>
                             </Row>

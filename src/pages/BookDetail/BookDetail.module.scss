@@ -103,6 +103,11 @@
     text-align: justify;
 }
 
+.summary {
+    max-height: 300px;
+    overflow-y: scroll;
+}
+
 @keyframes underline {
     from {
         width: 0;

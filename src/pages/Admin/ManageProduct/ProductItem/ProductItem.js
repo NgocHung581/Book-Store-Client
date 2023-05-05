@@ -1,20 +1,53 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
-import { MdOutlineModeEditOutline } from "react-icons/md";
+import { useState } from "react";
 import { BsTrash } from "react-icons/bs";
+import { MdOutlineModeEditOutline } from "react-icons/md";
 import { NumericFormat } from "react-number-format";
+import { useDispatch, useSelector } from "react-redux";
+import { toast } from "react-toastify";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 
-import styles from "./ProductItem.module.scss";
+import bookApiURL from "api/bookApiURL";
 import Button from "components/Button";
-import { useState } from "react";
+import { useAxiosAuth } from "hooks";
+import styles from "./ProductItem.module.scss";
+import {
+    deleteProductRequest,
+    deleteProductSuccess,
+} from "redux/slices/productSlice";
+import { Link } from "react-router-dom";
+import routes from "routes";
 
 const cx = classNames.bind(styles);
 
 function ProductItem({ book, index }) {
-    const [editModal, setEditModal] = useState(false);
+    const axiosAuth = useAxiosAuth();
 
-    const toggle = () => setEditModal((prev) => !prev);
+    const dispatch = useDispatch();
+
+    const { user } = useSelector((state) => state.user);
+
+    const [deleteModal, setDeleteModal] = useState(false);
+
+    const toggleDeleteModal = () => setDeleteModal((prev) => !prev);
+
+    const handleDelete = async () => {
+        try {
+            dispatch(deleteProductRequest());
+            const url = bookApiURL.delete(book?._id);
+            const res = await axiosAuth.delete(url, {
+                headers: {
+                    Authorization: `Bearer ${user?.accessToken}`,
+                },
+            });
+            toast.success(res.message);
+            setDeleteModal(false);
+            dispatch(deleteProductSuccess());
+        } catch (error) {
+            console.log(error.message);
+        }
+    };
 
     return (
         <>
@@ -33,6 +66,11 @@ function ProductItem({ book, index }) {
                     <span className={cx("name")}>{book?.name}</span>
                 </td>
                 <td>
+                    <span className={cx("category")}>
+                        {book?.category?.id?.name}
+                    </span>
+                </td>
+                <td>
                     <span className={cx("price")}>
                         <NumericFormat
                             value={book?.price}
@@ -49,40 +87,39 @@ function ProductItem({ book, index }) {
                     <span className={cx("count_sell")}>{book?.count_sell}</span>
                 </td>
                 <td>
-                    <MdOutlineModeEditOutline
+                    <Link to={`${routes.manageProduct}/update/${book?.slug}`}>
+                        <MdOutlineModeEditOutline
+                            size={20}
+                            className={cx("edit-icon")}
+                        />
+                    </Link>
+                    <BsTrash
                         size={20}
-                        className={cx("edit-icon")}
-                        onClick={toggle}
+                        className={cx("delete-icon")}
+                        onClick={toggleDeleteModal}
                     />
-                    <BsTrash size={20} className={cx("delete-icon")} />
                 </td>
             </tr>
 
             {/* Edit Modal */}
             <Modal
-                isOpen={editModal}
-                toggle={toggle}
-                size="lg"
+                isOpen={deleteModal}
+                toggle={toggleDeleteModal}
                 centered
                 backdrop="static"
             >
-                <ModalHeader toggle={toggle}>Modal title</ModalHeader>
+                <ModalHeader toggle={toggleDeleteModal}>
+                    Xác nhận xóa sản phẩm
+                </ModalHeader>
                 <ModalBody>
-                    Lorem ipsum dolor sit amet, consectetur adipisicing elit,
-                    sed do eiusmod tempor incididunt ut labore et dolore magna
-                    aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-                    ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    Duis aute irure dolor in reprehenderit in voluptate velit
-                    esse cillum dolore eu fugiat nulla pariatur. Excepteur sint
-                    occaecat cupidatat non proident, sunt in culpa qui officia
-                    deserunt mollit anim id est laborum.
+                    Bạn có chắc chắn muốn xóa sản phẩm này không?
                 </ModalBody>
                 <ModalFooter>
-                    <Button outline onClick={toggle}>
-                        Cancel
+                    <Button outline onClick={toggleDeleteModal}>
+                        Hủy
                     </Button>
-                    <Button primary onClick={toggle}>
-                        Do Something
+                    <Button primary onClick={handleDelete}>
+                        Xác nhận
                     </Button>
                 </ModalFooter>
             </Modal>

@@ -14,6 +14,7 @@ function InputField({
     disabled = false,
     placeholder = "",
     min = 1,
+    rows = 3,
     label = "",
 }) {
     const { name } = field;
@@ -29,6 +30,7 @@ function InputField({
                 placeholder={placeholder}
                 disabled={disabled}
                 min={type === "number" ? min : undefined}
+                rows={type === "textarea" ? rows : undefined}
                 invalid={showError}
             />
             {showError && <ErrorMessage name={name} component={FormFeedback} />}

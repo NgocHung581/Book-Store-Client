@@ -43,6 +43,14 @@ const bookApiURL = {
         const url = `/books`;
         return url;
     },
+    update(id) {
+        const url = `/books/${id}`;
+        return url;
+    },
+    delete(id) {
+        const url = `/books/${id}`;
+        return url;
+    },
 };
 
 export default bookApiURL;

@@ -2,14 +2,20 @@ import { ErrorMessage } from "formik";
 import PropTypes from "prop-types";
 import { FormFeedback, FormGroup, Input, Label } from "reactstrap";
 
-function RadioField({ field, form, label, value, disabled }) {
-    const { name } = field;
+function RadioField({ field, form, label, passedValue, disabled }) {
+    const { name, value } = field;
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];
 
     return (
         <FormGroup>
-            <Input {...field} value={value} type="radio" disabled={disabled} />
+            <Input
+                {...field}
+                value={passedValue}
+                type="radio"
+                disabled={disabled}
+                checked={value === passedValue}
+            />
             <Label className="ms-2">{label}</Label>
 
             {showError && <div className="is-invalid"></div>}

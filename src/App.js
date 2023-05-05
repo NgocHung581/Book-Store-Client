@@ -31,6 +31,7 @@ import ManageCategory from "pages/Admin/ManageCategory";
 import ManageOrder from "pages/Admin/ManageOrder";
 import ManageUser from "pages/Admin/ManageUser";
 import AddProduct from "pages/Admin/ManageProduct/AddProduct";
+import UpdateProduct from "pages/Admin/ManageProduct/UpdateProduct";
 
 function App() {
     return (
@@ -110,6 +111,7 @@ function App() {
                         element={<ManageProduct />}
                     />
                     <Route path={routes.createBook} element={<AddProduct />} />
+                    <Route path={routes.updateBook} element={<AddProduct />} />
 
                     {/* Manage Category */}
                     <Route

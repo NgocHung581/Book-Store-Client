@@ -22,6 +22,7 @@ const routes = {
     manageOrder: "/admin/order",
     manageUser: "/admin/user",
     createBook: "/admin/product/add",
+    updateBook: "/admin/product/update/:slug",
     notFound: "*",
 };
 
