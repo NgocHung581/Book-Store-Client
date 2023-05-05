@@ -1,41 +1,39 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
-import { useState } from "react";
-import { BsTrash } from "react-icons/bs";
-import { MdOutlineModeEditOutline } from "react-icons/md";
-import { NumericFormat } from "react-number-format";
-import { useDispatch, useSelector } from "react-redux";
-import { toast } from "react-toastify";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-
-import bookApiURL from "api/bookApiURL";
-import Button from "components/Button";
-import { useAxiosAuth } from "hooks";
-import styles from "./ProductItem.module.scss";
-import {
-    deleteProductRequest,
-    deleteProductSuccess,
-} from "redux/slices/productSlice";
 import { Link } from "react-router-dom";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
+import { MdOutlineModeEditOutline } from "react-icons/md";
+import { BsTrash } from "react-icons/bs";
+import { toast } from "react-toastify";
+
+import styles from "./CategoryItem.module.scss";
 import routes from "routes";
+import Button from "components/Button";
+import { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import categoryApiURL from "api/categoryApiURL";
+import { useAxiosAuth } from "hooks";
+import {
+    deleteCategoryRequest,
+    deleteCategorySuccess,
+} from "redux/slices/categorySlice";
 
 const cx = classNames.bind(styles);
 
-function ProductItem({ book, index }) {
+function CategoryItem({ category, index }) {
     const axiosAuth = useAxiosAuth();
-
     const dispatch = useDispatch();
 
-    const { user } = useSelector((state) => state.user);
-
     const [deleteModal, setDeleteModal] = useState(false);
+
+    const { user } = useSelector((state) => state.user);
 
     const toggleDeleteModal = () => setDeleteModal((prev) => !prev);
 
     const handleDelete = async () => {
         try {
-            dispatch(deleteProductRequest());
-            const url = bookApiURL.delete(book?._id);
+            dispatch(deleteCategoryRequest());
+            const url = categoryApiURL.updateAndDelete(category?._id);
             const res = await axiosAuth.delete(url, {
                 headers: {
                     Authorization: `Bearer ${user?.accessToken}`,
@@ -43,7 +41,7 @@ function ProductItem({ book, index }) {
             });
             toast.success(res.message);
             setDeleteModal(false);
-            dispatch(deleteProductSuccess());
+            dispatch(deleteCategorySuccess());
         } catch (error) {
             console.log(error.message);
         }
@@ -53,41 +51,19 @@ function ProductItem({ book, index }) {
         <>
             <tr>
                 <th scope="row">{index + 1}</th>
-                <td>{book?._id}</td>
+                <td>{category?._id}</td>
+
                 <td>
-                    <div className={cx("img")}>
-                        <img
-                            src={`${process.env.REACT_APP_SERVER_IMAGE_URL}/${book?.image}`}
-                            alt={book?.name}
-                        />
-                    </div>
+                    <span className={cx("name")}>{category?.name}</span>
+                </td>
+
+                <td>
+                    <span className={cx("slug")}>{category?.slug}</span>
                 </td>
                 <td>
-                    <span className={cx("name")}>{book?.name}</span>
-                </td>
-                <td>
-                    <span className={cx("category")}>
-                        {book?.category?.id?.name}
-                    </span>
-                </td>
-                <td>
-                    <span className={cx("price")}>
-                        <NumericFormat
-                            value={book?.price}
-                            thousandSeparator=","
-                            displayType="text"
-                            renderText={(value) => `${value} đ`}
-                        />
-                    </span>
-                </td>
-                <td>
-                    <span className={cx("in_stock")}>{book?.in_stock}</span>
-                </td>
-                <td>
-                    <span className={cx("count_sell")}>{book?.count_sell}</span>
-                </td>
-                <td>
-                    <Link to={`${routes.manageProduct}/update/${book?.slug}`}>
+                    <Link
+                        to={`${routes.manageCategory}/update/${category?.slug}`}
+                    >
                         <MdOutlineModeEditOutline
                             size={20}
                             className={cx("edit-icon")}
@@ -127,9 +103,8 @@ function ProductItem({ book, index }) {
     );
 }
 
-ProductItem.propTypes = {
-    book: PropTypes.object.isRequired,
-    index: PropTypes.number,
+CategoryItem.propTypes = {
+    category: PropTypes.object.isRequired,
 };
 
-export default ProductItem;
+export default CategoryItem;

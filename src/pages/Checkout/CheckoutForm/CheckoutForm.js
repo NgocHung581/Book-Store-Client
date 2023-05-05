@@ -143,14 +143,14 @@ function CheckoutForm() {
 
                             <FastField
                                 name="paymentMethod"
-                                value="Paypal"
+                                passedValue="Paypal"
                                 component={RadioField}
                                 label="Thanh toán thẻ"
                                 disabled
                             />
                             <FastField
                                 name="paymentMethod"
-                                value="COD"
+                                passedValue="COD"
                                 component={RadioField}
                                 label="COD (Thanh toán khi nhận hàng)"
                             />

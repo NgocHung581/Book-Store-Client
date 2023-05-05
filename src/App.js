@@ -30,8 +30,8 @@ import ManageProduct from "pages/Admin/ManageProduct";
 import ManageCategory from "pages/Admin/ManageCategory";
 import ManageOrder from "pages/Admin/ManageOrder";
 import ManageUser from "pages/Admin/ManageUser";
-import AddProduct from "pages/Admin/ManageProduct/AddProduct";
-import UpdateProduct from "pages/Admin/ManageProduct/UpdateProduct";
+import AddEditProduct from "pages/Admin/ManageProduct/AddEditProduct";
+import AddEditCategory from "pages/Admin/ManageCategory/AddEditCategory";
 
 function App() {
     return (
@@ -110,13 +110,27 @@ function App() {
                         path={routes.manageProduct}
                         element={<ManageProduct />}
                     />
-                    <Route path={routes.createBook} element={<AddProduct />} />
-                    <Route path={routes.updateBook} element={<AddProduct />} />
+                    <Route
+                        path={routes.createBook}
+                        element={<AddEditProduct />}
+                    />
+                    <Route
+                        path={routes.updateBook}
+                        element={<AddEditProduct />}
+                    />
 
                     {/* Manage Category */}
                     <Route
                         path={routes.manageCategory}
                         element={<ManageCategory />}
+                    />
+                    <Route
+                        path={routes.createCategory}
+                        element={<AddEditCategory />}
+                    />
+                    <Route
+                        path={routes.updateCategory}
+                        element={<AddEditCategory />}
                     />
 
                     {/* Manage Order */}

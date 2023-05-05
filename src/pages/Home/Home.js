@@ -1,9 +1,9 @@
 import { Helmet } from "react-helmet-async";
+import { useRef } from "react";
 
 import BookList from "components/BookList";
 import Banner from "./Banner";
 import SuggestionBookList from "./SuggestionBookList";
-import { useRef } from "react";
 
 function Home() {
     const searchHistory = useRef(localStorage.getItem("search"));

@@ -17,11 +17,12 @@ import RadioField from "custom-fields/RadioField";
 import SelectField from "custom-fields/SelectField";
 import { useAxiosAuth, useAxiosClient } from "hooks";
 import routes from "routes";
-import styles from "./AddProduct.module.scss";
+import styles from "./AddEditProduct.module.scss";
+import Loader from "components/Loader";
 
 const cx = classNames.bind(styles);
 
-function AddProduct() {
+function AddEditProduct() {
     const axiosClient = useAxiosClient();
     const axiosAuth = useAxiosAuth();
 
@@ -100,7 +101,7 @@ function AddProduct() {
             const url = categoryApiURL.getAll();
             const res = await axiosClient.get(url);
 
-            const categoriesOptions = res?.data?.map((category) => ({
+            const categoriesOptions = res?.data?.results?.map((category) => ({
                 value: `${category._id}_${category.slug}`,
                 label: category.name,
             }));
@@ -134,7 +135,7 @@ function AddProduct() {
         }
     }, [slug, axiosClient]);
 
-    if (loading && slug) return <div>Loading ...</div>;
+    if (loading && slug) return <Loader />;
 
     return (
         <div className={cx("wrapper")}>
@@ -142,10 +143,12 @@ function AddProduct() {
                 <MdKeyboardArrowLeft size={24} /> Trở lại
             </div>
 
-            <h1 className={cx("title")}>Thêm sản phẩm</h1>
+            <h1 className={cx("title")}>
+                {slug ? "Cập nhật sản phẩm" : "Thêm sản phẩm"}
+            </h1>
 
             <Formik initialValues={initialValues} onSubmit={handleSubmitForm}>
-                {({ handleSubmit, setFieldValue }) => {
+                {({ handleSubmit, setFieldValue, values }) => {
                     return (
                         <Form onSubmit={handleSubmit}>
                             <Row>
@@ -262,6 +265,7 @@ function AddProduct() {
                                 </Col>
                                 <Col lg={12}>
                                     <Button
+                                        disabled={values === initialValues}
                                         type="submit"
                                         primary
                                         className="mt-3"
@@ -278,4 +282,4 @@ function AddProduct() {
     );
 }
 
-export default AddProduct;
+export default AddEditProduct;

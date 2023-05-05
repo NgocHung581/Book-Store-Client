@@ -116,7 +116,7 @@ function ManageProduct() {
                             options={FILTER_OPTIONS}
                             isSearchable={false}
                             onChange={handleSortChange}
-                            defaultValue={
+                            value={
                                 type && sortBy === "price"
                                     ? FILTER_OPTIONS.find(
                                           (x) => x.value === type
@@ -131,7 +131,7 @@ function ManageProduct() {
                             options={NUMBER_PER_PAGE}
                             isSearchable={false}
                             onChange={handleLimitChange}
-                            defaultValue={
+                            value={
                                 limit
                                     ? NUMBER_PER_PAGE.find(
                                           (x) => x.value === limit

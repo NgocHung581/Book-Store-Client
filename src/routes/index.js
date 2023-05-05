@@ -18,11 +18,13 @@ const routes = {
     orderDetail: "/order/:id",
     dashboard: "/admin/dashboard",
     manageProduct: "/admin/product",
-    manageCategory: "/admin/category",
-    manageOrder: "/admin/order",
-    manageUser: "/admin/user",
     createBook: "/admin/product/add",
     updateBook: "/admin/product/update/:slug",
+    manageCategory: "/admin/category",
+    createCategory: "/admin/category/add",
+    updateCategory: "/admin/category/update/:slug",
+    manageOrder: "/admin/order",
+    manageUser: "/admin/user",
     notFound: "*",
 };
 
