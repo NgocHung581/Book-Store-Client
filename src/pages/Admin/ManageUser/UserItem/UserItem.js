@@ -1,46 +1,45 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
-import { Link } from "react-router-dom";
-import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
-import { MdOutlineModeEditOutline } from "react-icons/md";
 import { BsTrash } from "react-icons/bs";
+import { MdOutlineModeEditOutline } from "react-icons/md";
+import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
-
-import styles from "./CategoryItem.module.scss";
-import routes from "routes";
-import Button from "components/Button";
-import { useState } from "react";
+import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { useDispatch, useSelector } from "react-redux";
-import categoryApiURL from "api/categoryApiURL";
+import { useState } from "react";
+
+import userApiURL from "api/userApiURL";
+import Button from "components/Button";
 import { useAxiosAuth } from "hooks";
-import {
-    deleteCategoryRequest,
-    deleteCategorySuccess,
-} from "redux/slices/categorySlice";
+import routes from "routes";
+import styles from "./UserItem.module.scss";
+import { deleteUserRequest, deleteUserSuccess } from "redux/slices/userSlice";
 
 const cx = classNames.bind(styles);
 
-function CategoryItem({ category, index }) {
+function UserItem({ user, index }) {
     const axiosAuth = useAxiosAuth();
     const dispatch = useDispatch();
 
     const [deleteModal, setDeleteModal] = useState(false);
 
-    const { user } = useSelector((state) => state.user);
+    const {
+        user: { accessToken },
+    } = useSelector((state) => state.user);
 
     const toggleDeleteModal = () => setDeleteModal((prev) => !prev);
 
     const handleDelete = async () => {
         try {
-            dispatch(deleteCategoryRequest());
-            const url = categoryApiURL.updateAndDelete(category?._id);
+            dispatch(deleteUserRequest());
+            const url = userApiURL.delete(user?._id);
             const res = await axiosAuth.delete(url, {
                 headers: {
-                    Authorization: `Bearer ${user?.accessToken}`,
+                    Authorization: `Bearer ${accessToken}`,
                 },
             });
             toast.success(res.message);
-            dispatch(deleteCategorySuccess());
+            dispatch(deleteUserSuccess());
         } catch (error) {
             toast.error(error.response.data.error);
         } finally {
@@ -52,19 +51,32 @@ function CategoryItem({ category, index }) {
         <>
             <tr>
                 <th scope="row">{index + 1}</th>
-                <td>{category?._id}</td>
-
+                <td>{user?._id}</td>
                 <td>
-                    <span className={cx("name")}>{category?.name}</span>
-                </td>
-
-                <td>
-                    <span className={cx("slug")}>{category?.slug}</span>
+                    <span className={cx("name")}>{user?.fullName}</span>
                 </td>
                 <td>
-                    <Link
-                        to={`${routes.manageCategory}/update/${category?.slug}`}
+                    <span className={cx("email")}>{user?.email}</span>
+                </td>
+                <td>
+                    <span className={cx("phone")}>{user?.phone}</span>
+                </td>
+                <td>
+                    <span className={cx("address")}>{user?.address}</span>
+                </td>
+                <td>
+                    <span
+                        className={cx("role")}
+                        style={{
+                            "--text-color":
+                                user?.role === "admin" ? "#e94560" : "#000",
+                        }}
                     >
+                        {user?.role}
+                    </span>
+                </td>
+                <td>
+                    <Link to={`${routes.manageUser}/update/${user?.email}`}>
                         <MdOutlineModeEditOutline
                             size={20}
                             className={cx("edit-icon")}
@@ -86,10 +98,10 @@ function CategoryItem({ category, index }) {
                 backdrop="static"
             >
                 <ModalHeader toggle={toggleDeleteModal}>
-                    Xác nhận xóa danh mục
+                    Xác nhận xóa người dùng
                 </ModalHeader>
                 <ModalBody>
-                    Bạn có chắc chắn muốn xóa danh mục này không?
+                    Bạn có chắc chắn muốn xóa người dùng này không?
                 </ModalBody>
                 <ModalFooter>
                     <Button outline onClick={toggleDeleteModal}>
@@ -104,8 +116,8 @@ function CategoryItem({ category, index }) {
     );
 }
 
-CategoryItem.propTypes = {
-    category: PropTypes.object.isRequired,
+UserItem.propTypes = {
+    user: PropTypes.object.isRequired,
 };
 
-export default CategoryItem;
+export default UserItem;

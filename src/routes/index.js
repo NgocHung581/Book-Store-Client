@@ -25,6 +25,8 @@ const routes = {
     updateCategory: "/admin/category/update/:slug",
     manageOrder: "/admin/order",
     manageUser: "/admin/user",
+    createUser: "/admin/user/add",
+    updateUser: "/admin/user/update/:email",
     notFound: "*",
 };
 

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { AiOutlineHome } from "react-icons/ai";
 import { BiCategory } from "react-icons/bi";
 import { BsBook } from "react-icons/bs";
-import { MdOutlineNoteAlt } from "react-icons/md";
+import { MdOutlineAnalytics, MdOutlineNoteAlt } from "react-icons/md";
 import { NavLink } from "react-router-dom";
 import { HiOutlineUser } from "react-icons/hi";
 
@@ -13,7 +13,8 @@ import styles from "./SidebarAdmin.module.scss";
 const cx = classNames.bind(styles);
 
 const NAV_LIST = [
-    { label: "Bảng tin", Icon: AiOutlineHome, path: routes.dashboard },
+    { label: "Xem cửa hàng", Icon: AiOutlineHome, path: routes.home },
+    { label: "Bảng tin", Icon: MdOutlineAnalytics, path: routes.dashboard },
     { label: "Quản lý sản phẩm", Icon: BsBook, path: routes.manageProduct },
     {
         label: "Quản lý danh mục",

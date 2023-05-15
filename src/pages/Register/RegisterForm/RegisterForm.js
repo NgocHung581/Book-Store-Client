@@ -45,15 +45,11 @@ function RegisterForm() {
         try {
             const url = userApiURL.register();
             const res = await axiosClient.post(url, values);
-            if (res) {
-                toast.success(res.message);
-                navigate(routes.login);
-            } else {
-                toast.error(res.error);
-            }
+            toast.success(res.message);
+            navigate(routes.login);
             resetForm();
         } catch (error) {
-            throw new Error(error);
+            toast.error(error.response.data.error);
         }
     };
 

@@ -50,6 +50,12 @@ export const FILTER_OPTIONS = [
     { value: "desc", label: "Giá giảm dần" },
 ];
 
+export const ROLE_OPTIONS = [
+    { value: "", label: "Tất cả" },
+    { value: "admin", label: "Admin" },
+    { value: "user", label: "Người dùng" },
+];
+
 export const RATING_OPTIONS = [
     { value: 1, label: "1 ⭐ - Rất tệ" },
     { value: 2, label: "2 ⭐ - Bình thường" },

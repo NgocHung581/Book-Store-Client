@@ -28,7 +28,7 @@ function Profile() {
         fullName: user.fullName,
         phone: user.phone,
         address: user.address,
-        avatar: user.avata,
+        avatar: user.avatar,
     };
 
     const handleSubmitForm = async (values) => {

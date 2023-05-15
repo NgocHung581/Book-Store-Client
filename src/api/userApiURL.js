@@ -1,6 +1,11 @@
 import queryString from "query-string";
 
 const userApiURL = {
+    getAll(params) {
+        const query = queryString.stringify(params);
+        const url = `/users${`?${query}`}`;
+        return url;
+    },
     getUser(email) {
         const url = `/users/${email}`;
         return url;
@@ -19,6 +24,14 @@ const userApiURL = {
     },
     update() {
         const url = `/users/update`;
+        return url;
+    },
+    updateByAdmin(email) {
+        const url = `/users/update/${email}`;
+        return url;
+    },
+    delete(id) {
+        const url = `/users/${id}`;
         return url;
     },
     register() {

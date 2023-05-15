@@ -18,7 +18,7 @@ function Sidebar() {
         const fetchCategories = async () => {
             const url = categoryApiURL.getAll();
             const res = await axiosClient.get(url);
-            setCategories(res.data);
+            setCategories(res.data.results);
         };
 
         fetchCategories();

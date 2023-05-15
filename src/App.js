@@ -32,6 +32,7 @@ import ManageOrder from "pages/Admin/ManageOrder";
 import ManageUser from "pages/Admin/ManageUser";
 import AddEditProduct from "pages/Admin/ManageProduct/AddEditProduct";
 import AddEditCategory from "pages/Admin/ManageCategory/AddEditCategory";
+import AddEditUser from "pages/Admin/ManageUser/AddEditUser";
 
 function App() {
     return (
@@ -141,6 +142,8 @@ function App() {
 
                     {/* Manage User */}
                     <Route path={routes.manageUser} element={<ManageUser />} />
+                    <Route path={routes.createUser} element={<AddEditUser />} />
+                    <Route path={routes.updateUser} element={<AddEditUser />} />
                 </Route>
             </Routes>
         </div>

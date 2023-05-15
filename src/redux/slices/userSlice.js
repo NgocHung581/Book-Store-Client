@@ -8,6 +8,7 @@ const initialState = {
     user,
     error: "",
     loading: false,
+    success: false,
 };
 
 const userSlice = createSlice({
@@ -35,10 +36,29 @@ const userSlice = createSlice({
             state.loading = false;
             localStorage.setItem("user", JSON.stringify(state.user));
         },
+        deleteUserRequest: (state) => {
+            state.loading = true;
+        },
+        deleteUserSuccess: (state) => {
+            state.success = true;
+            state.loading = false;
+        },
+        deleteUserReset: (state) => {
+            state.success = false;
+            state.loading = false;
+        },
     },
 });
 
 const { actions, reducer } = userSlice;
-export const { loginPending, loginSuccess, loginFailure, logout, updateUser } =
-    actions;
+export const {
+    loginPending,
+    loginSuccess,
+    loginFailure,
+    logout,
+    updateUser,
+    deleteUserRequest,
+    deleteUserSuccess,
+    deleteUserReset,
+} = actions;
 export default reducer;

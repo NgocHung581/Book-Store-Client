@@ -1,0 +1,54 @@
+.title {
+    font-size: 24px;
+    margin-bottom: 0;
+}
+
+.add-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    margin-left: 16px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        background-color: var(--btn-hover-color);
+        color: white;
+    }
+}
+
+.filter {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+
+    & > span {
+        margin-right: 8px;
+    }
+}
+
+.total-products {
+    margin-right: 16px;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+.list {
+    background-color: white;
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 10px 20px;
+}
