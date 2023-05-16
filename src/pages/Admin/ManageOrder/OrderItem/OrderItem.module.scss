@@ -1,5 +1,9 @@
-.edit-icon,
-.delete-icon {
+.detail {
+    text-decoration: underline;
+    color: var(--primary-color);
+}
+
+.edit-icon {
     margin: 0 4px;
     transition: all 0.3s ease-in-out;
     cursor: pointer;
@@ -9,7 +13,6 @@
     }
 }
 
-.info {
-    text-decoration: underline;
-    color: var(--primary-color);
+.title {
+    font-size: 16px;
 }

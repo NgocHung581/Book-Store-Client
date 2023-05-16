@@ -24,6 +24,7 @@ const routes = {
     createCategory: "/admin/category/add",
     updateCategory: "/admin/category/update/:slug",
     manageOrder: "/admin/order",
+    updateOrder: "/admin/order/update/:id",
     manageUser: "/admin/user",
     createUser: "/admin/user/add",
     updateUser: "/admin/user/update/:email",

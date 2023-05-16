@@ -1,0 +1,36 @@
+.title {
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+.filter {
+    padding: 10px 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: white;
+    border-radius: 10px;
+}
+
+.filter-group {
+    display: flex;
+    align-items: center;
+    margin-right: 16px;
+
+    & > span {
+        margin-right: 8px;
+    }
+}
+
+.total-products {
+    margin-right: 16px;
+    opacity: 0.7;
+    font-size: 14px;
+}
+
+.list {
+    background-color: white;
+    margin-top: 20px;
+    border-radius: 10px;
+    padding: 10px 20px;
+}

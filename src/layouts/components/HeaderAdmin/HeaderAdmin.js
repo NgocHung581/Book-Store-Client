@@ -3,15 +3,18 @@ import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { MdOutlineKeyboardArrowDown } from "react-icons/md";
 import { BsBell } from "react-icons/bs";
+import { Badge } from "reactstrap";
+import { useSelector } from "react-redux";
 
 import styles from "./HeaderAdmin.module.scss";
 import images from "assets/images";
-import { Badge } from "reactstrap";
 
 const cx = classNames.bind(styles);
 
 function HeaderAdmin({ showSidebar, setShowSidebar }) {
     const [showHeaderOnScroll, setShowHeaderOnScroll] = useState(false);
+
+    const { user } = useSelector((state) => state.user);
 
     useEffect(() => {
         const handleHeaderOnScroll = () => {
@@ -51,9 +54,16 @@ function HeaderAdmin({ showSidebar, setShowSidebar }) {
                 </div>
                 <div className={cx("user")}>
                     <div className={cx("user-avatar")}>
-                        <img src={images.user} alt="Avatar" />
+                        <img
+                            src={
+                                user?.avatar
+                                    ? `${process.env.REACT_APP_SERVER_IMAGE_URL}/${user?.avatar}`
+                                    : images.user
+                            }
+                            alt="Avatar"
+                        />
                     </div>
-                    <span className={cx("user-name")}>Huỳnh Ngọc Hùng</span>
+                    <span className={cx("user-name")}>{user?.fullName}</span>
                     <div className={cx("user-icon")}>
                         <MdOutlineKeyboardArrowDown size={20} />
                     </div>

@@ -33,6 +33,7 @@ import ManageUser from "pages/Admin/ManageUser";
 import AddEditProduct from "pages/Admin/ManageProduct/AddEditProduct";
 import AddEditCategory from "pages/Admin/ManageCategory/AddEditCategory";
 import AddEditUser from "pages/Admin/ManageUser/AddEditUser";
+import UpdateStatusOrder from "pages/Admin/ManageOrder/UpdateStatusOrder";
 
 function App() {
     return (
@@ -138,6 +139,10 @@ function App() {
                     <Route
                         path={routes.manageOrder}
                         element={<ManageOrder />}
+                    />
+                    <Route
+                        path={routes.updateOrder}
+                        element={<UpdateStatusOrder />}
                     />
 
                     {/* Manage User */}

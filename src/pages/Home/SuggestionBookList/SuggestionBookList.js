@@ -1,7 +1,7 @@
 import classnames from "classnames/bind";
 import { doc } from "firebase/firestore";
 import PropTypes from "prop-types";
-import { useRef, useState } from "react";
+import { useRef } from "react";
 import { useDocument } from "react-firebase-hooks/firestore";
 import {
     MdOutlineKeyboardArrowLeft,
@@ -13,9 +13,9 @@ import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import BookCardOnAmazon from "components/BookCardOnAmazon";
+import SkeletonLoading from "components/SkeletonLoading/SkeletonLoading";
 import { db } from "firebaseConfig";
 import styles from "./SuggestionBookList.module.scss";
-import SkeletonLoading from "components/SkeletonLoading/SkeletonLoading";
 
 const cx = classnames.bind(styles);
 

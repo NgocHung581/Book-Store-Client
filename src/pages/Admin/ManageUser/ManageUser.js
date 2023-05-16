@@ -140,8 +140,7 @@ function ManageUser() {
                             <th>ID</th>
                             <th>Họ và tên</th>
                             <th>Email</th>
-                            <th>SĐT</th>
-                            <th>Địa chỉ</th>
+                            <th>Thông tin</th>
                             <th>Role</th>
                             <th>Hành động</th>
                         </tr>

@@ -22,12 +22,14 @@ function UserItem({ user, index }) {
     const dispatch = useDispatch();
 
     const [deleteModal, setDeleteModal] = useState(false);
+    const [infoModal, setInfoModal] = useState(false);
 
     const {
         user: { accessToken },
     } = useSelector((state) => state.user);
 
     const toggleDeleteModal = () => setDeleteModal((prev) => !prev);
+    const toggleInfoModal = () => setInfoModal((prev) => !prev);
 
     const handleDelete = async () => {
         try {
@@ -59,21 +61,16 @@ function UserItem({ user, index }) {
                     <span className={cx("email")}>{user?.email}</span>
                 </td>
                 <td>
-                    <span className={cx("phone")}>{user?.phone}</span>
-                </td>
-                <td>
-                    <span className={cx("address")}>{user?.address}</span>
-                </td>
-                <td>
-                    <span
-                        className={cx("role")}
-                        style={{
-                            "--text-color":
-                                user?.role === "admin" ? "#e94560" : "#000",
-                        }}
+                    <Button
+                        text
+                        className={cx("info")}
+                        onClick={toggleInfoModal}
                     >
-                        {user?.role}
-                    </span>
+                        Xem thông tin
+                    </Button>
+                </td>
+                <td>
+                    <span className={cx("role")}>{user?.role}</span>
                 </td>
                 <td>
                     <Link to={`${routes.manageUser}/update/${user?.email}`}>
@@ -89,6 +86,28 @@ function UserItem({ user, index }) {
                     />
                 </td>
             </tr>
+
+            {/* Info Modal */}
+            <Modal isOpen={infoModal} toggle={toggleInfoModal} centered>
+                <ModalHeader toggle={toggleInfoModal}>
+                    Thông tin người dùng
+                </ModalHeader>
+                <ModalBody>
+                    <div className="d-flex align-items-center gap-2">
+                        <label>Địa chỉ:</label>
+                        <strong>{user?.address}</strong>
+                    </div>
+                    <div className="d-flex align-items-center gap-2">
+                        <label>Số điện thoại:</label>
+                        <strong>{user?.phone}</strong>
+                    </div>
+                </ModalBody>
+                <ModalFooter>
+                    <Button primary onClick={toggleInfoModal}>
+                        Đóng
+                    </Button>
+                </ModalFooter>
+            </Modal>
 
             {/* Delete Modal */}
             <Modal

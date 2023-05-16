@@ -5,6 +5,11 @@ const orderApiURL = {
         const url = `/orders`;
         return url;
     },
+    getAllByAdmin(params) {
+        const query = queryString.stringify(params);
+        const url = `/orders/all${`?${query}`}`;
+        return url;
+    },
     getAll(params) {
         const query = queryString.stringify(params);
         const url = `/orders${`?${query}`}`;
