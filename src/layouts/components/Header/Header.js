@@ -1,4 +1,5 @@
 import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { BiUser } from "react-icons/bi";
@@ -7,7 +8,6 @@ import { IoCartOutline } from "react-icons/io5";
 import { useMediaQuery } from "react-responsive";
 import { Link, NavLink } from "react-router-dom";
 import { Badge, Col, Container, Row } from "reactstrap";
-import "tippy.js/dist/tippy.css";
 import { useSelector } from "react-redux";
 
 import { MENU_ACCOUNT, MENU_ACCOUNT_MOBILE, NAV_LIST } from "constants";
@@ -17,6 +17,7 @@ import Search from "../Search";
 import User from "../User";
 import styles from "./Header.module.scss";
 import CartMenu from "../CartMenu";
+import ChatBox from "components/ChatBox";
 
 const cx = classNames.bind(styles);
 
@@ -89,6 +90,7 @@ function Header() {
                                 <Search />
 
                                 <div className={cx("actions")}>
+                                    <ChatBox />
                                     <Tippy content="Danh sách yêu thích">
                                         <div className={cx("actions-item")}>
                                             <Link to={routes.wishlist}>

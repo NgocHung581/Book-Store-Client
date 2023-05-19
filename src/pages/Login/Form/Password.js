@@ -63,13 +63,7 @@ function Password() {
         dispatch(loginSuccess(res.data));
         toast.success(res.message);
 
-        console.log(res.data.role);
-
-        if (res.data.role === "admin") {
-            navigate(routes.dashboard);
-        } else {
-            navigate(routes.home);
-        }
+        navigate(routes.home, { replace: true });
     };
 
     const handleClickResetPassword = async () => {

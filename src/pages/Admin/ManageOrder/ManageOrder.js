@@ -131,6 +131,7 @@ function ManageOrder() {
                             <th>ID</th>
                             <th>Chi tiết</th>
                             <th>Tổng tiền</th>
+                            <th>Phương thức thanh toán</th>
                             <th>Trạng thái</th>
                             <th>Hành động</th>
                         </tr>

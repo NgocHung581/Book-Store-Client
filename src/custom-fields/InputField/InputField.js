@@ -16,13 +16,15 @@ function InputField({
     min = 1,
     rows = 3,
     label = "",
+    autoComplete = "on",
+    groupClassName = "",
 }) {
     const { name } = field;
     const { errors, touched } = form;
     const showError = errors[name] && touched[name];
 
     return (
-        <FormGroup className={cx("form-group")}>
+        <FormGroup className={cx("form-group", `${groupClassName}`)}>
             {label && <Label>{label}</Label>}
             <Input
                 {...field}
@@ -32,6 +34,7 @@ function InputField({
                 min={type === "number" ? min : undefined}
                 rows={type === "textarea" ? rows : undefined}
                 invalid={showError}
+                autoComplete={autoComplete}
             />
             {showError && <ErrorMessage name={name} component={FormFeedback} />}
         </FormGroup>
@@ -47,6 +50,8 @@ InputField.propTypes = {
     placeholder: PropTypes.string,
     disabled: PropTypes.bool,
     min: PropTypes.number,
+    autoComplete: PropTypes.string,
+    groupClassName: PropTypes.string,
 };
 
 export default InputField;

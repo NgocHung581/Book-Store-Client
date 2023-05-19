@@ -1,0 +1,35 @@
+.wrapper {
+    display: flex;
+    align-items: center;
+    padding: 12px 8px;
+    cursor: pointer;
+    transition: all 0.3s ease-in-out;
+
+    &:hover {
+        background: rgba($color: #ffe1e6, $alpha: 0.8);
+    }
+}
+
+.user-avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 8px;
+}
+
+.detail {
+    flex: 1;
+}
+
+.username,
+.message {
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.username {
+    font-weight: 500;
+}

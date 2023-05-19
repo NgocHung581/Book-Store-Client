@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { FormGroup, Input } from "reactstrap";
+import { MdOutlineAdminPanelSettings } from "react-icons/md";
 
 import userApiURL from "api/userApiURL";
 import Separator from "components/Separator";
@@ -44,6 +45,19 @@ function MenuAccount({ menuAccount }) {
             </div>
             <Separator />
             <ul className={cx("list")}>
+                {user?.role === "admin" && (
+                    <li className={cx("item")}>
+                        <Link to={routes.dashboard} className={cx("item-link")}>
+                            <MdOutlineAdminPanelSettings
+                                className={cx("item-icon")}
+                            />
+                            <span className={cx("item-name")}>
+                                Quản trị viên
+                            </span>
+                        </Link>
+                    </li>
+                )}
+
                 {menuAccount.map((menuItem, index) => {
                     let Icon = menuItem.icon;
                     let Component = Link;

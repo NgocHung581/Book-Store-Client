@@ -1,0 +1,44 @@
+.wrapper {
+    --header-height: 80px;
+
+    background-color: #edebeb;
+    height: 100%;
+}
+
+.back-btn {
+    margin-right: 12px;
+    cursor: pointer;
+}
+
+.header,
+.user {
+    display: flex;
+    align-items: center;
+}
+
+.header {
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    height: var(--header-height);
+}
+
+.user-avatar {
+    height: 50px;
+    width: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 8px;
+}
+
+.username {
+    font-weight: 500;
+    display: -webkit-box;
+    -webkit-line-clamp: 1;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+}
+
+.main {
+    height: calc(100% - var(--header-height) - var(--chat-form-height));
+    padding: 0 16px;
+}

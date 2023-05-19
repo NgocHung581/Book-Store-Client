@@ -1,0 +1,20 @@
+.wrapper {
+    box-shadow: var(--box-shadow);
+    background-color: white;
+    height: var(--chat-form-height);
+    display: flex;
+    align-items: center;
+    padding: 0 16px;
+}
+
+.form-group {
+    margin-bottom: 0 !important;
+    width: 100%;
+}
+
+.send-btn {
+    min-width: 50px;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+}

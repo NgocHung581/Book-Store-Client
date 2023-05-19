@@ -34,6 +34,7 @@ import AddEditProduct from "pages/Admin/ManageProduct/AddEditProduct";
 import AddEditCategory from "pages/Admin/ManageCategory/AddEditCategory";
 import AddEditUser from "pages/Admin/ManageUser/AddEditUser";
 import UpdateStatusOrder from "pages/Admin/ManageOrder/UpdateStatusOrder";
+import AdminRoute from "components/AdminRoute";
 
 function App() {
     return (
@@ -104,7 +105,15 @@ function App() {
                         element={<VerifyEmail />}
                     />
                 </Route>
-                <Route element={<AdminLayout />}>
+                <Route
+                    element={
+                        <ProtectedRoute>
+                            <AdminRoute>
+                                <AdminLayout />
+                            </AdminRoute>
+                        </ProtectedRoute>
+                    }
+                >
                     <Route path={routes.dashboard} element={<Dashboard />} />
 
                     {/* Manage Product */}

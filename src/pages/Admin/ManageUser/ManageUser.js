@@ -98,29 +98,35 @@ function ManageUser() {
             <div className={cx("filter")}>
                 <div className={cx("filter-group")}>
                     <span>Hiển thị mỗi trang: </span>
-                    <Select
-                        options={NUMBER_PER_PAGE}
-                        isSearchable={false}
-                        onChange={handleLimitChange}
-                        value={
-                            limit
-                                ? NUMBER_PER_PAGE.find((x) => x.value === limit)
-                                : NUMBER_PER_PAGE[0]
-                        }
-                    />
+                    <div style={{ width: "200px" }}>
+                        <Select
+                            options={NUMBER_PER_PAGE}
+                            isSearchable={false}
+                            onChange={handleLimitChange}
+                            value={
+                                limit
+                                    ? NUMBER_PER_PAGE.find(
+                                          (x) => x.value === limit
+                                      )
+                                    : NUMBER_PER_PAGE[0]
+                            }
+                        />
+                    </div>
                 </div>
                 <div className={cx("filter-group")}>
                     <span>Role: </span>
-                    <Select
-                        options={ROLE_OPTIONS}
-                        isSearchable={false}
-                        onChange={handleRoleChange}
-                        value={
-                            role
-                                ? ROLE_OPTIONS.find((x) => x.value === role)
-                                : ROLE_OPTIONS[0]
-                        }
-                    />
+                    <div style={{ width: "200px" }}>
+                        <Select
+                            options={ROLE_OPTIONS}
+                            isSearchable={false}
+                            onChange={handleRoleChange}
+                            value={
+                                role
+                                    ? ROLE_OPTIONS.find((x) => x.value === role)
+                                    : ROLE_OPTIONS[0]
+                            }
+                        />
+                    </div>
                 </div>
                 <span className={cx("total-products")}>
                     {users?.total_results} người dùng

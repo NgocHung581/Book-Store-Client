@@ -136,6 +136,28 @@ function AddEditUser() {
                                         disabled={email && true}
                                     />
                                 </Col>
+                                {!email && (
+                                    <>
+                                        <Col lg={6}>
+                                            <FastField
+                                                name="password"
+                                                component={InputField}
+                                                placeholder="Nhập mật khẩu"
+                                                label="Mật khẩu"
+                                                type="password"
+                                            />
+                                        </Col>
+                                        <Col lg={6}>
+                                            <FastField
+                                                name="passwordConfirm"
+                                                component={InputField}
+                                                placeholder="Nhập lại mật khẩu"
+                                                label="Nhập lại mật khẩu"
+                                                type="password"
+                                            />
+                                        </Col>
+                                    </>
+                                )}
                                 {email && (
                                     <>
                                         <Col lg={3}>

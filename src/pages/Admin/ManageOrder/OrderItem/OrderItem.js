@@ -19,8 +19,6 @@ function OrderItem({ order, index }) {
 
     const toggleDetailModal = () => setDetailModal((prev) => !prev);
 
-    console.log(order);
-
     return (
         <>
             <tr>
@@ -42,6 +40,11 @@ function OrderItem({ order, index }) {
                         displayType="text"
                         renderText={(value) => `${value} đ`}
                     />
+                </td>
+                <td>
+                    <span className={cx("payment-method")}>
+                        {order?.paymentMethod}
+                    </span>
                 </td>
                 <td>
                     <span className={cx("status")}>{order?.status?.label}</span>
