@@ -3,31 +3,69 @@ import Tippy from "@tippyjs/react";
 import "tippy.js/dist/tippy.css";
 import { BsChatSquare } from "react-icons/bs";
 import { Badge, Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import ScrollableFeed from "react-scrollable-feed";
 
 import styles from "./ChatBox.module.scss";
 import ChatForm from "components/ChatForm";
 import Message from "components/Message";
+import { useAxiosAuth } from "hooks";
+import chatApiURL from "api/chatApiURL";
+import Button from "components/Button";
+import { toast } from "react-toastify";
 
 const cx = classNames.bind(styles);
 
-const TEST = [
-    {
-        _id: "1",
-        content:
-            "Lorem ipsum dolor, sit amet consectetur adipisicing elit. Numquam fugiat quis voluptas, animi inventore ab impedit ratione corrupti? Repudiandae, enim ut sapiente voluptas odio at aperiam harum ratione quisquam suscipit.",
-    },
-    {
-        _id: "2",
-        content: "Lorem ipsum dolor",
-    },
-];
-
 function ChatBox() {
+    const axiosAuth = useAxiosAuth();
+    const { user } = useSelector((state) => state.user);
+
     const [showMessages, setShowMessages] = useState(false);
+    const [messages, setMessages] = useState([]);
+    const [isCreateChatSuccess, setIsCreateChatSuccess] = useState(false);
 
     const toggleShowMessages = () => setShowMessages((prev) => !prev);
+
+    const handleCreateChat = async () => {
+        try {
+            const url = chatApiURL.getAllOrCreateChat();
+            await axiosAuth.post(
+                url,
+                {},
+                {
+                    headers: { Authorization: `Bearer ${user?.accessToken}` },
+                }
+            );
+            setIsCreateChatSuccess(true);
+        } catch (error) {
+            toast.error(error.response.data.error);
+        }
+    };
+
+    useEffect(() => {
+        if (showMessages) {
+            const fetchChat = async () => {
+                const url = chatApiURL.getChatOfUser(user?._id);
+                const res = await axiosAuth.get(url, {
+                    headers: { Authorization: `Bearer ${user?.accessToken}` },
+                });
+                setMessages(res.data);
+            };
+
+            if (isCreateChatSuccess) {
+                setIsCreateChatSuccess(false);
+            }
+
+            fetchChat();
+        }
+    }, [
+        user?._id,
+        isCreateChatSuccess,
+        showMessages,
+        user?.accessToken,
+        axiosAuth,
+    ]);
 
     return (
         <>
@@ -51,14 +89,27 @@ function ChatBox() {
                     Chat với Admin
                 </OffcanvasHeader>
                 <OffcanvasBody className="p-0">
-                    <div className={cx("main")}>
-                        <ScrollableFeed className="h-100">
-                            {TEST.map((message, index) => (
-                                <Message key={index} message={message} />
-                            ))}
-                        </ScrollableFeed>
-                    </div>
-                    <ChatForm />
+                    {messages ? (
+                        <>
+                            <div className={cx("main")}>
+                                <ScrollableFeed className="h-100">
+                                    {messages.map((message, index) => (
+                                        <Message
+                                            key={index}
+                                            message={message}
+                                        />
+                                    ))}
+                                </ScrollableFeed>
+                            </div>
+                            <ChatForm chatId={user?._id} />
+                        </>
+                    ) : (
+                        <div className="h-100 d-flex align-items-center justify-content-center">
+                            <Button primary onClick={handleCreateChat}>
+                                Bắt đầu
+                            </Button>
+                        </div>
+                    )}
                 </OffcanvasBody>
             </Offcanvas>
         </>

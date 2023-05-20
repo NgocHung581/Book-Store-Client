@@ -90,7 +90,7 @@ function Header() {
                                 <Search />
 
                                 <div className={cx("actions")}>
-                                    <ChatBox />
+                                    {user?.role === "user" && <ChatBox />}
                                     <Tippy content="Danh sách yêu thích">
                                         <div className={cx("actions-item")}>
                                             <Link to={routes.wishlist}>

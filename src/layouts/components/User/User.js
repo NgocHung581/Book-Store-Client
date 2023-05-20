@@ -39,7 +39,7 @@ function User({ menuAccount }) {
                                 ? `${process.env.REACT_APP_SERVER_IMAGE_URL}/${user?.avatar}`
                                 : images.user
                         }
-                        alt="Product"
+                        alt="Avatar"
                     />
                 </div>
             </TippyHeadless>

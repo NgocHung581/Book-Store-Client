@@ -1,24 +1,32 @@
 import classNames from "classnames/bind";
 import PropTypes from "prop-types";
+import { useSelector } from "react-redux";
 
 import styles from "./ChatItem.module.scss";
 import images from "assets/images";
 
 const cx = classNames.bind(styles);
 
-function ChatItem({ onClick }) {
+function ChatItem({ chat, onClick }) {
+    const { user } = useSelector((state) => state.user);
+
     return (
         <div className={cx("wrapper")} onClick={onClick}>
             <div className={cx("user-avatar")}>
-                <img src={images.user} alt="Avatar" />
+                <img
+                    src={
+                        chat?.user?.avatar
+                            ? `${process.env.REACT_APP_SERVER_IMAGE_URL}/${chat?.user?.avatar}`
+                            : images.user
+                    }
+                    alt={chat?.user?.fullName}
+                />
             </div>
             <div className={cx("detail")}>
-                <span className={cx("username")}>Huỳnh Ngọc Hùng</span>
+                <span className={cx("username")}>{chat?.user?.fullName}</span>
                 <span className={cx("message")}>
-                    Lorem ipsum dolor, sit amet consectetur adipisicing elit.
-                    Numquam fugiat quis voluptas, animi inventore ab impedit
-                    ratione corrupti? Repudiandae, enim ut sapiente voluptas
-                    odio at aperiam harum ratione quisquam suscipit.
+                    {user?._id === chat?.latestMessage?.sender && "Bạn: "}
+                    {chat?.latestMessage?.content}
                 </span>
             </div>
         </div>
@@ -26,6 +34,7 @@ function ChatItem({ onClick }) {
 }
 
 ChatItem.propTypes = {
+    chat: PropTypes.object.isRequired,
     onClick: PropTypes.func.isRequired,
 };
 

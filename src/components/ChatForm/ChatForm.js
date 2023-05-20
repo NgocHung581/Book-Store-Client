@@ -1,20 +1,31 @@
 import classNames from "classnames/bind";
 import { FastField, Form, Formik } from "formik";
 import { AiOutlineSend } from "react-icons/ai";
+import { useSelector } from "react-redux";
+import PropTypes from "prop-types";
 
 import styles from "./ChatForm.module.scss";
 import Button from "components/Button";
 import InputField from "custom-fields/InputField";
+import { useAxiosAuth } from "hooks";
+import chatApiURL from "api/chatApiURL";
 
 const cx = classNames.bind(styles);
 
-function ChatForm() {
+function ChatForm({ chatId }) {
+    const axiosAuth = useAxiosAuth();
+
+    const { user } = useSelector((state) => state.user);
+
     const initialValues = {
         message: "",
     };
 
-    const handleSubmitForm = (values, { resetForm }) => {
-        console.log(values);
+    const handleSubmitForm = async (values, { resetForm }) => {
+        const url = chatApiURL.sendMessage(chatId);
+        await axiosAuth.post(url, values, {
+            headers: { Authorization: `Bearer ${user?.accessToken}` },
+        });
         resetForm();
     };
 
@@ -45,5 +56,9 @@ function ChatForm() {
         </Formik>
     );
 }
+
+ChatForm.propTypes = {
+    chatId: PropTypes.string.isRequired,
+};
 
 export default ChatForm;
