@@ -11,6 +11,7 @@ import App from "./App";
 import GlobalStyles from "components/GlobalStyles";
 import ScrollToTop from "components/ScrollToTop/ScrollToTop";
 import store from "redux/store";
+import Chatbot from "components/Chatbot";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
@@ -21,6 +22,7 @@ root.render(
                     <App />
                     <ToastContainer />
                     <ScrollToTop />
+                    <Chatbot />
                 </GlobalStyles>
             </Router>
         </HelmetProvider>

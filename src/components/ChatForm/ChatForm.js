@@ -1,19 +1,22 @@
 import classNames from "classnames/bind";
 import { FastField, Form, Formik } from "formik";
-import { AiOutlineSend } from "react-icons/ai";
-import { useSelector } from "react-redux";
 import PropTypes from "prop-types";
+import { AiOutlineSend } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
 
-import styles from "./ChatForm.module.scss";
+import chatApiURL from "api/chatApiURL";
 import Button from "components/Button";
 import InputField from "custom-fields/InputField";
 import { useAxiosAuth } from "hooks";
-import chatApiURL from "api/chatApiURL";
+import { setIsFetchChatAgain } from "redux/slices/chatSlice";
+import styles from "./ChatForm.module.scss";
 
 const cx = classNames.bind(styles);
 
-function ChatForm({ chatId }) {
+function ChatForm({ chatId, socket, setMessages }) {
     const axiosAuth = useAxiosAuth();
+
+    const dispatch = useDispatch();
 
     const { user } = useSelector((state) => state.user);
 
@@ -23,9 +26,12 @@ function ChatForm({ chatId }) {
 
     const handleSubmitForm = async (values, { resetForm }) => {
         const url = chatApiURL.sendMessage(chatId);
-        await axiosAuth.post(url, values, {
+        const res = await axiosAuth.post(url, values, {
             headers: { Authorization: `Bearer ${user?.accessToken}` },
         });
+        socket.emit("new message", res.data);
+        setMessages((prev) => [...prev, res.data]);
+        dispatch(setIsFetchChatAgain(true));
         resetForm();
     };
 

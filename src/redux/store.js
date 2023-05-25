@@ -5,6 +5,7 @@ import cartReducer from "./slices/cartSlice";
 import reviewReducer from "./slices/reviewSlice";
 import productReducer from "./slices/productSlice";
 import categoryReducer from "./slices/categorySlice";
+import chatReducer from "./slices/chatSlice";
 
 const rootReducer = {
     user: userReducer,
@@ -12,6 +13,7 @@ const rootReducer = {
     review: reviewReducer,
     product: productReducer,
     category: categoryReducer,
+    chat: chatReducer,
 };
 
 const store = configureStore({

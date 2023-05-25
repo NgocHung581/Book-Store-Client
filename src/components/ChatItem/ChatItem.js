@@ -2,8 +2,8 @@ import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 
-import styles from "./ChatItem.module.scss";
 import images from "assets/images";
+import styles from "./ChatItem.module.scss";
 
 const cx = classNames.bind(styles);
 
@@ -25,7 +25,11 @@ function ChatItem({ chat, onClick }) {
             <div className={cx("detail")}>
                 <span className={cx("username")}>{chat?.user?.fullName}</span>
                 <span className={cx("message")}>
-                    {user?._id === chat?.latestMessage?.sender && "Bạn: "}
+                    {(user?._id === chat?.latestMessage?.sender?._id &&
+                        "Bạn: ") ||
+                        (user?._id !== chat?.latestMessage?.sender?._id &&
+                            chat?.latestMessage?.sender?.role === "admin" &&
+                            `${chat?.latestMessage?.sender?.fullName}: `)}
                     {chat?.latestMessage?.content}
                 </span>
             </div>
