@@ -9,7 +9,7 @@ import chatReducer from "./slices/chatSlice";
 
 const rootReducer = {
     user: userReducer,
-    cart: cartReducer,
+    carts: cartReducer,
     review: reviewReducer,
     product: productReducer,
     category: categoryReducer,

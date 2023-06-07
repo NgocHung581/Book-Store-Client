@@ -14,6 +14,7 @@ import { useAxiosAuth } from "hooks";
 import styles from "../BookDetail.module.scss";
 import { updateUser } from "redux/slices/userSlice";
 import userApiURL from "api/userApiURL";
+import cartApiURL from "api/cartApiURL";
 
 const cx = classNames.bind(styles);
 
@@ -30,24 +31,20 @@ function AddCartForm({ book }) {
 
     const initialValues = {
         quantity: 1,
-        name: book.name,
-        id: book._id,
-        price: book.price,
-        image: book.image,
+        bookId: book?._id,
     };
 
-    const handleSubmitCart = (values) => {
+    const handleSubmitCart = async (values) => {
         if (values.quantity > book.in_stock)
             return toast.error(
                 `Số lượng trong kho chỉ còn ${book.in_stock}. Không đủ để cung cấp cho bạn!`
             );
-        const cartItem = addToCart({
-            ...values,
-            checked: false,
-            slug: book?.slug,
+        const url = cartApiURL.getAllOrAddOrUpdate();
+        const res = await axiosAuth.post(url, values, {
+            headers: { Authorization: `Bearer ${user?.accessToken}` },
         });
-        dispatch(cartItem);
-        toast.success("Bạn vừa thêm 1 sản phẩm vào giỏ hàng");
+        toast.success(res.message);
+        dispatch(addToCart(res.data));
     };
 
     const handleDeleteFavorite = async () => {

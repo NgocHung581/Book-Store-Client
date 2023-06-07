@@ -17,6 +17,7 @@ import { addToCart } from "redux/slices/cartSlice";
 import { updateUser } from "redux/slices/userSlice";
 import routes from "routes";
 import styles from "./BookCard.module.scss";
+import cartApiURL from "api/cartApiURL";
 
 const cx = classNames.bind(styles);
 
@@ -32,20 +33,16 @@ function BookCard({ book, isGridLayout = true }) {
         (item) => item === book?._id
     );
 
-    const handleSubmitCart = () => {
+    const handleSubmitCart = async () => {
         if (book?.in_stock <= 0) return toast.error("Sản phẩm đã hết hàng.");
-        const values = {
-            quantity: 1,
-            name: book?.name,
-            id: book?._id,
-            price: book?.price,
-            image: book?.image,
-            checked: false,
-            slug: book?.slug,
-        };
-        const cartItem = addToCart(values);
-        dispatch(cartItem);
-        toast.success("Bạn vừa thêm 1 sản phẩm vào giỏ hàng");
+
+        const url = cartApiURL.getAllOrAddOrUpdate();
+        const data = { bookId: book?._id, quantity: 1 };
+        const res = await axiosAuth.post(url, data, {
+            headers: { Authorization: `Bearer ${user?.accessToken}` },
+        });
+        toast.success(res.message);
+        dispatch(addToCart(res.data));
     };
 
     const handleDeleteFavorite = async () => {

@@ -10,15 +10,19 @@ import calculateDiscountOnPoint from "utils/calculateDiscountOnPoint";
 import styles from "./Checkout.module.scss";
 import CheckoutForm from "./CheckoutForm";
 import ConfirmItem from "./ConfirmItem";
+import { Navigate, useLocation } from "react-router-dom";
+import routes from "routes";
 
 const cx = classNames.bind(styles);
 
 function Checkout() {
     const isTabletOrMobile = useMediaQuery({ query: "(max-width: 1224px)" });
-    const { cart, isUsePoint, subTotal, totalPrice } = useSelector(
-        (state) => state.cart
-    );
+
     const { user } = useSelector((state) => state.user);
+
+    const { state } = useLocation();
+
+    if (!state) return <Navigate to={routes.cart} />;
 
     return (
         <>
@@ -43,11 +47,11 @@ function Checkout() {
                     <Col lg={5} md={12} xs={12}>
                         <div className={cx("preview")}>
                             <div>
-                                {cart.map(
+                                {state?.carts.map(
                                     (item) =>
-                                        item.checked && (
+                                        item.isChecked && (
                                             <ConfirmItem
-                                                key={item.id}
+                                                key={item._id}
                                                 item={item}
                                             />
                                         )
@@ -65,7 +69,7 @@ function Checkout() {
                                         className={cx("preview-content-price")}
                                     >
                                         <NumericFormat
-                                            value={subTotal}
+                                            value={state?.subTotal}
                                             thousandSeparator=","
                                             displayType="text"
                                             renderText={(value) => `${value} đ`}
@@ -81,7 +85,7 @@ function Checkout() {
                                     <span
                                         className={cx("preview-content-price")}
                                     >
-                                        {isUsePoint ? (
+                                        {state?.isUsePoint ? (
                                             <NumericFormat
                                                 value={calculateDiscountOnPoint(
                                                     user?.point
@@ -105,7 +109,7 @@ function Checkout() {
                                 </span>
                                 <span className={cx("preview-total-price")}>
                                     <NumericFormat
-                                        value={totalPrice}
+                                        value={state?.totalPrice}
                                         thousandSeparator=","
                                         displayType="text"
                                         renderText={(value) => `${value} đ`}

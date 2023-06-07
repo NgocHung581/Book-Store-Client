@@ -12,12 +12,12 @@ function ConfirmItem({ item, lg }) {
             <div className={cx("left")}>
                 <div className={cx("img")}>
                     <img
-                        src={`${process.env.REACT_APP_SERVER_IMAGE_URL}/${item?.image}`}
-                        alt={item?.name}
+                        src={`${process.env.REACT_APP_SERVER_IMAGE_URL}/${item?.book?.image}`}
+                        alt={item?.book?.name}
                     />
                 </div>
                 <div className={cx("info")}>
-                    <span className={cx("name")}>{item?.name}</span>
+                    <span className={cx("name")}>{item?.book?.name}</span>
                     <span className={cx("quantity", "text-muted")}>
                         Số lượng: {item?.quantity}
                     </span>
@@ -26,7 +26,7 @@ function ConfirmItem({ item, lg }) {
             <div className={cx("right")}>
                 <span className={cx("price")}>
                     <NumericFormat
-                        value={item?.price * item?.quantity}
+                        value={item?.book?.price * item?.quantity}
                         thousandSeparator=","
                         displayType="text"
                         renderText={(value) => `${value} đ`}

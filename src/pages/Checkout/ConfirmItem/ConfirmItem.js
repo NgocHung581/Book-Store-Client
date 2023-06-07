@@ -13,18 +13,18 @@ function ConfirmItem({ item }) {
             <div className={cx("info")}>
                 <div className={cx("img")}>
                     <img
-                        src={`${process.env.REACT_APP_SERVER_IMAGE_URL}/${item.image}`}
+                        src={`${process.env.REACT_APP_SERVER_IMAGE_URL}/${item?.book?.image}`}
                         alt="Sách"
                     />
                     <Badge pill className={cx("badge")}>
                         {item.quantity}
                     </Badge>
                 </div>
-                <span className={cx("name")}>{item.name}</span>
+                <span className={cx("name")}>{item?.book?.name}</span>
             </div>
             <span className={cx("price")}>
                 <NumericFormat
-                    value={item.price * item.quantity}
+                    value={item?.book?.price * item.quantity}
                     thousandSeparator=","
                     displayType="text"
                     renderText={(value) => `${value} đ`}

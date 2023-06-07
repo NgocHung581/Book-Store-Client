@@ -1,30 +1,30 @@
 import classNames from "classnames/bind";
 import { useEffect, useState } from "react";
 import { MdKeyboardArrowDown, MdKeyboardArrowUp } from "react-icons/md";
-import { useMediaQuery } from "react-responsive";
-import { Input, Label } from "reactstrap";
-import { useDispatch, useSelector } from "react-redux";
 import { NumericFormat } from "react-number-format";
-import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { useMediaQuery } from "react-responsive";
 import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { Input, Label } from "reactstrap";
 
 import Button from "components/Button";
 import Separator from "components/Separator";
-import routes from "routes";
-import styles from "./SummaryOrder.module.scss";
 import {
     checkAllItem,
     updateIsUseCount,
     updateSubTotal,
     updateTotalPrice,
 } from "redux/slices/cartSlice";
+import routes from "routes";
 import calculateDiscountOnPoint from "utils/calculateDiscountOnPoint";
+import styles from "./SummaryOrder.module.scss";
 
 const cx = classNames.bind(styles);
 
 function SummaryOrder() {
-    const { cart, subTotal, isUsePoint, totalPrice } = useSelector(
-        (state) => state.cart
+    const { carts, subTotal, isUsePoint, totalPrice } = useSelector(
+        (state) => state.carts
     );
     const { user } = useSelector((state) => state.user);
     const [showContent, setShowContent] = useState(false);
@@ -38,10 +38,13 @@ function SummaryOrder() {
     };
 
     const handleClickCheckout = () => {
-        const isNotChosen = cart.every((item) => item.checked === false);
+        const isNotChosen = carts.every((cart) => cart.isChecked === false);
         if (isNotChosen)
             return toast.error("Vui lòng chọn sản phẩm cần thanh toán");
-        navigate(routes.checkout);
+        navigate(
+            { pathname: routes.checkout },
+            { state: { carts, subTotal, isUsePoint, totalPrice } }
+        );
     };
 
     const handleClickUsePoint = (e) => {
@@ -51,9 +54,9 @@ function SummaryOrder() {
 
     useEffect(() => {
         let subTotal = 0;
-        cart.forEach((item) => {
-            if (item.checked) {
-                subTotal += item.quantity * item.price;
+        carts.forEach((cart) => {
+            if (cart.isChecked) {
+                subTotal += cart?.quantity * cart?.book?.price;
             }
         });
         dispatch(updateSubTotal(subTotal));
@@ -67,7 +70,7 @@ function SummaryOrder() {
         } else {
             dispatch(updateTotalPrice(subTotal));
         }
-    }, [cart, dispatch, isUsePoint, user?.point]);
+    }, [carts, dispatch, isUsePoint, user?.point]);
 
     return (
         <div
@@ -140,9 +143,7 @@ function SummaryOrder() {
                         </Label>
                         <Input
                             type="checkbox"
-                            checked={cart.every(
-                                (item) => item.checked === true
-                            )}
+                            checked={carts.every((cart) => cart?.isChecked)}
                             onChange={handleCheckAllCart}
                         />
                     </div>

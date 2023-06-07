@@ -223,9 +223,9 @@ function OrderDetail() {
                     <div className={cx("list")}>
                         {order?.orderItems?.map((item) => (
                             <Link
-                                key={item.id}
+                                key={item._id}
                                 className="d-block"
-                                to={`${routes.book}/${item?.slug}`}
+                                to={`${routes.book}/${item?.book?.slug}`}
                             >
                                 <ConfirmItem item={item} lg />
                             </Link>

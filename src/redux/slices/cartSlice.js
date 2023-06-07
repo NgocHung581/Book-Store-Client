@@ -1,93 +1,81 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-const cartLocalStorage = localStorage.getItem("cart");
-
 const initialState = {
-    cart: cartLocalStorage ? JSON.parse(cartLocalStorage).cart : [],
-    subTotal: cartLocalStorage ? JSON.parse(cartLocalStorage).subTotal : 0,
-    isUsePoint: cartLocalStorage
-        ? JSON.parse(cartLocalStorage).isUsePoint
-        : false,
-    totalPrice: cartLocalStorage ? JSON.parse(cartLocalStorage).totalPrice : 0,
+    carts: [],
+    subTotal: 0,
+    isUsePoint: false,
+    totalPrice: 0,
 };
 
 const cartSlice = createSlice({
-    name: "cart",
+    name: "carts",
     initialState,
     reducers: {
+        fetchCarts: (state, action) => {
+            state.carts = action.payload;
+        },
         addToCart: (state, action) => {
-            const existItem = state.cart.find(
-                (item) => item.id === action.payload.id
+            const existingCart = state.carts.find(
+                (cart) => cart._id === action.payload._id
             );
 
-            if (existItem) {
-                state.cart = state.cart.filter((item) =>
-                    item.id === action.payload.id
-                        ? (item.quantity += action.payload.quantity)
-                        : item
+            if (existingCart) {
+                state.carts.map((cart) =>
+                    cart._id === action.payload._id
+                        ? (cart.quantity = action.payload.quantity)
+                        : cart
                 );
-            } else {
-                state.cart.push(action.payload);
+                return;
             }
 
-            localStorage.setItem("cart", JSON.stringify(state));
+            state.carts.push(action.payload);
         },
         updateQuantity: (state, action) => {
-            state.cart.filter((item) =>
-                item.id === action.payload.id
-                    ? (item.quantity = action.payload.quantity)
-                    : item
+            state.carts.map((cart) =>
+                cart._id === action.payload._id
+                    ? (cart.quantity = action.payload.quantity)
+                    : cart
             );
-            localStorage.setItem("cart", JSON.stringify(state));
+        },
+        deleteCart: (state, action) => {
+            state.carts = state.carts.filter(
+                (item) => item._id !== action.payload._id
+            );
         },
         updateCartOnCheckout: (state) => {
-            state.cart = state.cart.filter((item) => !item.checked);
+            state.carts = state.carts.filter((item) => !item.isChecked);
             state.isUsePoint = false;
             state.subTotal = 0;
             state.totalPrice = 0;
-            if (state.cart.length <= 0) return localStorage.removeItem("cart");
-            localStorage.setItem("cart", JSON.stringify(state));
         },
         checkItem: (state, action) => {
-            state.cart.filter((item) =>
-                item.id === action.payload.id
-                    ? (item.checked = action.payload.checked)
-                    : item
+            state.carts.map((cart) =>
+                cart._id === action.payload
+                    ? (cart.isChecked = !cart.isChecked)
+                    : cart
             );
-
-            localStorage.setItem("cart", JSON.stringify(state));
         },
         checkAllItem: (state, action) => {
-            state.cart = state.cart.map((item) => {
-                item.checked = action.payload;
+            state.carts.map((item) => {
+                item.isChecked = action.payload;
                 return item;
             });
-            localStorage.setItem("cart", JSON.stringify(state));
-        },
-        deleteCart: (state, action) => {
-            state.cart = state.cart.filter(
-                (item) => item.id !== action.payload
-            );
-            if (state.cart.length <= 0) return localStorage.removeItem("cart");
-            localStorage.setItem("cart", JSON.stringify(state));
         },
         updateIsUseCount: (state, action) => {
             state.isUsePoint = action.payload;
-            localStorage.setItem("cart", JSON.stringify(state));
         },
         updateSubTotal: (state, action) => {
             state.subTotal = action.payload;
-            localStorage.setItem("cart", JSON.stringify(state));
         },
         updateTotalPrice: (state, action) => {
             state.totalPrice = action.payload;
-            localStorage.setItem("cart", JSON.stringify(state));
         },
     },
 });
 
 const { actions, reducer } = cartSlice;
 export const {
+    fetchCarts,
     addToCart,
     updateQuantity,
     deleteCart,

@@ -1,21 +1,45 @@
-import classNames from "classnames/bind";
 import TippyHeadless from "@tippyjs/react/headless";
-import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import classNames from "classnames/bind";
+import { useEffect } from "react";
+import { IoCartOutline } from "react-icons/io5";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { Badge } from "reactstrap";
 
-import styles from "./CartMenu.module.scss";
+import cartApiURL from "api/cartApiURL";
+import images from "assets/images";
+import Button from "components/Button";
+import ConfirmItem from "components/ConfirmItem";
 import Popper from "components/Popper";
 import Separator from "components/Separator";
-import ConfirmItem from "components/ConfirmItem";
+import { useAxiosAuth } from "hooks";
+import { fetchCarts } from "redux/slices/cartSlice";
 import routes from "routes";
-import Button from "components/Button";
-import images from "assets/images";
+import styles from "./CartMenu.module.scss";
 
 const cx = classNames.bind(styles);
 
-function CartMenu({ children }) {
-    const { cart } = useSelector((state) => state.cart);
+function CartMenu() {
+    const axiosAuth = useAxiosAuth();
+    const { user } = useSelector((state) => state.user);
+    const { carts } = useSelector((state) => state.carts);
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        const fetchCartsList = async () => {
+            const url = cartApiURL.getAllOrAddOrUpdate();
+            const res = await axiosAuth.get(url, {
+                headers: { Authorization: `Bearer ${user?.accessToken}` },
+            });
+            const cartsList = res.data.map((cart) => ({
+                ...cart,
+                isChecked: false,
+            }));
+            dispatch(fetchCarts(cartsList));
+        };
+
+        fetchCartsList();
+    }, [user?.accessToken, dispatch, axiosAuth]);
 
     return (
         <div>
@@ -30,14 +54,14 @@ function CartMenu({ children }) {
                             <h5 className={cx("title")}>Giỏ hàng</h5>
                             <Separator />
                             <ul className={cx("list")}>
-                                {cart.length > 0 ? (
-                                    cart.map((item) => (
-                                        <li key={item.id}>
+                                {carts.length > 0 ? (
+                                    carts.map((cart) => (
+                                        <li key={cart._id}>
                                             <Link
-                                                to={`${routes.book}/${item.slug}`}
+                                                to={`${routes.book}/${cart?.book?.slug}`}
                                                 className="w-100"
                                             >
-                                                <ConfirmItem item={item} />
+                                                <ConfirmItem item={cart} />
                                             </Link>
                                         </li>
                                     ))
@@ -64,14 +88,17 @@ function CartMenu({ children }) {
                     </div>
                 )}
             >
-                {children}
+                <div className={cx("actions-item")}>
+                    <Link to={routes.cart}>
+                        <IoCartOutline size={20} />
+                        <Badge className={cx("actions-item-badge")} pill>
+                            {carts.length}
+                        </Badge>
+                    </Link>
+                </div>
             </TippyHeadless>
         </div>
     );
 }
-
-CartMenu.propTypes = {
-    children: PropTypes.node.isRequired,
-};
 
 export default CartMenu;

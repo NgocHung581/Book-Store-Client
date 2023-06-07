@@ -25,7 +25,7 @@ function Header() {
     const isMobile = useMediaQuery({ query: "(max-width: 639px)" });
     const [showHeaderOnScroll, setShowHeaderOnScroll] = useState(false);
     const { user } = useSelector((state) => state.user);
-    const { cart } = useSelector((state) => state.cart);
+    const { carts } = useSelector((state) => state.carts);
 
     useEffect(() => {
         const handleHeaderOnScroll = () => {
@@ -66,7 +66,7 @@ function Header() {
                                             className={cx("actions-item-badge")}
                                             pill
                                         >
-                                            {cart.length}
+                                            {carts.length}
                                         </Badge>
                                     </Link>
                                     {user ? (
@@ -98,21 +98,8 @@ function Header() {
                                             </Link>
                                         </div>
                                     </Tippy>
-                                    <CartMenu>
-                                        <div className={cx("actions-item")}>
-                                            <Link to={routes.cart}>
-                                                <IoCartOutline size={20} />
-                                                <Badge
-                                                    className={cx(
-                                                        "actions-item-badge"
-                                                    )}
-                                                    pill
-                                                >
-                                                    {cart.length}
-                                                </Badge>
-                                            </Link>
-                                        </div>
-                                    </CartMenu>
+
+                                    <CartMenu />
 
                                     {user ? (
                                         <User menuAccount={MENU_ACCOUNT} />

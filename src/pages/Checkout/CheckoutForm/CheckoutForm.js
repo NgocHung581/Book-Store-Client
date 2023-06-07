@@ -1,7 +1,7 @@
 import classNames from "classnames/bind";
 import { FastField, Form, Formik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 
@@ -12,7 +12,6 @@ import InputField from "custom-fields/InputField";
 import RadioField from "custom-fields/RadioField";
 import { useAxiosAuth } from "hooks";
 import { updateCartOnCheckout } from "redux/slices/cartSlice";
-import { updateUser } from "redux/slices/userSlice";
 import routes from "routes";
 import calculateDiscountOnPoint from "utils/calculateDiscountOnPoint";
 import styles from "../Checkout.module.scss";
@@ -23,9 +22,8 @@ function CheckoutForm() {
     const axiosAuth = useAxiosAuth();
 
     const { user } = useSelector((state) => state.user);
-    const { cart, totalPrice, isUsePoint, subTotal } = useSelector(
-        (state) => state.cart
-    );
+
+    const { state } = useLocation();
 
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -53,7 +51,7 @@ function CheckoutForm() {
         phone,
         paymentMethod,
     }) => {
-        if (totalPrice <= 0) {
+        if (state?.totalPrice <= 0) {
             navigate(routes.cart);
             toast.error("Vui lòng chọn sản phẩm cần thanh toán");
             return;
@@ -65,8 +63,18 @@ function CheckoutForm() {
         let year = date.getFullYear();
         let currentDate = `${day}-${month}-${year}`;
 
+        let orderItems = [];
+        state?.carts.forEach(
+            (item) =>
+                item?.isChecked &&
+                orderItems.push({
+                    book: item?.book?._id,
+                    quantity: item?.quantity,
+                })
+        );
+
         const data = {
-            orderItems: cart.filter((item) => item.checked),
+            orderItems,
             shippingInformation: {
                 fullName,
                 address,
@@ -74,9 +82,11 @@ function CheckoutForm() {
                 phone,
             },
             paymentMethod,
-            itemsPrice: subTotal,
-            discount: isUsePoint ? calculateDiscountOnPoint(user?.point) : 0,
-            totalPrice,
+            itemsPrice: state?.subTotal,
+            discount: state?.isUsePoint
+                ? calculateDiscountOnPoint(user?.point)
+                : 0,
+            totalPrice: state?.totalPrice,
             userId: user?._id,
             date: currentDate,
         };
@@ -87,10 +97,8 @@ function CheckoutForm() {
                 authorization: `Bearer ${user?.accessToken}`,
             },
         });
-        if (res.data) {
-            dispatch(updateUser({ point: res.data.user_point }));
-        }
-        navigate(routes.order);
+
+        navigate({ pathname: routes.order }, { replace: true });
         toast.success(res.message);
         dispatch(updateCartOnCheckout());
     };

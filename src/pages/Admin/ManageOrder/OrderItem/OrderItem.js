@@ -102,7 +102,7 @@ function OrderItem({ order, index }) {
                         </h4>
                         <div>
                             {order?.orderItems?.map((item) => (
-                                <ConfirmItem key={item?.id} item={item} lg />
+                                <ConfirmItem key={item?._id} item={item} lg />
                             ))}
                         </div>
                     </div>

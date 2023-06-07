@@ -1,8 +1,8 @@
 import classNames from "classnames/bind";
+import { Helmet } from "react-helmet-async";
 import { useSelector } from "react-redux";
 import { useMediaQuery } from "react-responsive";
 import { Col, Row, Table } from "reactstrap";
-import { Helmet } from "react-helmet-async";
 
 import images from "assets/images";
 import Button from "components/Button";
@@ -16,7 +16,7 @@ const cx = classNames.bind(styles);
 
 function Cart() {
     const isMobile = useMediaQuery({ query: "(max-width: 639px)" });
-    const { cart } = useSelector((state) => state.cart);
+    const { carts } = useSelector((state) => state.carts);
 
     return (
         <>
@@ -25,15 +25,15 @@ function Cart() {
             </Helmet>
             <div className={cx("wrapper")}>
                 <h2 className={cx("title")}>Giỏ hàng</h2>
-                {cart.length > 0 ? (
+                {carts.length > 0 ? (
                     <Row>
                         <Col lg={9} md={12} xs={12}>
                             {isMobile ? (
                                 <div className={cx("list")}>
-                                    {cart.map((item) => (
+                                    {carts.map((cart) => (
                                         <CartItemOnMobile
-                                            key={item.id}
-                                            item={item}
+                                            key={cart?._id}
+                                            item={cart}
                                         />
                                     ))}
                                 </div>
@@ -65,10 +65,10 @@ function Cart() {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {cart.map((item) => (
+                                            {carts.map((cart) => (
                                                 <CartItem
-                                                    key={item.id}
-                                                    item={item}
+                                                    key={cart?._id}
+                                                    item={cart}
                                                 />
                                             ))}
                                         </tbody>

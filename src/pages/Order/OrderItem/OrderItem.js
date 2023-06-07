@@ -2,7 +2,7 @@ import classNames from "classnames/bind";
 import PropTypes from "prop-types";
 import { useState } from "react";
 import { NumericFormat } from "react-number-format";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { toast } from "react-toastify";
 import { Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
@@ -15,11 +15,14 @@ import { useAxiosAuth } from "hooks";
 import { Helmet } from "react-helmet-async";
 import routes from "routes";
 import styles from "./OrderItem.module.scss";
+import { updateUser } from "redux/slices/userSlice";
 
 const cx = classNames.bind(styles);
 
 function OrderItem({ order: orderInit }) {
     const axiosAuth = useAxiosAuth();
+
+    const dispatch = useDispatch();
 
     const { user } = useSelector((state) => state.user);
 
@@ -43,6 +46,10 @@ function OrderItem({ order: orderInit }) {
         setOrder(res.data);
         setModalConfirm(false);
         toast.success(res.message);
+
+        if (status === 5) {
+            dispatch(updateUser({ point: res.point }));
+        }
     };
 
     return (
@@ -69,7 +76,7 @@ function OrderItem({ order: orderInit }) {
                         to={`${routes.order}/${order._id}`}
                     >
                         {order?.orderItems.map((item) => (
-                            <ConfirmItem key={item.id} item={item} lg />
+                            <ConfirmItem key={item._id} item={item} lg />
                         ))}
                     </Link>
                 </div>
