@@ -13,6 +13,8 @@
     --header-bg: rgba($color: #fff, $alpha: 0.5);
     --header-bg-scroll: #fff;
 
+    --cart-item-text-color: black;
+
     // --box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
     --box-shadow: 0 0 11px rgba(0, 0, 0, 0.13);
 
@@ -22,6 +24,9 @@
 
     --sidebar-admin-width: 240px;
     --sidebar-admin-color: #404e67;
+    --header-admin-text-color: black;
+
+    --back-btn-color: rgba(0, 0, 0, 0.5411764706);
 
     // Chat
     --chat-form-height: 80px;
@@ -57,6 +62,10 @@ body.dark {
 
     --header-bg: #232323;
     --header-bg-scroll: #1a1919;
+    --cart-item-text-color: #fff;
+    --header-admin-text-color: #fff;
+    --divider: 1px solid #74747747;
+    --back-btn-color: #ccc;
 }
 
 input:focus,

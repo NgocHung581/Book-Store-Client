@@ -108,6 +108,7 @@ function ChatBox() {
                 isOpen={showMessages}
                 direction="end"
                 toggle={toggleShowMessages}
+                style={{ color: "black" }}
             >
                 <OffcanvasHeader
                     toggle={toggleShowMessages}

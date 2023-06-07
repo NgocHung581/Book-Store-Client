@@ -62,6 +62,9 @@ function Cart() {
                                                 <th className={cx("heading")}>
                                                     Tổng
                                                 </th>
+                                                <th
+                                                    className={cx("heading")}
+                                                ></th>
                                             </tr>
                                         </thead>
                                         <tbody>

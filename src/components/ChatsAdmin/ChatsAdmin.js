@@ -182,7 +182,10 @@ function ChatsAdmin() {
                     <>
                         <OffcanvasHeader
                             toggle={toggleShowMessages}
-                            style={{ boxShadow: "var(--box-shadow)" }}
+                            style={{
+                                boxShadow: "var(--box-shadow)",
+                                color: "black",
+                            }}
                         >
                             Tin nhắn từ khách hàng
                         </OffcanvasHeader>

@@ -16,6 +16,7 @@
 }
 
 .name {
+    color: var(--cart-item-text-color);
     margin-left: 16px;
     text-align: left;
     flex: 1;
@@ -28,10 +29,12 @@
 }
 
 .price {
+    color: var(--cart-item-text-color);
     user-select: none;
 }
 
 .quantity {
+    color: var(--cart-item-text-color);
     display: flex;
     align-items: center;
     justify-content: center;

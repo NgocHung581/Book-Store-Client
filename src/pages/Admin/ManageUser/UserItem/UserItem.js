@@ -88,7 +88,12 @@ function UserItem({ user, index }) {
             </tr>
 
             {/* Info Modal */}
-            <Modal isOpen={infoModal} toggle={toggleInfoModal} centered>
+            <Modal
+                isOpen={infoModal}
+                toggle={toggleInfoModal}
+                centered
+                style={{ color: "black" }}
+            >
                 <ModalHeader toggle={toggleInfoModal}>
                     Thông tin người dùng
                 </ModalHeader>
@@ -115,6 +120,7 @@ function UserItem({ user, index }) {
                 toggle={toggleDeleteModal}
                 centered
                 backdrop="static"
+                style={{ color: "black" }}
             >
                 <ModalHeader toggle={toggleDeleteModal}>
                     Xác nhận xóa người dùng

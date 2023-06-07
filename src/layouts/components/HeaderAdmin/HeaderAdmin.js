@@ -10,7 +10,7 @@ import { Badge } from "reactstrap";
 import userApiURL from "api/userApiURL";
 import images from "assets/images";
 import Button from "components/Button";
-import { useAxiosClient } from "hooks";
+import { useAxiosClient, useDarkMode } from "hooks";
 import { logout } from "redux/slices/userSlice";
 import routes from "routes";
 import styles from "./HeaderAdmin.module.scss";
@@ -25,6 +25,7 @@ function HeaderAdmin({ showSidebar, setShowSidebar }) {
     const navigate = useNavigate();
 
     const [showHeaderOnScroll, setShowHeaderOnScroll] = useState(false);
+    const [darkMode, toggleDarkMode] = useDarkMode();
 
     const { user } = useSelector((state) => state.user);
 
@@ -64,6 +65,28 @@ function HeaderAdmin({ showSidebar, setShowSidebar }) {
                 </div>
             </div>
             <div className={cx("right")}>
+                <div className={cx("toggleWrapper")}>
+                    <input
+                        type="checkbox"
+                        className={cx("dn")}
+                        id="dn"
+                        checked={darkMode}
+                        onChange={toggleDarkMode}
+                    />
+                    <label htmlFor="dn" className={cx("toggle")}>
+                        <span className={cx("toggle__handler")}>
+                            <span className={cx("crater", "crater--1")}></span>
+                            <span className={cx("crater", "crater--2")}></span>
+                            <span className={cx("crater", "crater--3")}></span>
+                        </span>
+                        <span className={cx("star", "star--1")}></span>
+                        <span className={cx("star", "star--2")}></span>
+                        <span className={cx("star", "star--3")}></span>
+                        <span className={cx("star", "star--4")}></span>
+                        <span className={cx("star", "star--5")}></span>
+                        <span className={cx("star", "star--6")}></span>
+                    </label>
+                </div>
                 <ChatsAdmin />
                 <div className={cx("notification")}>
                     <FaRegBell size={20} />

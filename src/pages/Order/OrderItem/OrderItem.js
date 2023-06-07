@@ -129,6 +129,7 @@ function OrderItem({ order: orderInit }) {
                 toggle={toggleModalCustomerInfo}
                 centered
                 scrollable
+                style={{ color: "black" }}
             >
                 <ModalHeader
                     toggle={toggleModalCustomerInfo}
@@ -178,7 +179,11 @@ function OrderItem({ order: orderInit }) {
             </Modal>
 
             {/* Modal confirm */}
-            <Modal isOpen={modalConfirm} toggle={toggleModalConfirm}>
+            <Modal
+                isOpen={modalConfirm}
+                toggle={toggleModalConfirm}
+                style={{ color: "black" }}
+            >
                 <ModalHeader toggle={toggleModalConfirm}>
                     Xác nhận hủy đơn hàng
                 </ModalHeader>

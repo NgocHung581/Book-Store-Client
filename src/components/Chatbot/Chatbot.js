@@ -9,10 +9,12 @@ import {
     TypingIndicator,
 } from "@chatscope/chat-ui-kit-react";
 import { useState } from "react";
+import Tippy from "@tippyjs/react";
+import "tippy.js/dist/tippy.css";
+import { Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
 import styles from "./Chatbot.module.scss";
 import images from "assets/images";
-import { Offcanvas, OffcanvasBody, OffcanvasHeader } from "reactstrap";
 
 const cx = classNames.bind(styles);
 
@@ -80,10 +82,17 @@ function Chatbot() {
 
     return (
         <>
-            <div className={cx("wrapper")} onClick={toggleShow}>
-                <img src={images.bot} alt="Chat bot" />
-            </div>
-            <Offcanvas isOpen={show} direction="end" toggle={toggleShow}>
+            <Tippy content="ChatGPT" placement="bottom">
+                <div className={cx("wrapper")} onClick={toggleShow}>
+                    <img src={images.bot} alt="Chat bot" />
+                </div>
+            </Tippy>
+            <Offcanvas
+                isOpen={show}
+                direction="end"
+                toggle={toggleShow}
+                style={{ color: "black" }}
+            >
                 <OffcanvasHeader toggle={toggleShow}>ChatGPT</OffcanvasHeader>
                 <OffcanvasBody>
                     <MainContainer>

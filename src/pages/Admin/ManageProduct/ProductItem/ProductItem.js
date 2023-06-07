@@ -107,6 +107,7 @@ function ProductItem({ book, index }) {
                 toggle={toggleDeleteModal}
                 centered
                 backdrop="static"
+                style={{ color: "black" }}
             >
                 <ModalHeader toggle={toggleDeleteModal}>
                     Xác nhận xóa sản phẩm
