@@ -39,9 +39,9 @@ function Wishlist() {
             <div className={cx("wrapper")}>
                 <h2 className={cx("title")}>Bạn đã yêu thích</h2>
                 {books?.length > 0 ? (
-                    <Row className="gy-4" lg={5}>
+                    <Row className="gy-4">
                         {books?.map((book) => (
-                            <Col lg={2.4} key={book?._id}>
+                            <Col lg={3} key={book?._id}>
                                 <BookCard book={book} />
                             </Col>
                         ))}
